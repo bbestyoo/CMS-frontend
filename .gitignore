@@ -1,0 +1,148 @@
+# Ignore virtual environment
+env/
+
+# Ignore database
+db.sqlite3
+
+# Ignore static files
+staticfiles/
+
+# Ignore media files
+media/
+
+# Ignore local settings
+local_settings.py
+
+# Ignore environment variables
+.env
+
+# Ignore PyCharm files
+.idea/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore log files
+*.log
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore development and temporary files
+*.bak
+*.swp
+*.tmp
+*.~
+
+# Ignore coverage reports
+htmlcov/
+
+# Ignore Django migrations
+**/migrations/
+
+# Ignore .vscode folder
+.vscode/
+
+# Ignore node_modules
+node_modules/
+
+
+
+
+#for client
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+# Ignore virtual environment
+env/
+
+# Ignore database
+db.sqlite3
+
+# Ignore static files
+staticfiles/
+
+# Ignore media files
+media/
+
+# Ignore local settings
+local_settings.py
+.webpack.hot-update.json
+.hot-update.js
+# Ignore environment variables
+.env
+
+# Ignore PyCharm files
+.idea/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore log files
+*.log
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore development and temporary files
+*.bak
+*.swp
+*.tmp
+*.~
+
+# Ignore coverage reports
+htmlcov/
+
+# Ignore Django migrations
+**/migrations/
+
+# Ignore .vscode folder
+.vscode/
+
+# Ignore node_modules
+node_modules/
+
+# Ignore webpack hot update files
+*.webpack.hot-update.json
+*.hot-update.js
+/Client/.next
