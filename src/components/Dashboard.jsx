@@ -1,7 +1,9 @@
 'use client'
 import { useAppSelector } from '@/lib/hooks';
 import React from 'react'
-import { SiShopify } from "react-icons/si";
+import { MdShopTwo } from "react-icons/md";
+import { FcLineChart } from "react-icons/fc";
+import { FaMoneyCheckAlt } from "react-icons/fa";
   
 function Dashboard() {
 
@@ -17,36 +19,59 @@ function Dashboard() {
       <h2 className='text-2xl font-bold my-5'>My Records</h2>
 
     <div className='flex justify-between mb-5'>
-        <div className='drop-shadow-2xl bg-white flex gap-3 py-5 px-12 pr-20 items-center shadow-md w-fit text-center  rounded-md'>
-          <span className=''>
-        <SiShopify size="50"/>
-          </span>
-          <span>
-            <p className='text-xl font-semibold'>1000</p>
-            <p>Users</p>
-          </span>
+       
+        <div className='z-40 drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div>
+      <div className="flex gap-3">
+        <span>
+          <MdShopTwo className='group-hover:scale-110' size={30} />
+        </span>
+        <p>Total Orders</p>
+      </div>
+      <div>
+        <p className='text-left text-xl font-bold'> 400</p>
+      </div>
+    </div>
+         <div className='group-hover:scale-110'>
+          <FcLineChart  size={50}/>
 
-        </div>
-        <div className='drop-shadow-2xl bg-white flex gap-3 py-5 px-10 items-center shadow-md w-fit text-center  rounded-md'>
-          <span className=''>
-        <SiShopify size="50"/>
-          </span>
-          <span>
-            <p className='text-xl font-semibold'>1000</p>
-            <p>Users</p>
-          </span>
+         </div>
+          </div>
+        <div className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div>
+      <div className="flex gap-3">
+        <span>
+          <FaMoneyCheckAlt className='group-hover:scale-110' size={30} />
+        </span>
+        <p>Total Sales</p>
+      </div>
+      <div>
+        <p className='text-left text-xl font-bold'>Nrs.5000</p>
+      </div>
+    </div>
+         <div>
+          <FcLineChart className='group-hover:scale-110' size={50}/>
 
-        </div>
-        <div className='drop-shadow-2xl bg-white flex gap-3 py-5 px-10 items-center shadow-md w-fit text-center  rounded-md'>
-          <span className=''>
-        <SiShopify size="50"/>
-          </span>
-          <span>
-            <p className='text-xl font-semibold'>1000</p>
-            <p>Users</p>
-          </span>
+         </div>
+          </div>
+        <div className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div>
+      <div className="flex gap-3">
+        <span>
+          <FaMoneyCheckAlt className='group-hover:scale-110' size={30} />
+        </span>
+        <p>Total Sales</p>
+      </div>
+      <div>
+        <p className='text-left text-xl font-medium'>Nrs.5000</p>
+      </div>
+    </div>
+         <div>
+          <FcLineChart className='group-hover:scale-110' size={50}/>
 
-        </div>
+         </div>
+          </div>
+       
        
         
     </div>

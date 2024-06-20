@@ -48,16 +48,16 @@ function  TablePage() {
   return (
     <>
     <div className='h-[390px] overflow-y-scroll  drop-shadow-2xl bg-white text-black rounded-xl'>
-        <h3 className='text-center my-5'>Recent Orders</h3>
+        <h3 className='text-center text-lg my-5'>Recent Orders</h3>
 
     <Table>
   <TableCaption>A list of your recent transactions</TableCaption>
   <TableHeader>
-    <TableRow>
-      <TableHead className="w-fit">Customer Info</TableHead>
-      <TableHead>Problem</TableHead>
-      <TableHead>Status</TableHead>
-      <TableHead className="text-right">Amount</TableHead>
+    <TableRow className="bg-gray-100 ">
+      <TableHead className="w-fit font-semibold text-black">Customer Info</TableHead>
+      <TableHead className="font-semibold text-black">Problem</TableHead>
+      <TableHead className="font-semibold text-black">Status</TableHead>
+      <TableHead className="text-right font-semibold text-black">Amount</TableHead>
     </TableRow>
   </TableHeader>
   <TableBody>
@@ -67,7 +67,19 @@ function  TablePage() {
             <TableRow onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
       <TableCell className="font-medium">{`${data.phone_model} by ${data.customer_name}`}</TableCell>
       <TableCell>{data.repair_problem}</TableCell>
-      <TableCell>{data.repair_status}</TableCell>
+      <TableCell >
+      <p
+  className={`
+    ${data.repair_status === 'Unrepairable' ? 'bg-red-400' : ''} 
+    ${data.repair_status === 'Repaired' || data.repair_status === 'Completed' ? 'bg-green-400' : ''}
+    ${data.repair_status !== 'Unrepairable' && data.repair_status !== 'Repaired' && data.repair_status !== 'completed' ? 'bg-gray-100' : ''}
+    rounded-3xl w-2/4 py-1 text-center px-2 hover:scale-110 hover:cursor-pointer transition-all ease-in
+  `}
+>
+  {data.repair_status}
+</p>
+
+        </TableCell>
       <TableCell className="text-right">{data.total_amount}</TableCell>
     </TableRow>
         ))) : null

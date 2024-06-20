@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { logoutUser } from '@/lib/user/userSlice';
 import { useRouter } from 'next/navigation';
+import { IoIosNotifications } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 
 
@@ -33,13 +34,14 @@ function Header() {
         <div>
             <p>Dashboard</p>
         </div>
-        <div className='flex bg-main rounded-2xl px-3 py-1 items-center'>
-            <input className='h-[30px] w-[300px] bg-inherit text-white' type="search" placeholder='search' />
+        <div onClick={()=> router.push('/repair/search')} className='flex bg-main rounded-3xl px-3 py-1 items-center border border-1 border-gray-400'>
+            <input className='h-[30px] w-[300px] bg-inherit border-none text-white' type="search" placeholder='search' />
 <FaSearch size={15}/>
             
         </div>
         <div className='flex gap-3'>
           <span className='flex items-center'>
+            <p className='mr-2'><IoIosNotifications size={23} /></p>
 
             <p className='capitalize'>Hi,</p>
             <p className='capitalize font-semibold text-lg text-blue-900'>{userData? userData?.userinfo?.name : "User"}</p>

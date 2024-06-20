@@ -1,13 +1,10 @@
 import Dashboard from "@/components/Dashboard";
 import Header from "@/components/Header";
 import Sidebarnav from "@/components/Sidebarnav";
-import Todo from "@/components/Todo";
+// import Todo from "@/components/Todo";
 import TablePage from "@/components/Table";
 
 export default function Home() {
-
-
-  
 
   return (
 
@@ -15,18 +12,18 @@ export default function Home() {
     <div className="layout">
 
 <Sidebarnav/>
-<div className="w-full">
+<div className="w-full bg-[#f6f6f6]">
 
 <Header/>
-    <div className="bg-[#f6f6f6] text-black h-screen drop-shadow-xl">
+    <div className="bg-inherit text-black h-screen ">
 
     <Dashboard/>
-    <div className="grid grid-cols-3 gap-3 container mx-1 mt-3">
-      <div className=" col-span-2">
+    <div className="grid grid-cols-3 gap-3 container mt-3">
+      <div className=" col-span-3">
       
       <TablePage/>
       </div>
-      <Todo className=""/>
+      {/* <Todo className=""/> */}
 
      
       </div>

@@ -22,21 +22,23 @@ function Todo() {
   }
   return (
     <>
-    <div className='bg-white h-2/4 overflow-y-scroll drop-shadow-2xl text-black-500 rounded-xl text-white px-3 py-3 '> 
+    <div className='bg-white h-[390px] overflow-y-scroll drop-shadow-2xl text-black-500 rounded-xl text-white px-3 py-3 '> 
     <h3 className='text-center mb-5 text-md text-black'>
 
         Todo
     </h3>
     <div>
       <form onSubmit={(e)=>handleSubmit(e)} action="" className='flex gap-3 items-center'>
-        <input className='p-2 bg-gray-50 rounded-2xl text-black placeholder:text-gray-500' onChange={(e)=>setChange(e.target.value)} type="text" name="todo" value={change} placeholder="Add Your Todo"  />
+        <input className=' border border-1 border-blue-900 p-2 bg-gray-50 rounded-3xl text-black placeholder:text-gray-500' onChange={(e)=>setChange(e.target.value)} type="text" name="todo" value={change} placeholder="Add Your Todo"  />
         <button type='submit' className=' rounded-full h-7 w-7 text-xl bg-indigo-500 hover:bg-indigo-700 text-white capitalize'>+</button>
       </form>
 
-      <div className=' mt-5 flex flex-col gap-3 overflow-auto p-2 h-[200px]'>
+      <div className=' mt-5 flex flex-col gap-3 overflow-scroll p-2 h-[200px]'>
+        <ul className=' list-disc'>
+
         {todos?.map((todo, i)=>{
           return (
-            <div className='bg-gray-400 flex justify-between ' key={i}>
+            <li className=' text-black py-1 px-3  flex justify-between ' key={i}>
               <p className=''>{todo.task}</p>
               <span className='flex gap-3 items-center'>
 
@@ -45,13 +47,15 @@ function Todo() {
               </span>
 
 
-            </div>
+            </li>
           )
           
           
 })
 
         }
+        </ul>
+
 
       </div>
 
