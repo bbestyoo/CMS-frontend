@@ -70,11 +70,7 @@ export function   DataTable({ columns, data, isLoading }) {
     router.push('/repair/order')
   }
 
-  function handleRowClick (rowData){
-    console.log('Clicked row:', rowData);
-    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
-}
-  
+
 
 
   return (
@@ -90,12 +86,15 @@ export function   DataTable({ columns, data, isLoading }) {
           className="max-w-sm"
         /> */}
 
-        <div onClick={handleClickRoute} className=' justify-end w-full text-md flex items-center gap-1'>
-          <p className=''>
+        <div  className=' w-full flex justify-end'>
+          <section className='w-fit text-md flex items-center gap-1' onClick={handleClickRoute}>
+
+          <p  className=' '>
           Add Repairs
           </p>
           <IoAddCircleSharp className='text-indigo-500 hover:text-indigo-700' size={30}/>
 
+          </section>
         </div>
        
       </div>
@@ -127,7 +126,7 @@ export function   DataTable({ columns, data, isLoading }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  onClick={() => handleRowClick(row)}
+                  
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (

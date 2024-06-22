@@ -20,7 +20,7 @@ function Header() {
   const router = useRouter()
 
   const userData = useAppSelector((state)=> state.user.value)
-  // console.log("userdata in header",userData)  
+  console.log("userdata in headerrrrrrrr",userData)  
 
   function handleLogout(){
     dispatch(logoutUser())
@@ -44,7 +44,7 @@ function Header() {
             <p className='mr-2'><IoIosNotifications size={23} /></p>
 
             <p className='capitalize'>Hi,</p>
-            <p className='capitalize font-semibold text-lg text-blue-900'>{userData? userData?.userinfo?.name : "User"}</p>
+            <p className='capitalize font-semibold text-lg text-blue-900'>{userData? userData?.userDetails?.name  || userData?.userinfo?.name : "User"}</p>
           </span>
             <DropdownMenu>
   <DropdownMenuTrigger className='' >

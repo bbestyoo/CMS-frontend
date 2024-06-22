@@ -10,7 +10,7 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserDetails: (state, action) => {
+    setUserInfo: (state, action) => {
       // console.log("hereinsslice")
         // console.log("*****cartslice",action.payload)
         state.value = action.payload
@@ -28,6 +28,6 @@ export const UserSlice = createSlice({
   }})
 
 // Action creators are generated for each case reducer function
-export const { setUserDetails, logoutUser } = UserSlice.actions
+export const { setUserInfo, logoutUser } = UserSlice.actions
 
 export default UserSlice.reducer

@@ -6,7 +6,6 @@ import React from 'react'
 function RepairNav() {
 
     const pathname = usePathname()
-    console.log("*********",pathname)
 
     
 
@@ -38,6 +37,13 @@ function RepairNav() {
             <li><button className={`${pathname === "/repair/    unrepairable-repairs" ? "bg-indigo-700 " : " bg-press" } p-3 text-white bg-indigo-500 rounded-3xl`}>
 
                 Unrepairable Repairs
+            </button>
+                </li>
+            </Link>
+            <Link href="/repair/out-repairs">
+            <li><button className={`${pathname === "/repair/out-repairs" ? "bg-indigo-700 " : " bg-press" } p-3 text-white bg-indigo-500 rounded-3xl`}>
+
+                Out Repairs
             </button>
                 </li>
             </Link>

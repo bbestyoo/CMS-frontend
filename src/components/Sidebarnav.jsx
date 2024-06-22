@@ -22,7 +22,8 @@ const navItems = [
 const Navbar = () => {
 
 
-  const userData = useAppSelector((state)=>state.user.value)
+  const userData = useAppSelector((state)=> state.user.value)
+  console.log("userdata in sidebar",userData)  
   const pathname = usePathname()
   console.log("pathname",pathname)
   return (
@@ -39,7 +40,7 @@ const Navbar = () => {
   <span className="">
 
     <p className="text-2xl font-semibold mb-1 text-white capitalize">welcome</p>
-    <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userinfo?.name : "User"}</p>
+    <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
   </span>
     <p className="text-white">Owner Name</p>
 </div>

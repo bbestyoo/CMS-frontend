@@ -1,12 +1,15 @@
 'use client'
-import { postProductsApi } from '@/api/GetRepairProducts'
-import { useRouter } from 'next/navigation'
+import { editProductDetails, getSearchProductsApi, postProductsApi } from '@/api/GetRepairProducts'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
+import { FaPrint } from "react-icons/fa6";
 
 
   function Orders() {
     const router = useRouter()
+    const path = useParams()
+    const params = path.details
     const {
       register,
       watch, 
@@ -18,6 +21,32 @@ import { useForm } from "react-hook-form"
     const totalAmount = watch('total_amount');
     const advancePaid = watch('advance_paid');
 
+    const [loading, setLoading] = useState(true)
+  
+    useEffect(() => {
+      if (params) {
+        // Replace with your API endpoint
+        getRepair(params)
+
+      }
+    }, [params])
+
+    const getRepair = async (params)=> {
+      const response = await getSearchProductsApi(`q=${params}`)
+      console.log("here is se4arched product",response)
+      const data = response[0]
+      Object.keys(data).forEach((key) => {
+        setValue(key, data[key])
+      })
+      setLoading(false)
+
+    }
+  
+    // const onSubmit = (data) => {
+    //   // Handle form submission, e.g., send updated data to your API
+    //   console.log('Form data submitted:', data)
+    // }
+  
   const [receivedDate, setReceivedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
@@ -26,6 +55,7 @@ import { useForm } from "react-hook-form"
     const today = new Date();
     return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
   });
+  
 
     useEffect(() => {
       // Calculate the due amount
@@ -43,13 +73,15 @@ import { useForm } from "react-hook-form"
     console.log("hereeeeeeeeee")
 
     console.log("data",data)
+
+    
     
      
      async function products(){
        
        try{
          
-         const res = await postProductsApi(data)
+         const res = await editProductDetails(data)
          console.log("asdasd",res)
          
           console.log("reached here")
@@ -66,11 +98,21 @@ import { useForm } from "react-hook-form"
 
   }
 
+
+  
+  if (loading) return <div>Loading...</div>
   
 
   return (
     <>
-    <div className="w-1/2 h-4/5 overflow-y-scroll bg-white text-black mx-auto mt-5 p-7 px-10 rounded-xl drop-shadow-xl mb-40 bg-footer">
+    <div onClick={()=>router.push(`/search/${params}`)} className='w-full flex justify-end px-10 my-5'>
+      <span className='bg-white drop-shadow-xl flex gap-3 w-fit px-3 py-1 rounded-xl hover:bg-gray-100'>
+
+      <p className=''>Print in PDF</p>
+      <button className='rounded-md'><FaPrint size={30}/></button>
+      </span>
+    </div>
+    <div className="w-1/2 h-4/5 overflow-y-scroll bg-white text-black mx-auto mt-1 p-7 px-10 rounded-xl drop-shadow-xl mb-40 bg-footer">
         <h2 className="text-black text-xl text-center font-semibold mb-5">Post A Repair</h2>
         <form 
         onSubmit={handleSubmit(onSubmit)}
@@ -319,6 +361,22 @@ import { useForm } from "react-hook-form"
             />
           </div>
           <div className="mb-4">
+            <label htmlFor="received_date" className="block text-sm font-medium text-black">
+              received date
+            </label>
+            <input
+              type="date"
+              id="received_date"
+              name="received_date"
+              {...register('received_date',  { required: true })}
+              defaultValue={receivedDate}
+              onChange={(e) => setReceivedDate(e.target.value)}
+
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
+          <div className="mb-4">
             <label htmlFor="delivery_date" className="block text-sm font-medium text-black">
               delivery date
             </label>
@@ -326,10 +384,11 @@ import { useForm } from "react-hook-form"
               type="date"
               id="delivery_date"
               name="delivery_date"
-              {...register('delivery_date',  { required: true })}
               defaultValue={deliveryDate}
               onChange={(e) => setDeliveryDate(e.target.value)}
 
+              
+              {...register('delivery_date',  { required: true })}
 
               className="mt-1 p-2 w-full border rounded-md "
               required
@@ -350,7 +409,7 @@ import { useForm } from "react-hook-form"
               required
             />
           </div>
-          {/* <div className="mb-4">
+          <div className="mb-4">
             <label htmlFor="repair_status" className="block text-sm font-medium text-black">
             </label>
             Status
@@ -365,12 +424,12 @@ import { useForm } from "react-hook-form"
               <option value="" disabled>
                 Select status
               </option>
-              <option value="Not repaired">Not repaired</option>
               <option value="Repaired">repaired</option>
+              <option value="Not repaired">Not repaired</option>
              
             </select>
           </div>
-         */}
+        
         
 
           <button

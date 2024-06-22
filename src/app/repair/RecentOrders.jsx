@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { patchProductsApiCompleted, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
+import { patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
 import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
 import { baseURL } from '@/Url';
@@ -14,15 +14,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useForm } from "react-hook-form"
+import { IoIosLogOut } from "react-icons/io";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { useRouter } from 'next/navigation';
 
 
 
  const RepairForm  = ({row, handlePatchFn, handleUnrepairable}) => {
 
+  const router = useRouter()
+
+  const [receivedDate, setReceivedDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
+  });
+  const [show, setShow] = useState(false)
+  const { repair_id } = row.original;
+
+
   const getTechInfo =  async () => {
-    console.log("!!!!!!!!!!!!!!!!!!")
     const response = await userInfo()
-    console.log("!!!!!!again",response)
     setRoles(response)
 
 
@@ -34,49 +52,91 @@ import { useForm } from "react-hook-form"
 
   },[])
 
+  const handlePopup = (e) => {
+    e.stopPropagation()
+    setShow(true)
+}
+
 
   const {
-    register,
-    handleSubmit,
+    register:register0,
+    handleSubmit:handleSubmit0,
     formState: { errors },
   } = useForm()
+  const { register: register1, handleSubmit: handleSubmit1 } = useForm();
 
   const [roles, setRoles] = useState([])
 
   const onSubmit = async (data) => {
-    console.log("here");
-    const { repair_id } = row.original;
-    console.log("Form Data:", data);
-    console.log("Repair ID:", repair_id);
     const formData = {
       ...data,
-      repair_status: data.repair_status || 'Unrepairable' // No change here
+      repair_status: data.repair_status || 'Repaired' // No change here
     };
   
     if (formData.repair_cost_price !== "" && formData.repair_status === "Repaired") { // Changed from != to !==
       handlePatchFn(formData, repair_id);
-    } else {
+    } else if(formData.repair_cost_price === "" && formData.repair_status === "Unrepairable") {
       handleUnrepairable(repair_id);
     }
   };
+
+  function onPost(data){
+    const formdata = {...data, outside_repair: true}
+
+     async function products(){
+       
+       try{
+         
+         const res = await patchProductsApiOutRepair(formdata, repair_id)
+          router.push("/repair/out-repairs")
+      }
+      catch(err){
+        console.log("error",err)
+      }
+    }
+
+    products()
+
+
+  }
+
   
-  return (
-    <div className="flex gap-0 items-center pr-4">
+  
+  return ( 
+    <>
+
+    <div className="flex  items-center pr-4">
       <form
-        className="flex ml-4 gap-4 items-center w-full max-w-xl"
-        onSubmit={handleSubmit(onSubmit)}
+        className="flex ml-4 mr-2 gap-4 items-center w-full max-w-xl"
+        onSubmit={handleSubmit0(onSubmit)}
       >
-        <div>
-          <div className="flex gap-1 justify-between w-full">
-            <p>Repaired</p>
+        <div className='w-fit '>
+          <div className="flex gap-1 justify-start w-full ">
+            <p>Unrepairable</p>
             <input
               onClick={(e) => e.stopPropagation()}
               type="checkbox"
               name="repair_status" // Changed from name="Repaired" to name="repair_status"
-              value="Repaired"
-              {...register('repair_status')}
+              value="Unrepairable"
+              {...register0('repair_status')}
             />
           </div>
+        </div>
+        <div className="flex flex-col w-2/5">
+          <label
+            htmlFor="repair_cost_price"
+            className="block text-sm font-medium text-black capitalize"
+          >
+           Description
+          </label>
+          <input
+            type="text"
+            id="repair_cost_price"
+            name="repair_cost_price"
+            {...register0('cost_price_description')}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-1 text-black-600 p-2 w-full border rounded-md"
+          />
         </div>
         <div className="flex flex-col w-2/5">
           <label
@@ -89,7 +149,7 @@ import { useForm } from "react-hook-form"
             type="text"
             id="repair_cost_price"
             name="repair_cost_price"
-            {...register('repair_cost_price')}
+            {...register0('repair_cost_price')}
             onClick={(e) => e.stopPropagation()}
             className="mt-1 text-black-600 p-2 w-full border rounded-md"
           />
@@ -101,39 +161,126 @@ import { useForm } from "react-hook-form"
           <select
             id="repaired_by"
             name="repaired_by"
-            {...register('repaired_by')}
+            {...register0('repaired_by')}
             onClick={(e) => e.stopPropagation()}
             className="mt-1 p-2 w-fit border rounded-md"
             required
+            defaultValue=""
           >
             <option value="" disabled>
               Select Tech
             </option> 
+           
             {roles.map((role, i) => (
               <option key={i} value={`${role.user_id}`}>
                 {role.name}
               </option> 
             ))}
-           
           </select>
         </div>
         <button
-          onClick={(e) => e.stopPropagation()}
+          
           className="bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl p-1"
           type="submit"
         >
           OK
         </button>
       </form>
-    </div>
-  );
+      <div >
+      <Dialog >
+  <DialogTrigger >
+    <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl '><IoIosLogOut size={20}/></button></DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Outside repair form</DialogTitle>
+      <DialogDescription>
+      <form onSubmit={handleSubmit1(onPost)} action="">
+      <div className="mb-4">
+            <label htmlFor="outside_name" className="block text-sm font-medium text-black">
+               Outside shop
+            </label>
+            <input
+              type="text"
+              id="outside_name"
+              name="outside_name"
+              {...register1('outside_name',  { required: true })}
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
+       <div className="mb-4">
+            <label htmlFor="outside_taken_date" className="block text-sm font-medium text-black">
+              taken date
+            </label>
+            <input
+              type="date"
+              id="outside_taken_date"
+              name="outside_taken_date"
+              {...register1('outside_taken_date',  { required: true })}
+              defaultValue={receivedDate}
+              onChange={(e) => setReceivedDate(e.target.value)}
 
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
+      <div className="mb-4">
+            <label htmlFor="taken_by" className="block text-sm font-medium text-black">
+               Taken By
+            </label>
+            <input
+              type="text"
+              id="taken_by"
+              name="taken_by"
+              {...register1('taken_by',  { required: true })}
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
+          
+      <div className="mb-4">
+            <label htmlFor="outside_desc" className="block text-sm font-medium text-black">
+               Description
+            </label>
+            <input
+              type="text"
+              id="outside_desc"
+              name="outside_desc"
+              {...register1('outside_desc',  { required: true })}
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-black py-2 px-4 rounded-md  hover:bg-blue-600"
+          >
+            Post
+          </button>
+      </form>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+</div>
+      
+    </div>
+      </>                                                                                                     
+
+  );
  }
 
  
 
 export default function RecentOrders() {
 
+
+  const router = useRouter()
+  function handleRowClick (rowData){
+    console.log('Clicked row:', rowData);
+    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+}
+  
 
  
   const [isLoading, setIsLoading] = useState(true)
@@ -159,7 +306,8 @@ export default function RecentOrders() {
 
           const {customer_name } = row.original
 
-          return <div className="capitalize "> {row.getValue("phone_model")} by {customer_name} </div>
+         
+          return <div  onClick={() => handleRowClick(row)}  className="capitalize "> {row.getValue("phone_model")} by {customer_name} </div>
         },
       },
     {
@@ -171,10 +319,10 @@ export default function RecentOrders() {
       },
  
   {
-    accessorKey: "total_amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "due",
+    header: () => <div className="text-right">Due Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_amount"))
+      const amount = parseFloat(row.getValue("due"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
@@ -185,13 +333,7 @@ export default function RecentOrders() {
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
-  {
-    accessorKey: "repair_status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("repair_status")}</div>
-    ),
-  },
+  
   {
   id: "select",
   header: "Repaired?",

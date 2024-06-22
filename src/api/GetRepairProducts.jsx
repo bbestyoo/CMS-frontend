@@ -39,10 +39,10 @@ async function postProductsApi(data){
 
 }
 
-async function patchProductsApiRepaired (formData, repair_id){
+async function patchProductsApiOutRepair (formData, repair_id){
     console.log(formData)
-    const {repair_status, repair_cost_price, repaired_by} = formData
-    
+    const {outside_name, outside_taken_date, taken_by, outside_desc, outside_repair } = formData
+    const repair_status = 'Outrepaired'
     const token = getCookie('accesstoken')
     const res = await fetch (
         `${baseURL}repair/`,
@@ -52,7 +52,35 @@ async function patchProductsApiRepaired (formData, repair_id){
             'Authorization': `Bearer ${token}`, 
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({repair_id, repair_status, repair_cost_price, repaired_by}),
+        body: JSON.stringify({repair_id,outside_name, outside_taken_date, taken_by, outside_desc, repair_status, outside_repair }),
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    
+)
+const result = await res.json()
+return result
+
+}
+async function patchProductsApiRepaired (formData, repair_id){
+    console.log(formData)
+    const {repair_status, repair_cost_price, repaired_by, cost_price_description, returned_by} = formData
+    const currentDate = new Date();
+
+    // Format the current date to YYYY-MM-DD
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
+    console.log("date", formattedDate);
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}repair/`,
+        {
+            method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({repair_id, repair_status, repair_cost_price, repaired_by, cost_price_description, outside_returned_date:formattedDate, returned_by}),
         credentials: 'include' // Use 'include' to send cookies with the request
 
     }
@@ -125,6 +153,7 @@ async function getSearchProductsApi(searchQuery){
     }
     )
     const result = await res.json()
+    console.log("resultttttt",result)
     return result
 
 }
@@ -196,6 +225,7 @@ export  {
     productsProfitApi,
     userInfo,
     editProductDetails,
+    patchProductsApiOutRepair,
 
 
 }

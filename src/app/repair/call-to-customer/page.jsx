@@ -58,12 +58,19 @@ onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button
           <div className="capitalize">{row.getValue("repair_problem")}</div>
         ),
       },
+    {
+        accessorKey: "customer_phone_number",
+        header: "Phone",
+        cell: ({ row }) => (
+          <div className="capitalize">{row.getValue("customer_phone_number")}</div>
+        ),
+      },
  
   {
-    accessorKey: "total_amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "due",
+    header: () => <div className="text-right">Due Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_amount"))
+      const amount = parseFloat(row.getValue("due"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
@@ -74,13 +81,7 @@ onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
-  {
-    accessorKey: "repair_status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("repair_status")}</div>
-    ),
-  },
+
   
   {
     accessorKey: "amount_paid",

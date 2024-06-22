@@ -77,7 +77,6 @@ export default  function DemoPage() {
   }
 useEffect(() => { 
   someFunction();
-  
   }, []); 
 
   return (

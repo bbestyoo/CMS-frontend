@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/lib/hooks';
 import { baseURL } from '@/Url';
-import { setUserDetails } from '@/lib/user/userSlice';
 import { getCookie } from 'cookies-next';
+import { setUserInfo } from '@/lib/user/userSlice';
 
 
 const UserProvider = ({ children }) => {
@@ -27,7 +27,7 @@ const UserProvider = ({ children }) => {
       });
       const userData = await response.json();
       console.log("userdata",userData)
-      dispatch(setUserDetails(userData));
+      dispatch(setUserInfo(userData));
     } catch (error) {
       console.error('Failed to fetch user data:', error);
     }

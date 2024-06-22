@@ -84,6 +84,7 @@ useEffect(() => {
   
   }, []); 
 
+  
   return (
     <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 py-10">
       <DataTable columns={columns} data={data} />

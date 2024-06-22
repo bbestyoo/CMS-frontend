@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { baseURL } from '@/Url';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
-import { setUserDetails } from '@/lib/user/userSlice';
+import { setUserInfo } from '@/lib/user/userSlice';
 import { setCookie } from 'cookies-next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -19,8 +19,6 @@ const Login = () => {
 
 
     e.preventDefault();
-    console.log("email",email)
-    console.log("ps",password)
     try {
       const response = await fetch(`${baseURL}userauth/login/`, {
         method: 'POST',
@@ -32,18 +30,24 @@ const Login = () => {
     
       if (response.ok) {
         const data = await response.json();
-        console.log('Login successful:', data);
         const accessToken = data.token.access
         const refreshToken = data.token.refresh
-        setCookie('accesstoken', accessToken); // expires in 24 hours
-        setCookie('refreshtoken', refreshToken); // expires in 24 hours
+        setCookie('accesstoken', accessToken, {
+          sameSite: 'None', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
+        secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
+        httpOnly: false 
+        }); // expires in 24 hours
+        setCookie('refreshtoken', refreshToken, {
+          sameSite: 'None', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
+        secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
+        httpOnly: false 
+        }); // expires in 24 hours
 
         // localStorage.setItem('accessToken', data.token.access);
         // localStorage.setItem('refreshToken', data.token.refresh);
-        dispatch(setUserDetails(data))
-
+        dispatch(setUserInfo(data))
         router.push('/');
-        router.reload();
+        // router.reload();
 
       }
       else {

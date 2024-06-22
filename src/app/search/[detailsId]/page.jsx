@@ -4,17 +4,19 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 function Details({ params }) {
+  console.log("params",params)
   const [details, setDetails] = useState({});
   console.log("details",details)
 
   async function getSearch() {
     console.log("here");
     if (params.detailsId && params.detailsId.length > 0) {
-      console.log("inside");
+      console.log("inside",params.detailsId);
 
       try {
         console.log("entered");
-        const response = await getSearchProductsApi(params.detailsId);
+        const  searchQ = `q=${params.detailsId}`
+        const response = await getSearchProductsApi(searchQ);
         console.log("here's the response", response[0]);
         const res = response[0]
         response && response.length > 0 && response !== 'NONE' && setDetails(res);

@@ -25,7 +25,6 @@ function  TablePage() {
             const products = await productsApi();
             
             // Do something with the fetched products data
-            console.log("here", products)
             setData(products);
         } catch (error) {
             // Handle errors if any
@@ -73,7 +72,7 @@ function  TablePage() {
     ${data.repair_status === 'Unrepairable' ? 'bg-red-400' : ''} 
     ${data.repair_status === 'Repaired' || data.repair_status === 'Completed' ? 'bg-green-400' : ''}
     ${data.repair_status !== 'Unrepairable' && data.repair_status !== 'Repaired' && data.repair_status !== 'completed' ? 'bg-gray-100' : ''}
-    rounded-3xl w-2/4 py-1 text-center px-2 hover:scale-110 hover:cursor-pointer transition-all ease-in
+    rounded-3xl w-4/5 py-1 text-center px-2 hover:scale-110 hover:cursor-pointer transition-all ease-in
   `}
 >
   {data.repair_status}
