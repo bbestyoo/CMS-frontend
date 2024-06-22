@@ -285,11 +285,6 @@ export default function RecentOrders() {
  
   const [isLoading, setIsLoading] = useState(true)
 
-
-
-  
-   
-
   // localStorage.clear();
   console.log("here")
   

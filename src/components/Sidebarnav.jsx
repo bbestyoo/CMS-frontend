@@ -42,7 +42,7 @@ const Navbar = () => {
     <p className="text-2xl font-semibold mb-1 text-white capitalize">welcome</p>
     <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
   </span>
-    <p className="text-white">Owner Name</p>
+    <p className="text-white">{userData? userData?.userDetails?.enterprise || userData?.userinfo?.enterprise : "Owner name"}</p>
 </div>
 
 </div>

@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 
 export default  function DemoPage() {
 
+
+  const router = useRouter()
+
+  function handleRowClick (rowData){
+    console.log('Clicked row:', rowData);
+    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+}
   const [data, setData] = useState([])  
   const [isCompleted, setIsCompleted] = useState(false)
 
@@ -19,7 +26,7 @@ export default  function DemoPage() {
 
           const {customer_name } = row.original
 
-          return <div className="capitalize "> {row.getValue("phone_model")} by {customer_name} </div>
+          return <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("phone_model")} by {customer_name} </div>
         },
        
       },
@@ -84,7 +91,7 @@ useEffect(() => {
   
   }, []); 
 
-  
+
   return (
     <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 py-10">
       <DataTable columns={columns} data={data} />

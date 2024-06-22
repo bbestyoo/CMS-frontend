@@ -3,8 +3,16 @@ import { patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts"
 import { DataTable } from "../data-table";
 import { useEffect, useState  } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default  function DemoPage() {
+
+  const router = useRouter()
+
+  function handleRowClick (rowData){
+    console.log('Clicked row:', rowData);
+    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+}
 
     const [ data, setData ] = useState([])
 
@@ -16,7 +24,7 @@ export default  function DemoPage() {
 
           const {customer_name } = row.original
 
-          return <div className="capitalize "> {row.getValue("phone_model")} by {customer_name} </div>
+          return <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("phone_model")} by {customer_name} </div>
         },
       },
     {
@@ -26,6 +34,8 @@ export default  function DemoPage() {
           <div className="capitalize">{row.getValue("repair_problem")}</div>
         ),
       },
+
+      
  
   {
     accessorKey: "total_amount",

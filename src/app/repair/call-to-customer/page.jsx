@@ -3,8 +3,16 @@ import { patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts"
 import { DataTable } from "../data-table";
 import { useEffect, useState  } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default  function DemoPage() {
+
+  const router = useRouter()
+
+  function handleRowClick (rowData){
+    console.log('Clicked row:', rowData);
+    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+}
 
   const [data, setData] = useState([])  
   const [isCompleted, setIsCompleted] = useState(false)
@@ -48,7 +56,7 @@ onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button
 
           const {customer_name } = row.original
 
-          return <div className="capitalize "> {row.getValue("phone_model")} by {customer_name} </div>
+          return <div  onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("phone_model")} by {customer_name} </div>
         },
       },
     {
