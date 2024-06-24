@@ -1,11 +1,11 @@
-// import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 // import { getCookie } from 'cookies-next';
 
 // export function middleware(req) {
 //   const token = getCookie('accesstoken', { req });
 //   console.log("token",token)
 //   console.log("tasdasdhiiiiiiiii")
-//   const { pathname } = req.nextUrl
+//   const { pathname } = req.nextUrl 
 
 //   const protectedRoutes = ['/', '/repair', '/search']
 //   const VprotectedRoutes = ['/repair', '/search']
@@ -19,3 +19,8 @@
 //     return NextResponse.next()
 //   }
 // }
+
+export function middleware(req) {
+  
+      return NextResponse.next()
+}
