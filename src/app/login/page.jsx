@@ -4,8 +4,10 @@ import { baseURL } from '@/Url';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
 import { setUserInfo } from '@/lib/user/userSlice';
-import { setCookie } from 'cookies-next';
+import { deleteCookie, setCookie } from 'cookies-next';
 import { Button } from '@/components/ui/button';
+
+
 import Link from 'next/link';
 const Login = () => {
 
@@ -14,10 +16,12 @@ const Login = () => {
   const [error, setError] = useState('');
   const router = useRouter()
   const dispatch = useAppDispatch()
+  // deleteCookie('accesstoken')
+  // deleteCookie('refreshtoken')
 
   const handleSubmit = async (e) => {
 
-
+ 
     e.preventDefault();
     try {
       const response = await fetch(`${baseURL}userauth/login/`, {
@@ -28,19 +32,20 @@ const Login = () => {
         body: JSON.stringify({ email: email, password: password }),
       });
     
+
       if (response.ok) {
         const data = await response.json();
         const accessToken = data.token.access
         const refreshToken = data.token.refresh
         setCookie('accesstoken', accessToken, {
-          sameSite: 'None', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
-        secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
-        httpOnly: false 
+          sameSite: 'Lax', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
+        // secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
+        // httpOnly: false 
         }); // expires in 24 hours
         setCookie('refreshtoken', refreshToken, {
-          sameSite: 'None', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
-        secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
-        httpOnly: false 
+          sameSite: 'Lax', // Use 'Strict' or 'Lax' as per your requirement. Use 'None' if you need cross-site usage.
+        // secure: process.env.NODE_ENV === 'production', // Ensure cookies are only sent over HTTPS in production
+        // httpOnly: false 
         }); // expires in 24 hours
 
         // localStorage.setItem('accessToken', data.token.access);
