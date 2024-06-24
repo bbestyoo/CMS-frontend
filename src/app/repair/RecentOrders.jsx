@@ -4,7 +4,7 @@ import { patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiR
 import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-const baseURL = process.env.BACKEND_URL;
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import {
   DropdownMenu,

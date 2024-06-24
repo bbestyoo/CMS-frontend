@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/lib/hooks';
 import { getCookie } from 'cookies-next';
-const baseURL = process.env.BACKEND_URL;
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import { setUserInfo } from '@/lib/user/userSlice';
 

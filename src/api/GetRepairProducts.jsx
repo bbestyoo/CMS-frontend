@@ -1,5 +1,6 @@
-const baseURL = process.env.BACKEND_URL;
 import { getCookie } from 'cookies-next'
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 
 async function productsApi(){
     const token = getCookie('accesstoken')

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-const baseURL = process.env.BACKEND_URL;
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
 import { setUserInfo } from '@/lib/user/userSlice';
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 
 import Link from 'next/link';
 const Login = () => {
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
