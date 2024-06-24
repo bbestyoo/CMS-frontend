@@ -14,8 +14,8 @@ function ProductDetails() {
   const path = useParams();
   const params = path.details;
 
-  console.log("*********", path);
-  console.log("*********#######", params);
+    console.log("*********", path);
+    console.log("*********#######", params);
 
   useEffect(() => {
     if (params) {
