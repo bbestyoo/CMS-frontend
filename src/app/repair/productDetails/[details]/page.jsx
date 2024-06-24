@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaPrint } from "react-icons/fa6";
 
-function Page() {
+function ProductDetails() {
   const [showMore, setShowMore] = useState(false);
   const [obj, setObject] = useState({});
   const router = useRouter();
@@ -125,4 +125,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default ProductDetails;
