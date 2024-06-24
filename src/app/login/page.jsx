@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { baseURL } from '@/Url';
+const baseURL = process.env.BACKEND_URL;
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
 import { setUserInfo } from '@/lib/user/userSlice';

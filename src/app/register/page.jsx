@@ -6,7 +6,8 @@ import {
     InputOTPGroup,
     InputOTPSlot,
   } from "../../components/ui/input-otp"
-import { baseURL } from '@/Url';
+const baseURL = process.env.BACKEND_URL;
+
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'cookies-next';
   

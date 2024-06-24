@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
 import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
-import { baseURL } from '@/Url';
 import { Button } from "@/components/ui/button"
+const baseURL = process.env.BACKEND_URL;
+
 import {
   DropdownMenu,
   DropdownMenuContent,

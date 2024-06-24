@@ -13,7 +13,7 @@ import { productsProfitApi } from '@/api/GetRepairProducts';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { getCookie } from 'cookies-next';
-import { baseURL } from '@/Url';
+const baseURL = process.env.BACKEND_URL;
 
 
 function TablePage() {

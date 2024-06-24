@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/lib/hooks';
-import { baseURL } from '@/Url';
 import { getCookie } from 'cookies-next';
+const baseURL = process.env.BACKEND_URL;
+
 import { setUserInfo } from '@/lib/user/userSlice';
 
 

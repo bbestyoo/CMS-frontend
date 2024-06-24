@@ -1,4 +1,4 @@
-import { baseURL } from '@/Url'
+const baseURL = process.env.BACKEND_URL;
 import { getCookie } from 'cookies-next'
 
 async function productsApi(){
