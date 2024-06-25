@@ -174,7 +174,8 @@ export default function RecentOrders() {
     const router = useRouter()
     function handleRowClick (rowData){
       console.log('Clicked row:', rowData);
-      router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+      const repairId = rowData.original.repair_id
+      router.push(`/repair/productDetails/${repairId}`)
   }
     
   

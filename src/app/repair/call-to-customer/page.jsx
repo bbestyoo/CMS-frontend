@@ -11,7 +11,8 @@ export default  function DemoPage() {
 
   function handleRowClick (rowData){
     console.log('Clicked row:', rowData);
-    router.push(`/repair/productDetails/${rowData.original.repair_id}`)
+    const repairId = rowData.original.repair_id
+    router.push(`/repair/productDetails/${repairId}`)
 }
 
   const [data, setData] = useState([])  
