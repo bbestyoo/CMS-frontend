@@ -5,7 +5,7 @@ import React from 'react'
 export default function Test() {
     const router = useRouter()
     function handleClick(){
-        router.push('/repair/test/asdasd')
+        router.push('/test/asdasd')
     }
   return (
     <div onClick={handleClick}>Click here for route</div>
