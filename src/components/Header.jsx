@@ -14,6 +14,7 @@ import { IoIosNotifications } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 
 
+
 function Header() {
 
   const dispatch = useAppDispatch()
@@ -28,14 +29,17 @@ function Header() {
 
   }
 
+
+
+
   return (
     <>
     <div className='flex drop-shadow-xl w-full p-3 bg-[#f6f6f6] text-black justify-between h-[50px] items-center'>
         <div>
             <p>Dashboard</p>
         </div>
-        <div onClick={()=> router.push('/repair/search')} className='flex bg-main rounded-3xl px-3 py-1 items-center border border-1 border-gray-400'>
-            <input className='h-[30px] w-[300px] bg-inherit border-none text-white' type="search" placeholder='search' />
+        <div  className='flex bg-main rounded-3xl px-3 py-1 items-center border border-1 border-gray-400'>
+            <input onClick={()=> router.push('/repair/search')} className='h-[30px] w-[300px] bg-inherit border-none text-white' type="search" placeholder='search' />
 <FaSearch size={15}/>
             
         </div>

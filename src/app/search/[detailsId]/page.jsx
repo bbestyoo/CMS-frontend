@@ -1,9 +1,12 @@
 'use client'
 import { getSearchProductsApi } from '@/api/GetRepairProducts';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 function Details({ params }) {
+
+  const router = useRouter()
   console.log("params",params)
   const [details, setDetails] = useState({});
   console.log("details",details)
@@ -38,6 +41,7 @@ function Details({ params }) {
         <div className="receipt">
           <div className="header flex gap-80 mb-10">
             <Image 
+            onClick={router.push('/')}
             height={100}
             width={100}
             src={'/digi.jpg'}

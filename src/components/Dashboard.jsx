@@ -12,7 +12,7 @@ function Dashboard() {
   const router = useRouter()
   const [pending, setPending] = useState([])
   const [unrepairable, setUnrepairable] = useState([])
-  const [outside, setOutside] = useState([])
+  const [outRepaired, setOutrepaired] = useState([])
   const userData = useAppSelector(state => state.user.value)
 
   useEffect(() => {
@@ -28,6 +28,8 @@ function Dashboard() {
     setPending(pendingData)
     const unrepairableData = response.filter((item)=> item.repair_status === 'Unrepairable')
     setUnrepairable(unrepairableData)
+    const outrepairedData = response.filter((item)=> item.repair_status === 'Outrepaired')
+    setOutrepaired(outrepairedData)
     // const outsideData = response.filter((item)=> item.repair_status === 'Out repaired')
     // console.log('pendingData',outsideData)
     // setPending(outsideData)
@@ -85,10 +87,10 @@ function Dashboard() {
         <span>
           <FaMoneyCheckAlt className='group-hover:scale-110' size={30} />
         </span>
-        <p>Total Sales</p>
+        <p>Outside Repairs</p>
       </div>
       <div>
-        <p className='text-left text-xl font-medium'>Nrs.5000</p>
+        <p className='text-left text-xl font-medium'>{`${outRepaired.length}`}</p>
       </div>
     </div>
          <div>
