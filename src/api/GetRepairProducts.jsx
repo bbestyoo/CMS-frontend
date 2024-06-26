@@ -40,24 +40,30 @@ async function postProductsApi(data){
 
 }
 async function deleteProductsApi(data){
-    console.log("***********",data)
-    // const token = getCookie('accesstoken')
-    // const res = await fetch (
-    //     `${baseURL}repair/`,
-    //     {
-    //         method: 'DELETE',
-    //     headers: {
-    //         'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({repair_id: data}),
-    //     credentials: 'include' // Use 'include' to send cookies with the request
+    try {
+        console.log("***********", data);
+        const token = getCookie('accesstoken');
+        const response = await fetch(`${baseURL}repair/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ repair_id: data }),
+            credentials: 'include' // Use 'include' to send cookies with the request
+        });
 
-    // }
-    // )
-    // const result = await res.json()
-    // console.log("result",result)
-    // return result
+        if (response.status === 204) {
+            // No content, successful delete
+            console.log("Delete successful with no content.");
+            return { success: true };
+        }
+
+    } catch (error) {
+        // Handle errors that occur during fetch or in response processing
+        console.error("Error deleting products:", error);
+        throw error; // Rethrow the error after logging it
+    }
 
 }
 async function patchProductsApiOutRepair (formData, repair_id){

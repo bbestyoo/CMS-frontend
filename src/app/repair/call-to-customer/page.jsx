@@ -12,9 +12,9 @@ export default  function DemoPage() {
   const userData = useAppSelector((state)=> state.user.value)
   const [isDelete, setIsDelete] = useState(false)
 
-
+  
   const router = useRouter()
-
+  
   function handleRowClick (rowData){
     console.log('Clicked row:', rowData);
     const repairId = rowData.original.repair_id
@@ -54,7 +54,7 @@ export default  function DemoPage() {
 onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
       {
 userData?.userinfo.role === 'Admin' &&
-<div onClick={()=>handleDelete(repair_id)}>
+<div onClick={()=>handleDelete(row.original.repair_id)}>
 <FaTrash className='' size={18}/>
 </div>
 }
