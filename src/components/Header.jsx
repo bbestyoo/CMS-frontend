@@ -21,7 +21,7 @@ function Header() {
   const router = useRouter()
 
   const userData = useAppSelector((state)=> state.user.value)
-  console.log("userdata in headerrrrrrrr",userData)  
+  // console.log("userdata in headerrrrrrrr",userData)  
 
   function handleLogout(){
     router.push('/login')

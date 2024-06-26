@@ -89,13 +89,14 @@ import { useAppSelector } from '@/lib/hooks';
       ...data,
       repair_status: data.repair_status || 'Repaired' // No change here
     };
+    console.log("forum",formData)
   
-    if (formData.repair_cost_price !== "" && formData.repair_status === "Repaired") { // Changed from != to !==
-      handlePatchFn(formData, repair_id);
+    if (formData.repair_cost_price !== "" && formData.repaired_by !== "" && formData.repair_status === "Repaired") { // Changed from != to !==
+      handlePatchFn(formData, repair_id); 
     } else if(formData.repair_cost_price === "" && formData.repair_status === "Unrepairable") {
       handleUnrepairable(repair_id);
     }
-  };
+  };  
 
   function onPost(data){
     const formdata = {...data, outside_repair: true}
@@ -181,7 +182,6 @@ import { useAppSelector } from '@/lib/hooks';
             {...register0('repaired_by')}
             onClick={(e) => e.stopPropagation()}
             className="mt-1 p-1 w-fit border rounded-md bg-gray-50 "
-            required
             defaultValue=""
           >
             <option  className='' value="" disabled>
@@ -462,9 +462,10 @@ someFunction();
 
 }, [isRepaired, isUnrepairable, isDelete])
 
+
 return (
     <>
-     <div className=" h-[460px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
+     <div className=" h-[500px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
       <DataTable isLoading={isLoading} columns={columns} data={data} />
     </div>
 

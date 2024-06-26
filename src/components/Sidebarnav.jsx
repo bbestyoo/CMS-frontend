@@ -24,9 +24,9 @@ const Navbar = () => {
 
 
   const userData = useAppSelector((state)=> state.user.value)
-  console.log("userdata in sidebar",userData)  
+  // console.log("userdata in sidebar",userData)  
   const pathname = usePathname()
-  console.log("pathname",pathname)
+  // console.log("pathname",pathname)
   return (
     <nav
     className="w-full h-full z-20  text-white bg-sky-600 group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"

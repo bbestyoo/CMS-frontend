@@ -22,14 +22,20 @@ function TablePage() {
     console.log("userData i profit",userData)
     const [Pdata, setPData ] = useState([])
     const [data, setData ] = useState([])
+    const [role, setRole ] = useState("")
+    const [id, setId ] = useState("")
+    useEffect(() => {
+        if (userData !== null) {
+            setRole(userData?.userinfo?.role);
+            setId(userData?.userinfo?.id);
+        }
+    }, [userData]); 
     const [filteredData, setFilteredData ] = useState([])
     const [adminOnlyData, setAdminOnlyData ] = useState([])
 
 
 
     const router = useRouter()
-
-
 
     const someFunction = async () => {
         try {
@@ -40,24 +46,27 @@ function TablePage() {
             // Do something with the fetched products data
             setPData(products);
             setData(products.data)
-            const admindata = products.filter((data)=>data.repaired_by === 'Admin')
-            setAdminOnlyData(admindata)
+            if(products.data.length != 0){
+                console.log("hererbro")
+                console.log("id",id)
+                const admindata = products.data.filter((data)=>data.repaired_by === id)
+                setAdminOnlyData(admindata)
+            }
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);
         }
     };
+
     const someProfitFunction = async () => {
         try {
             // Call the productsApi function to fetch data
-            console.log("asdasd")
             const today = new Date();
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const dd = String(today.getDate()).padStart(2, '0');
 
 const formatDate = `${yyyy}-${mm}-${dd}`;
-console.log("formdat",formatDate)
 const query = `start_date=${formatDate}&end_date=${formatDate}`
 
 console.log("hereeeeeeeeeeeeeeee")
@@ -73,7 +82,6 @@ console.log("hereeeeeeeeeeeeeeee")
             }
             )
             const result = await res.json()
-            console.log("asfasd",result)
             setFilteredData(result)
             return result
 
@@ -88,7 +96,7 @@ console.log("hereeeeeeeeeeeeeeee")
     useEffect(() => { 
     someFunction();
     someProfitFunction()
-    }, [])
+    }, [userData])
 
 
 
@@ -152,14 +160,14 @@ console.log("hereeeeeeeeeeeeeeee")
             <div className='my-3'>
                 <p>Profit</p>
             <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
-            {`NRS.${userData?.userinfo?.role === 'Admin' ? filteredData.total_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+            {`NRS.${role === 'Admin' ? filteredData.total_profit : role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
             </div>
             </div>
 
         </div>
         {
-            userData?.userinfo?.role === 'Admin' &&
+            role === 'Admin' &&
 
         <div className='bg-white drop-shadow-xl p-3 rounded-xl my-5 w-fit'>
 

@@ -394,6 +394,22 @@ import { FaPrint } from "react-icons/fa6";
               required
             />
           </div>
+          <div className="mb-4">
+            <label htmlFor="repair_cost_price" className="block text-sm font-medium text-black">
+              Repair Cost Price
+            </label>
+            <input
+              type="text"
+              id="repair_cost_price"
+              name="repair_cost_price"
+
+              
+              {...register('repair_cost_price',  { required: true })}
+
+              className="mt-1 p-2 w-full border rounded-md "
+              required
+            />
+          </div>
 
           <div className="mb-4">
             <label htmlFor="received_by" className="block text-sm font-medium text-black">
