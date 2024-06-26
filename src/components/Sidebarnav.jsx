@@ -8,6 +8,7 @@ import { MdAttachMoney } from "react-icons/md";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
 import { BsFillInfoCircleFill } from "react-icons/bs";
+import { FaTrash } from "react-icons/fa";
 
 const navItems = [
   { name: 'dashboard', href: '/', icon: <MdSpaceDashboard size={21}/>  },

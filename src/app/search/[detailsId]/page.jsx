@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 function Details({ params }) {
 
+
   const router = useRouter()
   console.log("params",params)
   const [details, setDetails] = useState({});
@@ -35,13 +36,17 @@ function Details({ params }) {
     getSearch();
   }, []);
 
+  function handleRoute() {
+    router.push('/')
+  }
+
   return (
     <>
       <div className='flex flex-col gap-32'>
         <div className="receipt">
           <div className="header flex gap-80 mb-10">
             <Image 
-            onClick={router.push('/')}
+            onClick={handleRoute}
             height={100}
             width={100}
             src={'/digi.jpg'}

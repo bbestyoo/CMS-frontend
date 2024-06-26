@@ -59,12 +59,12 @@ function  TablePage() {
       <TableHead className="text-right font-semibold text-black">Amount</TableHead>
     </TableRow>
   </TableHeader>
-  <TableBody>
+  <TableBody >
     {
         data && data.length > 0 ? (
         data?.map((data, i)=>(
-            <TableRow onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
-      <TableCell className="font-medium">{`${data.phone_model} by ${data.customer_name}`}</TableCell>
+            <TableRow  onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
+      <TableCell className="font-medium"><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
       <TableCell>{data.repair_problem}</TableCell>
       <TableCell >
       <p
@@ -79,7 +79,7 @@ function  TablePage() {
 </p>
 
         </TableCell>
-      <TableCell className="text-right">{data.total_amount}</TableCell>
+      <TableCell className="text-right"><p className='pr-2'>{data.total_amount}</p></TableCell>
     </TableRow>
         ))) : null
 

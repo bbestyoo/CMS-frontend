@@ -44,16 +44,17 @@ function Search({className}) {
       to: formatDate(date?.to)
     };
     
-    console.log("dateforqueryyyyyyy",formattedDate);
 
   
+  const [msg, setMsg] = useState("");
+  // const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   const [dataList, setDataList] = useState([]);
   const [isEmpty, setIsEmpty] = useState(false);
   const router = useRouter();
   const search = useSearchParams()
-  console.log("!!!!!!!!!!!!",search)
   
+  console.log("***********88",dataList)
 
 
   function handleChange(e) {
@@ -87,7 +88,14 @@ function Search({className}) {
         console.log("etered")
         const response = await getSearchProductsApi(query)
         console.log("heres the response",response)
-        response && response.length > 0 && response != 'NONE' && setDataList(response)
+        if( response && response.length > 0 && response != 'NONE'){
+
+          setDataList(response)
+        }
+        else {
+          setMsg("No repairs found")
+
+        }
         router.push('')
 
 
@@ -104,7 +112,14 @@ function Search({className}) {
         console.log("etered")
         const response = await getSearchProductsApi(q)
         console.log("heres the response",response)
-        response && response.length > 0 && response != 'NONE' && setDataList(response)
+        if( response && response.length > 0 && response != 'NONE'){
+
+          setDataList(response)
+        }
+        else {
+          setMsg("No repairs found")
+
+        }
         router.push('')
 
 
@@ -122,7 +137,14 @@ function Search({className}) {
         console.log("etered")
         const response = await getSearchProductsApi(search)
         console.log("heres the response",response)
-        response && response.length > 0 && response != 'NONE' && setDataList(response)
+        if( response && response.length > 0 && response != 'NONE'){
+
+          setDataList(response)
+        }
+        else {
+          setMsg("No repairs found")
+
+        }
 
 
     }
@@ -172,9 +194,6 @@ useEffect (()=>{
         placeholder="search your repairs"
         />
         
-
-
-    
         </form>
         <div className='flex gap-3 items-center'>
         <div className={cn("grid gap-2", className)}>
@@ -219,34 +238,36 @@ useEffect (()=>{
     </div>
         </div>
         <div className='h-[465px] overflow-y-scroll'>
-        <Table className="h-full w-5/6 bg-white drop-shadow-xl mx-auto my-3 rounded-2xl">
-  <TableCaption>A list of your recent transactions.</TableCaption>
-  <TableHeader>
-    <TableRow>
-      <TableHead className="w-fit">Customer Info</TableHead>
-      <TableHead>Problem</TableHead>
-      <TableHead>Status</TableHead>
-      <TableHead className="text-right">Amount</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    {
-        dataList && dataList.length > 0 ? (
-        dataList?.map((data, i)=>(
-            <TableRow onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
-      <TableCell className="font-medium">{`${data.phone_model} by ${data.customer_name}`}</TableCell>
-      <TableCell>{data.repair_problem}</TableCell>
-      <TableCell>{data.repair_status}</TableCell>
-      <TableCell className="text-right">{data.total_amount}</TableCell>
-    </TableRow>
-        ))) : null
 
-        
+        {
+  dataList && dataList.length > 0 && msg === "" ? (
+    <Table className="h-full w-5/6 bg-white drop-shadow-xl mx-auto my-3 rounded-2xl">
+      <TableCaption>A list of your recent transactions.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-fit">Customer Info</TableHead>
+          <TableHead>Problem</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {dataList.map((data, i) => (
+          <TableRow onClick={() => handleClick(data.repair_id)} className="" key={i}>
+            <TableCell className="font-medium"><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
+            <TableCell>{data.repair_problem}</TableCell>
+            <TableCell>{data.repair_status}</TableCell>
+            <TableCell className="text-right"><p className='pr-2'>{data.total_amount}</p></TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ) : (
+    <p>{msg}</p>
+  )
+}
 
-        
-    }
-  </TableBody>
-</Table>
+
 
         </div>
     </div>

@@ -1,11 +1,16 @@
 'use client'
 import { postProductsApi } from '@/api/GetRepairProducts'
+import { useAppSelector } from '@/lib/hooks'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 
 
   function Orders() {
+
+    const userData = useAppSelector((state)=> state.user.value)
+    console.log(userData)
+
     const router = useRouter()
     const {
       register,
@@ -27,6 +32,8 @@ import { useForm } from "react-hook-form"
     return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
   });
 
+  const [receivedBy, setReceivedBy] = useState(userData.userinfo.name)
+
     useEffect(() => {
       // Calculate the due amount
       const dueAmount = (parseFloat(totalAmount) || 0) - (parseFloat(advancePaid) || 0);
@@ -34,9 +41,6 @@ import { useForm } from "react-hook-form"
       setValue('due', dueAmount);
     }, [totalAmount, advancePaid, setValue]);
   
-
-
-    
 
  
    function onSubmit(data){
@@ -156,35 +160,6 @@ import { useForm } from "react-hook-form"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="model_number" className="block text-sm font-medium text-black">
-              Model Number
-            </label>
-            <input
-              type="text"
-              id="model_number"
-              name="model_number"
-              {...register('model_number',  { required: true })}
-
-              className="mt-1 p-2 w-full border rounded-md "
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="phone_condition" className="block text-sm font-medium text-black">
-              Phone condition
-            </label>
-            <input
-              type="text"
-              id="phone_condition"
-              name="phone_condition"
-              {...register('phone_condition',  { required: true })}
-
-              className="mt-1 p-2 w-full border rounded-md "
-              required
-            />
-          </div>
-
-          <div className="mb-4">
             <label htmlFor="sim" className="block text-sm font-medium text-black">
             </label>
             Sim 
@@ -197,10 +172,10 @@ import { useForm } from "react-hook-form"
               required
             >
               <option value="" disabled>
-                Select Sim tray
+                Select Sim 
               </option>
-              <option value="Present">Present</option>
               <option value="Absent">Absent</option> 
+              <option value="Present">Present</option>
             </select>
           </div>
           <div className="mb-4">
@@ -237,8 +212,8 @@ import { useForm } from "react-hook-form"
               <option value="" disabled>
                 Select SD card
               </option>
-              <option value="Present">Present</option>
               <option value="Absent">Absent</option>
+              <option value="Present">Present</option>
             </select>
           </div>
           <div className="mb-4">
@@ -256,8 +231,8 @@ import { useForm } from "react-hook-form"
               <option value="" disabled>
                 Select cover
               </option>
-              <option value="Present">Present</option>
               <option value="Absent">Absent</option>
+              <option value="Present">Present</option>
             </select>
           </div>
           <div className="mb-4">
@@ -345,33 +320,14 @@ import { useForm } from "react-hook-form"
               id="received_by"
               name="received_by"
               {...register('received_by',  { required: true })}
+              defaultValue={receivedBy}
+              onChange={(e) => setReceivedBy(e.target.value)}
 
               className="mt-1 p-2 w-full border rounded-md "
               required
             />
           </div>
-          {/* <div className="mb-4">
-            <label htmlFor="repair_status" className="block text-sm font-medium text-black">
-            </label>
-            Status
-            <select
-              id="repair_status"
-              name="repair_status"
-              {...register('repair_status',  { required: true })}
-
-              className="mt-1 p-2 w-full border rounded-md "
-              required
-            >
-              <option value="" disabled>
-                Select status
-              </option>
-              <option value="Not repaired">Not repaired</option>
-              <option value="Repaired">repaired</option>
-             
-            </select>
-          </div>
-         */}
-        
+  
 
           <button
             type="submit"

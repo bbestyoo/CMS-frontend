@@ -81,7 +81,7 @@ function Dashboard() {
 
          </div>
           </div>
-        <div className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div onClick={()=>router.push('/repair/out-repairs')} className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
         <div>
       <div className="flex gap-3">
         <span>

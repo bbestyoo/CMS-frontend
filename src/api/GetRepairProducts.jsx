@@ -1,5 +1,5 @@
-import { getCookie } from 'cookies-next'
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { getCookie } from 'cookies-next'
 
 
 async function productsApi(){
@@ -39,7 +39,27 @@ async function postProductsApi(data){
     return result
 
 }
+async function deleteProductsApi(data){
+    console.log("***********",data)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}repair/`,
+        {
+            method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({repair_id: data}),
+        credentials: 'include' // Use 'include' to send cookies with the request
 
+    }
+    )
+    const result = await res.json()
+    console.log("result",result)
+    return result
+
+}
 async function patchProductsApiOutRepair (formData, repair_id){
     console.log(formData)
     const {outside_name, outside_taken_date, taken_by, outside_desc, outside_repair } = formData
@@ -139,7 +159,6 @@ const result = await res.json()
 return result
    
 }
-
 async function getSearchProductsApi(searchQuery){
     console.log("hereinsideapi",searchQuery)    
     const token = getCookie('accesstoken')
@@ -158,7 +177,6 @@ async function getSearchProductsApi(searchQuery){
     return result
 
 }
-
 async function productsProfitApi(){
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -175,7 +193,6 @@ async function productsProfitApi(){
     return result
 
 }
-
 async function userInfo(){
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -192,7 +209,6 @@ async function userInfo(){
     return result
 
 }
-
 async function editProductDetails (formData){
     console.log(formData)
     const token = getCookie('accesstoken')
@@ -219,6 +235,7 @@ return result
 export  {
     productsApi,
     postProductsApi,
+    deleteProductsApi,
     patchProductsApiRepaired,
     patchProductsApiCompleted,
     patchProductsApiUnrepairable,

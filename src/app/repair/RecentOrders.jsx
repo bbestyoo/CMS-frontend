@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
+import { deleteProductsApi, patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
 import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -25,10 +25,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation';
+import { FaTrash } from "react-icons/fa";
+import { useAppSelector } from '@/lib/hooks';
 
 
 
- const RepairForm  = ({row, handlePatchFn, handleUnrepairable}) => {
+ const RepairForm  = ({row, handlePatchFn, handleUnrepairable, handleDelete}) => {
+
+  const userData = useAppSelector((state)=> state.user.value)
 
   const router = useRouter()
 
@@ -106,9 +110,9 @@ import { useRouter } from 'next/navigation';
   return ( 
     <>
 
-    <div className="flex  items-center pr-4">
+    <div className="flex gap-2  items-center ">
       <form
-        className="flex ml-4 mr-2 gap-4 items-center w-full max-w-xl"
+        className="flex ml-4 gap-4 items-center w-full max-w-xl"
         onSubmit={handleSubmit0(onSubmit)}
       >
         <div className='w-fit '>
@@ -136,7 +140,7 @@ import { useRouter } from 'next/navigation';
             name="repair_cost_price"
             {...register0('cost_price_description')}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1 text-black-600 p-2 w-full border rounded-md"
+            className="mt-1 text-black-600 p-1 w-full border rounded-md"
           />
         </div>
         <div className="flex flex-col w-2/5">
@@ -144,7 +148,7 @@ import { useRouter } from 'next/navigation';
             htmlFor="repair_cost_price"
             className="block text-sm font-medium text-black capitalize"
           >
-            Repair Cost
+            Cost
           </label>
           <input
             type="text"
@@ -152,7 +156,7 @@ import { useRouter } from 'next/navigation';
             name="repair_cost_price"
             {...register0('repair_cost_price')}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1 text-black-600 p-2 w-full border rounded-md"
+            className="mt-1 text-black-600 p-1 w-full border rounded-md"
           />
         </div>
         <div className="flex flex-col">
@@ -164,11 +168,11 @@ import { useRouter } from 'next/navigation';
             name="repaired_by"
             {...register0('repaired_by')}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1 p-2 w-fit border rounded-md"
+            className="mt-1 p-1 w-fit border rounded-md bg-gray-50 "
             required
             defaultValue=""
           >
-            <option value="" disabled>
+            <option  className='' value="" disabled>
               Select Tech
             </option> 
            
@@ -181,7 +185,7 @@ import { useRouter } from 'next/navigation';
         </div>
         <button
           
-          className="bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl p-1"
+          className="bg-indigo-500 hover:bg-indigo-700 text-white text-[10px] rounded-full font-bold py-1 px-[0.35rem]"
           type="submit"
         >
           OK
@@ -190,7 +194,7 @@ import { useRouter } from 'next/navigation';
       <div >
       <Dialog >
   <DialogTrigger >
-    <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl '><IoIosLogOut size={20}/></button></DialogTrigger>
+    <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl '><IoIosLogOut size={18}/></button></DialogTrigger>
   <DialogContent>
     <DialogHeader>
       <DialogTitle>Outside repair form</DialogTitle>
@@ -264,6 +268,13 @@ import { useRouter } from 'next/navigation';
   </DialogContent>
 </Dialog>
 </div>
+{
+
+  userData?.userinfo.role === 'Admin' &&
+<div onClick={()=>handleDelete(repair_id)}>
+<FaTrash className='' size={18}/>
+</div>
+}
       
     </div>
       </>                                                                                                     
@@ -277,23 +288,22 @@ export default function RecentOrders() {
 
 
   const router = useRouter()
+
   function handleRowClick (rowData){
-    console.log('Clicked row:', rowData);
     const repairId = rowData.original.repair_id
     router.push(`/repair/productDetails/${repairId}`)
 }
   
-
  
   const [isLoading, setIsLoading] = useState(true)
 
   // localStorage.clear();
-  console.log("here")
   
   const [data, setData] = useState([])
   const [isRepaired, setIsRepaired] = useState(false)
   // const [isCompleted, setIsCompleted] = useState(false)
   const [isUnrepairable, setIsUnrepairable] = useState(false)
+  const [isDelete, setIsDelete] = useState(false)
 
   const columns = [
     {
@@ -317,7 +327,7 @@ export default function RecentOrders() {
  
   {
     accessorKey: "due",
-    header: () => <div className="text-right">Due Amount</div>,
+    header: () => <div className="text-right">Due Amt</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("due"))
 
@@ -341,6 +351,7 @@ export default function RecentOrders() {
       <RepairForm row={row} 
       handlePatchFn={handlePatchFn}
           handleUnrepairable={handleUnrepairable}
+          handleDelete= {handleDelete}
       />
     )
    
@@ -356,15 +367,9 @@ export default function RecentOrders() {
 ]
 
 
-
-
 const handlePatchFn = async (formData, repair_id) => {
 
-  
-  console.log("entereddddddddddddddd")
 
-  console.log("tfisgoingon",formData)
-  console.log("*******",repair_id)
       try {
         // Perform your PATCH request here
         const response = await patchProductsApiRepaired(formData, repair_id)
@@ -378,13 +383,26 @@ const handlePatchFn = async (formData, repair_id) => {
       }
       
 }
+
+const handleDelete = async (repair_id) => {
+
+  try {
+    // Perform your PATCH request here
+    const response = await deleteProductsApi(repair_id)
+    const result = await response
+    console.log("deleted", result)   
+    setIsDelete(true)     
+
+  } 
+  catch (error) {
+    console.error('Error updating data:', error);
+  }
+
+}
 const handleUnrepairable = async (repairId) => {
-  console.log("here")
 
       try {
         // Perform your PATCH request here
-        console.log("here agian")
-        console.log("******8",repairId)
         const response = await patchProductsApiUnrepairable(repairId)
         const result = await response
         console.log("patched", result)   
@@ -396,37 +414,15 @@ const handleUnrepairable = async (repairId) => {
       }
       
 }
-// const handleCompleted = async (repairId, amountPaid) => {
-//   console.log("here")
-
-//       try {
-//         // Perform your PATCH request here
-//         console.log("here agian")
-//         console.log("******8",repairId)
-//         const response = await patchProductsApiCompleted(repairId, amountPaid)
-//         const result = await response
-//         console.log("patched", result)   
-//         setIsCompleted(true)     
-
-//       } 
-//       catch (error) {
-//         console.error('Error updating data:', error);
-//       }
-      
-// }
 
   const someFunction = async () => {
     try {
         // Call the productsApi function to fetch data
-        console.log("asdasd")
         const products = await productsApi();
         
         // Do something with the fetched products data
-        console.log("here", products);
         const filteredProducts = products.filter((product) => product.repair_status === "Not repaired");
-        console.log("filtered", filteredProducts);
         setData(filteredProducts);
-        console.log("datatoshov",filteredProducts)
         setIsLoading(false)
     } catch (error) {
         // Handle errors if any
@@ -437,11 +433,11 @@ const handleUnrepairable = async (repairId) => {
 useEffect(() => { 
 someFunction();
 
-}, [isRepaired, isUnrepairable])
+}, [isRepaired, isUnrepairable, isDelete])
 
 return (
     <>
-     <div className=" h-[460px] container drop-shadow-xl mx-auto py-10 bg-white text-black rounded-xl">
+     <div className=" h-[460px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
       <DataTable isLoading={isLoading} columns={columns} data={data} />
     </div>
 

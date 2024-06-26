@@ -77,14 +77,7 @@ export function   DataTable({ columns, data, isLoading }) {
     <div className="w-full mx-auto h-full overflow-y-scroll">
       
       <div className=" bg-white text-black-500 flex items-center justify-between py-4">
-        {/* <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue()) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        /> */}
+        
 
         <div  className=' w-full flex justify-end'>
           <section className='w-fit text-md flex items-center gap-1' onClick={handleClickRoute}>

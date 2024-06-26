@@ -1,11 +1,17 @@
 "use client"
-import { patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts";
+import { deleteProductsApi, patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts";
 import { DataTable } from "../data-table";
 import { useEffect, useState  } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { FaTrash } from "react-icons/fa";
+import { useAppSelector } from "@/lib/hooks";
+
 
 export default  function DemoPage() {
+  const userData = useAppSelector((state)=> state.user.value)
+  const [isDelete, setIsDelete] = useState(false)
+
 
   const router = useRouter()
 
@@ -20,9 +26,9 @@ export default  function DemoPage() {
 
 
   const AmountPaidCell = ({ value, row, table }) => {
-    const [amountPaid, setAmountPaid] = useState(value || 0);
+    const [amountPaid, setAmountPaid] = useState(value);
     const handleInputChange = (e) => {
-      const newValue = parseFloat(e.target.value) || 0;
+      const newValue = parseFloat(e.target.value);
       setAmountPaid(newValue);
       // Update the row data with the new value
       const rowIndex = row.index;
@@ -31,19 +37,31 @@ export default  function DemoPage() {
     };
 
     return (
-      <div className="text-right font-medium flex justify-end gap-4">
+      <>
+      
+      <div className="text-right font-medium flex justify-end gap-4 items-center">
         <input
           type="number"
           value={amountPaid}
           onChange={handleInputChange}
           onClick={(e) => e.stopPropagation()}
+          placeholder="0"
 
-          className="text-right"
+          className="text-right p-1 border bg-gray-50 placeholder:text-black"
           style={{ width: "100px" }}
         />
-        <Button               
+        <Button         
 onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
+      {
+userData?.userinfo.role === 'Admin' &&
+<div onClick={()=>handleDelete(repair_id)}>
+<FaTrash className='' size={18}/>
+</div>
+}
       </div>
+     
+   
+      </>
     );
   }
   
@@ -127,6 +145,22 @@ const handleCompleted = async (repairId,amountPaid, e) => {
   
 }
 
+const handleDelete = async (repair_id) => {
+
+  try {
+    // Perform your PATCH request here
+    const response = await deleteProductsApi(repair_id)
+    const result = await response
+    console.log("deleted", result)   
+    setIsDelete(true)     
+
+  } 
+  catch (error) {
+    console.error('Error updating data:', error);
+  }
+
+}
+
   const someFunction = async () => {
 
   try{
@@ -144,7 +178,7 @@ const handleCompleted = async (repairId,amountPaid, e) => {
 useEffect(() => { 
 someFunction();
 
-}, [isCompleted]); 
+}, [isCompleted, isDelete]); 
 
   return (
     <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 py-10">

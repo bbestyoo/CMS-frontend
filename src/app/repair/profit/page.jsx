@@ -95,38 +95,36 @@ console.log("hereeeeeeeeeeeeeeee")
   return (
     <>
     <div className='h-full overflow-y-scroll bg-main rounded-xl mx-1'>
-        <div className='flex gap-3 w-fit '>
+        <div className='flex gap-2 w-fit '>
 
-        <div className='bg-white drop-shadow-xl px-5 py-3 rounded-xl mx-5 my-5 w-fit'>
+        <div className='bg-white drop-shadow-xl px-5 py-3 rounded-xl ml-5 my-5 w-fit'>
             <h1 className='text-left  text-2xl font-medium'>This Month&apos;s Summary</h1>
-            <div className='grid grid-flow-col auto-cols-auto gap-20'>
+            <div className='grid grid-flow-col auto-cols-auto gap-6'>
                 <div className='my-3 '>
-                    <h3>Total Transactions</h3>
-                    <p className='font-bold text-2xl'>{`${Pdata?.data?.length}`}</p>
+                    <h3 className='text-sm'>Total Transactions</h3>
+                    <p className='font-semibold 2xl:font-bold text-lg  2xl:text-2xl'>{`${Pdata?.data?.length}`}</p>
 
                 </div>
                 {
                     userData?.userinfo?.role === 'Admin' &&
                 <div className='my-3 '>
-                    <h3>Total Profit</h3>
-                    <p className='font-bold text-2xl'>{`NRS.${Pdata?.total_profit}`}</p>
+                    <h3 className='text-sm'>Total Profit</h3>
+                    <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.total_profit}`}</p>
 
                 </div>
                 }
-                {/* {
-                    userData?.userinfo?.role === admin && (
-                        <div className='my-3 '>
-                    <h3>My Profit</h3>
-                    <p className='font-bold text-2xl'>{`NRS.${data?.my_profit}`}</p>
+                {
+                    userData?.userinfo?.role === 'Admin' &&
+                <div className='my-3 '>
+                    <h3 className='text-sm'>My Profit</h3>
+                    <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.my_profit}`}</p>
 
                 </div>
-
-                    )
                 }
-                 */}
+               
                  <div className='my-3 '>
-                    <h3>Technician&apos;s Profit</h3>
-                    <p className='font-bold text-2xl'>{`NRS.${Pdata?.technician_profit}`}</p>
+                    <h3 className='text-sm'>Technician&apos;s Profit</h3>
+                    <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.technician_profit}`}</p>
 
                 </div>
             </div>
@@ -136,18 +134,41 @@ console.log("hereeeeeeeeeeeeeeee")
             <p className='text-left  text-2xl font-medium'>
             Todays Profit
             </p>
-            <div className='flex gap-10'>
+            <div className='flex gap-6'>
 
             <div className='my-3'>
                 <p>Transactions</p>
-            <p className='font-bold text-2xl'>
+            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
             {`${filteredData?.data?.length}`}
             </p>
 
             </div>
             <div className='my-3'>
                 <p>Profit</p>
-            <p className='font-bold text-2xl'>
+            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
+            {`NRS.${userData?.userinfo?.role === 'Admin' ? filteredData.total_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+
+            </div>
+            </div>
+
+        </div>
+        <div className='bg-white drop-shadow-xl p-3 rounded-xl my-5 w-fit'>
+
+            <p className='text-left  text-2xl font-medium'>
+            Personal Profit
+            </p>    
+            <div className='flex gap-6'>
+
+            <div className='my-3'>
+                <p>Transactions</p>
+            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
+            {`${filteredData?.data?.length}`}
+            </p>
+
+            </div>
+            <div className='my-3'>
+                <p>Profit</p>
+            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
             {`NRS.${userData?.userinfo?.role === 'Admin' ? filteredData.total_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
             </div>
