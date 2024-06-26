@@ -41,23 +41,23 @@ async function postProductsApi(data){
 }
 async function deleteProductsApi(data){
     console.log("***********",data)
-    const token = getCookie('accesstoken')
-    const res = await fetch (
-        `${baseURL}repair/`,
-        {
-            method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({repair_id: data}),
-        credentials: 'include' // Use 'include' to send cookies with the request
+    // const token = getCookie('accesstoken')
+    // const res = await fetch (
+    //     `${baseURL}repair/`,
+    //     {
+    //         method: 'DELETE',
+    //     headers: {
+    //         'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({repair_id: data}),
+    //     credentials: 'include' // Use 'include' to send cookies with the request
 
-    }
-    )
-    const result = await res.json()
-    console.log("result",result)
-    return result
+    // }
+    // )
+    // const result = await res.json()
+    // console.log("result",result)
+    // return result
 
 }
 async function patchProductsApiOutRepair (formData, repair_id){
