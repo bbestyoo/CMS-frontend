@@ -270,7 +270,7 @@ import { useAppSelector } from '@/lib/hooks';
 </div>
 {
 
-  userData?.userinfo.role === 'Admin' &&
+  userData?.userinfo?.role === 'Admin' &&
 <div onClick={()=>handleDelete(repair_id)}>
 <FaTrash className='' size={18}/>
 </div>

@@ -32,7 +32,7 @@ import { useForm } from "react-hook-form"
     return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
   });
 
-  const [receivedBy, setReceivedBy] = useState(userData.userinfo.name)
+  const [receivedBy, setReceivedBy] = useState(userData?.userinfo?.name)
 
     useEffect(() => {
       // Calculate the due amount

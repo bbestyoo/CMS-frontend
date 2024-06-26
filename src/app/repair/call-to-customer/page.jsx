@@ -53,7 +53,7 @@ export default  function DemoPage() {
         <Button         
 onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
       {
-userData?.userinfo.role === 'Admin' &&
+userData?.userinfo?.role === 'Admin' &&
 <div onClick={()=>handleDelete(row.original.repair_id)}>
 <FaTrash className='' size={18}/>
 </div>
