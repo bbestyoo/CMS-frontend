@@ -19,10 +19,11 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 function TablePage() {
 
     const userData = useAppSelector((state)=>state.user.value)
+    console.log("userData i profit",userData)
     const [Pdata, setPData ] = useState([])
     const [data, setData ] = useState([])
     const [filteredData, setFilteredData ] = useState([])
-
+    const [adminOnlyData, setAdminOnlyData ] = useState([])
 
 
 
@@ -34,10 +35,13 @@ function TablePage() {
         try {
             // Call the productsApi function to fetch data
             const products = await productsProfitApi();
+            console.log("((((first))))",products)
             
             // Do something with the fetched products data
             setPData(products);
             setData(products.data)
+            const admindata = products.filter((data)=>data.repaired_by === 'Admin')
+            setAdminOnlyData(admindata)
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);
@@ -52,7 +56,8 @@ function TablePage() {
             const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const dd = String(today.getDate()).padStart(2, '0');
 
-const formatDate = `${yyyy}${mm}${dd}`;
+const formatDate = `${yyyy}-${mm}-${dd}`;
+console.log("formdat",formatDate)
 const query = `start_date=${formatDate}&end_date=${formatDate}`
 
 console.log("hereeeeeeeeeeeeeeee")
@@ -68,6 +73,7 @@ console.log("hereeeeeeeeeeeeeeee")
             }
             )
             const result = await res.json()
+            console.log("asfasd",result)
             setFilteredData(result)
             return result
 
@@ -101,14 +107,14 @@ console.log("hereeeeeeeeeeeeeeee")
             <h1 className='text-left  text-2xl font-medium'>This Month&apos;s Summary</h1>
             <div className='grid grid-flow-col auto-cols-auto gap-6'>
                 <div className='my-3 '>
-                    <h3 className='text-sm'>Total Transactions</h3>
+                    <h3 className='text-sm'>Total <br /> Transactions</h3>
                     <p className='font-semibold 2xl:font-bold text-lg  2xl:text-2xl'>{`${Pdata?.data?.length}`}</p>
 
                 </div>
                 {
                     userData?.userinfo?.role === 'Admin' &&
                 <div className='my-3 '>
-                    <h3 className='text-sm'>Total Profit</h3>
+                    <h3 className='text-sm'>Total <br /> Profit</h3>
                     <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.total_profit}`}</p>
 
                 </div>
@@ -116,14 +122,14 @@ console.log("hereeeeeeeeeeeeeeee")
                 {
                     userData?.userinfo?.role === 'Admin' &&
                 <div className='my-3 '>
-                    <h3 className='text-sm'>My Profit</h3>
+                    <h3 className='text-sm'>My <br /> Profit</h3>
                     <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.my_profit}`}</p>
 
                 </div>
                 }
                
                  <div className='my-3 '>
-                    <h3 className='text-sm'>Technician&apos;s Profit</h3>
+                    <h3 className='text-sm'>Technician&apos;s <br /> Profit</h3>
                     <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata?.technician_profit}`}</p>
 
                 </div>
@@ -152,29 +158,33 @@ console.log("hereeeeeeeeeeeeeeee")
             </div>
 
         </div>
+        {
+            userData?.userinfo?.role === 'Admin' &&
+
         <div className='bg-white drop-shadow-xl p-3 rounded-xl my-5 w-fit'>
 
             <p className='text-left  text-2xl font-medium'>
             Personal Profit
             </p>    
-            <div className='flex gap-6'>
+            <div className='flex gap-6'>    
 
             <div className='my-3'>
                 <p>Transactions</p>
             <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
-            {`${filteredData?.data?.length}`}
+            {`${adminOnlyData?.length}`}
             </p>
 
             </div>
             <div className='my-3'>
                 <p>Profit</p>
-            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>
-            {`NRS.${userData?.userinfo?.role === 'Admin' ? filteredData.total_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+            <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`NRS.${Pdata.admin_only_profit}`}
+            </p>
 
             </div>
             </div>
 
         </div>
+        }
         </div>
         <h3 className='text-center my-5'>My transactions Profits</h3>
 

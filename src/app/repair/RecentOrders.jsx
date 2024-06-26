@@ -5,6 +5,18 @@ import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 import {
   DropdownMenu,
@@ -271,9 +283,24 @@ import { useAppSelector } from '@/lib/hooks';
 {
 
   userData?.userinfo?.role === 'Admin' &&
-<div onClick={()=>handleDelete(repair_id)}>
-<FaTrash className='' size={18}/>
-</div>
+<AlertDialog>
+  <AlertDialogTrigger><FaTrash className='' size={18}/>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete this data
+        and remove this data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction onClick={()=>handleDelete(repair_id)}>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
 }
       
     </div>
