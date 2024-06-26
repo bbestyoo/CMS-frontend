@@ -24,8 +24,8 @@ function Header() {
   console.log("userdata in headerrrrrrrr",userData)  
 
   function handleLogout(){
+    router.push('/login')
     dispatch(logoutUser())
-    router.push('/')
 
   }
 
