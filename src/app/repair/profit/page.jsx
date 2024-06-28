@@ -137,7 +137,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
                 }
                
                  <div className='my-5'>
-                    <h3 className='text-sm font-bold'>Tech's <br /> Profit</h3>
+                    <h3 className='text-sm font-bold'>Tech&apos;s <br /> Profit</h3>
                     <p className='font-bold'>{`RS.${Pdata?.technician_profit}`}</p>
 
                 </div>
@@ -181,7 +181,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
 
             </div>
             <div className='my-5'>
-            <h3 className='text-sm font-bold'>Tech's<br/>Profit</h3>
+            <h3 className='text-sm font-bold'>Tech&apos;s<br/>Profit</h3>
             <p className='font-bold'>
             {`RS.${userData?.userinfo?.role === 'Admin' ?filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
@@ -229,7 +229,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
       <TableHead className="w-1/5">Repair Info</TableHead>
       <TableHead className="w-1/5">Total Profit</TableHead>
       {userData?.userinfo?.role === 'Admin' && <TableHead className="w-1/5">My Profit</TableHead>}
-      <TableHead className="w-1/5">Tech's Profit</TableHead>
+      <TableHead className="w-1/5">Tech&apos;s Profit</TableHead>
       <TableHead className="w-1/5">Admin Only Profit</TableHead>
     </TableRow>
   </TableHeader>
