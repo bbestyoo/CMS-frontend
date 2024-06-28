@@ -41,9 +41,11 @@ function ProductDetails() {
     'customer_phone_number',
     'phone_model',
     'repair_problem',
-    'amount_paid',
-    'due',
     'total_amount',
+    'advance_paid',
+    'due',
+    'amount_paid',
+    'repair_cost'
   ];
 
   const allDetailsOrder = [
@@ -73,6 +75,7 @@ function ProductDetails() {
     'repair_profit',
     'technician_profit',
     'my_profit',
+    'admin_only_profit',
     'outside_name',
     'outside_desc',
     'taken_by',

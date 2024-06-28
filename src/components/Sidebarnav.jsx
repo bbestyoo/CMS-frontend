@@ -15,8 +15,6 @@ const navItems = [
   { name: 'repair', href: '/repair', icon: <HiMiniWrenchScrewdriver size={21}/> },
   { name: 'search', href: '/repair/search', icon: <FaSearch size={21}/> },
   { name: 'profit', href: '/repair/profit', icon: <MdAttachMoney size={21}/> },
-  { name: 'Charts', href: '/charts', icon: <IoStatsChartSharp size={21}/>  },
-  { name: 'About us', href: '/aboutus', icon: <BsFillInfoCircleFill size={21} /> },
 ];
 
 
@@ -40,7 +38,7 @@ const Navbar = () => {
 <div className="text-center my-5">
   <span className="">
 
-    <p className="text-2xl font-semibold mb-1 text-white capitalize">welcome</p>
+    <p className="text-2xl font-semibold mb-1 text-white capitalize font-serif">welcome</p>
     <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
   </span>
     <p className="text-white">{userData? userData?.userDetails?.enterprise || userData?.userinfo?.enterprise : "Owner name"}</p>
