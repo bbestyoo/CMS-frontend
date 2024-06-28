@@ -22,6 +22,14 @@ function TablePage() {
     console.log("userData i profit",userData)
     const [Pdata, setPData ] = useState([])
     const [data, setData ] = useState([])
+    const [role, setRole ] = useState("")
+    const [id, setId ] = useState("")
+    // useEffect(() => {
+    //     if (userData !== null) {
+    //         setRole(userData?.userinfo?.role);
+    //         setId(userData?.userinfo?.id);
+    //     }
+    // }, [userData]); 
     const [filteredData, setFilteredData ] = useState([])
     const [adminOnlyData, setAdminOnlyData ] = useState([])
     const [chosenData, setChosenData] = useState([])
@@ -29,8 +37,6 @@ function TablePage() {
 
 
     const router = useRouter()
-
-
 
     const someFunction = async () => {
         try {
@@ -47,17 +53,16 @@ function TablePage() {
             console.error('Error fetching products:', error);
         }
     };
+
     const someProfitFunction = async () => {
         try {
             // Call the productsApi function to fetch data
-            console.log("asdasd")
             const today = new Date();
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const dd = String(today.getDate()).padStart(2, '0');
 
 const formatDate = `${yyyy}-${mm}-${dd}`;
-console.log("formdat",formatDate)
 const query = `start_date=${formatDate}&end_date=${formatDate}`
 
 console.log("hereeeeeeeeeeeeeeee",query)
@@ -73,7 +78,6 @@ console.log("hereeeeeeeeeeeeeeee",query)
             }
             )
             const result = await res.json()
-            console.log("asfasd",result)
             setFilteredData(result)
             const admindata = result.data.filter((data)=>data.admin_only_profit !== null)
             console.log("askjdnksa dksa dsk sakds ak j",admindata)
@@ -91,7 +95,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
     useEffect(() => { 
     someFunction();
     someProfitFunction()
-    }, [])
+    }, [userData])
 
 
 

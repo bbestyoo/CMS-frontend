@@ -6,6 +6,17 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { FaTrash } from "react-icons/fa";
 import { useAppSelector } from "@/lib/hooks";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 export default  function DemoPage() {
@@ -52,11 +63,27 @@ export default  function DemoPage() {
         />
         <Button         
 onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
-      {
+     {
+
 userData?.userinfo?.role === 'Admin' &&
-<div onClick={()=>handleDelete(row.original.repair_id)}>
-<FaTrash className='' size={18}/>
-</div>
+<AlertDialog>
+<AlertDialogTrigger><FaTrash className='' size={18}/>
+</AlertDialogTrigger>
+<AlertDialogContent>
+  <AlertDialogHeader>
+    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+    <AlertDialogDescription>
+      This action cannot be undone. This will permanently delete this data
+      and remove this data from our servers.
+    </AlertDialogDescription>
+  </AlertDialogHeader>
+  <AlertDialogFooter>
+    <AlertDialogCancel>Cancel</AlertDialogCancel>
+    <AlertDialogAction onClick={()=>handleDelete(repair_id)}>Continue</AlertDialogAction>
+  </AlertDialogFooter>
+</AlertDialogContent>
+</AlertDialog>
+
 }
       </div>
      

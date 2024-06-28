@@ -42,7 +42,7 @@ function Details({ params }) {
 
   return (
     <>
-      <div  className='flex flex-col gap-36'>
+      <div  className='flex flex-col gap-28'>
         <div className="receipt">
           <div className="header flex gap-80 mb-10">
             <Image 
