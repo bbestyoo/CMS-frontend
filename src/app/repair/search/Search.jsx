@@ -72,7 +72,7 @@ function Search({ className }) {
   }
 
   function handleClick(repair_id) {
-    router.push(`/search/${repair_id}`);
+    router.push(`/repair/productDetails/${repair_id}`);
   }
 
   function formatDate(date) {
