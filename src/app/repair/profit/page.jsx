@@ -199,17 +199,17 @@ console.log("hereeeeeeeeeeeeeeee",query)
             <p className='text-left  text-2xl font-bold text-center text-gray-500'>
             Personal Profit
             </p>    
-            <div className='flex gap-6'>    
+            <div className='flex gap-6 justify-between'>    
 
             <div className='my-5'>
-                <h3 className='text-sm font-bold'>Transactions</h3>
+                <h3 className='text-sm font-bold'>Total<br/>No.</h3>
             <p className='font-bold'>
             {`${adminOnlyData?.length}`}
             </p>
 
             </div>
             <div className='my-5'>
-            <h3 className='text-sm font-bold'>Transactions</h3>
+            <h3 className='text-sm font-bold'>Personal <br/> Profit</h3>
             <p className='font-bold'>{`RS.${filteredData.admin_only_profit}`}
             </p>
 
