@@ -165,8 +165,7 @@ const result = await res.json()
 return result
    
 }
-async function getSearchProductsApi(searchQuery){
-    console.log("hereinsideapi",searchQuery)    
+async function getSearchProductsApi(searchQuery){   
     const token = getCookie('accesstoken')
     const res = await fetch (
         `${baseURL}repair/search?${searchQuery}`,
@@ -179,7 +178,6 @@ async function getSearchProductsApi(searchQuery){
     }
     )
     const result = await res.json()
-    console.log("resultttttt",result)
     return result
 
 }
