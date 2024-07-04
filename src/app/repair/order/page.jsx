@@ -54,10 +54,8 @@ import { useForm } from "react-hook-form"
        try{
          
          const res = await postProductsApi(data)
-         console.log("asdasd",res)
-         
           console.log("reached here")
-          router.push("/")
+          router.push(`/search/${res.repair_id}`)
          
       }
       catch(err){

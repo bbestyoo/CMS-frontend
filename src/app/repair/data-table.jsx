@@ -35,7 +35,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 
 
-export function   DataTable({ columns, data, isLoading }) {
+export function DataTable({ columns, data, isLoading }) {
 
      
   const router = useRouter()
