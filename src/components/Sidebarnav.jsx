@@ -7,14 +7,18 @@ import { FaSearch } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
+import { TbTransactionDollar } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
+import { FaWallet } from "react-icons/fa";
 
 const navItems = [
   { name: 'dashboard', href: '/', icon: <MdSpaceDashboard size={21}/>  },
   { name: 'repair', href: '/repair', icon: <HiMiniWrenchScrewdriver size={21}/> },
   { name: 'search', href: '/repair/search', icon: <FaSearch size={21}/> },
   { name: 'profit', href: '/repair/profit', icon: <MdAttachMoney size={21}/> },
+  { name: 'transactions', href: '/transactions', icon: <TbTransactionDollar size={21}/> },
+  { name: 'wallet', href: '/wallet', icon: <FaWallet size={21}/> },
 ];
 
 
