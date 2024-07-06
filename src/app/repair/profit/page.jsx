@@ -13,11 +13,25 @@ import { productsProfitApi } from '@/api/GetRepairProducts';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { getCookie } from 'cookies-next';
+import { cn } from "@/lib/utils"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 
 function TablePage() {
 
+    const [date, setDate] = React.useState({
+        from: startOfCurrentMonth,
+        to: startOfNextMonth,
+      });
     const userData = useAppSelector((state)=>state.user.value)
     console.log("userData i profit",userData)
     const [Pdata, setPData ] = useState([])
@@ -52,6 +66,7 @@ function TablePage() {
                 const admindata = products.data.filter((data)=>data.repaired_by === id)
                 setAdminOnlyData(admindata)
             }
+
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);
@@ -194,7 +209,46 @@ console.log("hereeeeeeeeeeeeeeee")
         </div>
         }
         </div>
+        <div className='flex justify-between'>
+
         <h3 className='text-center my-5'>My transactions Profits</h3>
+        <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-[300px] justify-start text-left font-normal bg-black-300",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+        </div>
 
 
     <Table  className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 py-10" > 

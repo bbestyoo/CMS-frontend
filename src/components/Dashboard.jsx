@@ -46,7 +46,7 @@ function Dashboard() {
 
     <div className='flex justify-between mb-5'>
        
-        <div  onClick={()=>router.push('/repair/')} className='z-40 drop-shadow-2xl  group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div  onClick={()=>router.push('/repair/')} className='z-40 drop-shadow-2xl  group border-l-4 border-l-indigo-900  bg-white flex gap-3  px-3 xl:py-5 xl:px-6  pr- items-center shadow-md w-fit text-center  rounded-md'>
         <div>
       <div className="flex gap-3">
         <span>
@@ -59,11 +59,11 @@ function Dashboard() {
       </div>
     </div>
          <div className='group-hover:scale-110'>
-          <FcLineChart  size={50}/>
+          <FcLineChart className='size-[35px] xl:size-[50px]' />
 
          </div>
           </div>
-        <div onClick={()=>router.push('/repair/unrepairable-repairs')} className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md '>
+        <div onClick={()=>router.push('/repair/unrepairable-repairs')} className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 px-3 py-1 xl:py-5 xl:px-6 pr- items-center shadow-md w-fit text-center  rounded-md '>
         <div>
       <div className="flex gap-3">
         <span>
@@ -81,7 +81,7 @@ function Dashboard() {
 
          </div>
           </div>
-        <div onClick={()=>router.push('/repair/out-repairs')} className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 py-5 px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
+        <div onClick={()=>router.push('/repair/out-repairs')} className='drop-shadow-2xl group border-l-4 border-l-indigo-900  bg-white flex gap-3 px-3 py-1 xl:py-5 xl:px-6 pr- items-center shadow-md w-fit text-center  rounded-md'>
         <div>
       <div className="flex gap-3">
         <span>

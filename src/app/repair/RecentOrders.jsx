@@ -313,6 +313,8 @@ import { useAppSelector } from '@/lib/hooks';
 
 export default function RecentOrders() {
 
+  console.log("logged")
+
 
   const router = useRouter()
 
@@ -328,7 +330,6 @@ export default function RecentOrders() {
   
   const [data, setData] = useState([])
   const [isRepaired, setIsRepaired] = useState(false)
-  // const [isCompleted, setIsCompleted] = useState(false)
   const [isUnrepairable, setIsUnrepairable] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
 
@@ -386,10 +387,6 @@ export default function RecentOrders() {
   enableSorting: false,
   enableHiding: false,
 }
-
- 
-  
-  
   
 ]
 
@@ -458,6 +455,7 @@ const handleUnrepairable = async (repairId) => {
 };
 
 useEffect(() => { 
+  console.log("useeffect called")
 someFunction();
 
 }, [isRepaired, isUnrepairable, isDelete])

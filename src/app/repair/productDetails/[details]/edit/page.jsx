@@ -92,10 +92,7 @@ import { FaPrint } from "react-icons/fa6";
         console.log("error",err)
       }
     }
-
     products()
-
-
   }
 
 
@@ -178,7 +175,6 @@ import { FaPrint } from "react-icons/fa6";
               id="repair_description"
               name="repair_description"
               {...register('repair_description',  { required: true })}
-
               className="mt-1 p-2 w-full border rounded-md "
               rows="2"
             ></textarea>
