@@ -79,7 +79,7 @@ userData?.userinfo?.role === 'Admin' &&
   </AlertDialogHeader>
   <AlertDialogFooter>
     <AlertDialogCancel>Cancel</AlertDialogCancel>
-    <AlertDialogAction onClick={()=>handleDelete(repair_id)}>Continue</AlertDialogAction>
+    <AlertDialogAction onClick={()=>handleDelete(row.original.repair_id)}>Continue</AlertDialogAction>
   </AlertDialogFooter>
 </AlertDialogContent>
 </AlertDialog>

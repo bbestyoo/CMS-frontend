@@ -165,8 +165,7 @@ const result = await res.json()
 return result
    
 }
-async function getSearchProductsApi(searchQuery){
-    console.log("hereinsideapi",searchQuery)    
+async function getSearchProductsApi(searchQuery){   
     const token = getCookie('accesstoken')
     const res = await fetch (
         `${baseURL}repair/search?${searchQuery}`,
@@ -179,7 +178,6 @@ async function getSearchProductsApi(searchQuery){
     }
     )
     const result = await res.json()
-    console.log("resultttttt",result)
     return result
 
 }
@@ -212,6 +210,7 @@ async function userInfo(){
     }
     )
     const result = await res.json()
+    console.log(result)
     return result
 
 }
@@ -238,6 +237,62 @@ return result
 }
 
 
+async function transactionsApi(){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/`,
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+        },
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    const result = await res.json()
+    return result
+
+}
+async function postTransactionsApi(data){
+    console.log("***********",data)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/`,
+        {
+            method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    console.log(res)
+    return res
+
+}
+
+async function getSearchTransactionsApi(searchQuery){   
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/search?${searchQuery}`,
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+        },
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    const result = await res.json()
+    return result
+
+}
+
+
+
 export  {
     productsApi,
     postProductsApi,
@@ -250,6 +305,9 @@ export  {
     userInfo,
     editProductDetails,
     patchProductsApiOutRepair,
-
+    transactionsApi,
+    postTransactionsApi,
+    getSearchTransactionsApi
 
 }
+

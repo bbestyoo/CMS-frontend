@@ -59,14 +59,10 @@ import { useAppSelector } from '@/lib/hooks';
   const getTechInfo =  async () => {
     const response = await userInfo()
     setRoles(response)
-
-
   }
-
 
   useEffect(()=>{
     getTechInfo()
-
   },[])
 
   const handlePopup = (e) => {

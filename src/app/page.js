@@ -15,7 +15,7 @@ export default function Home() {
 <div className="w-full bg-[#f6f6f6]">
 
 <Header/>
-    <div className="bg-inherit text-black h-screen ">
+    <div className="bg-inherit text-black ">
 
     <Dashboard/>
     <div className="grid grid-cols-3 gap-3 container mt-3">

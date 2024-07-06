@@ -7,16 +7,18 @@ import { FaSearch } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { MdSpaceDashboard } from "react-icons/md";
+import { TbTransactionDollar } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
+import { FaWallet } from "react-icons/fa";
 
 const navItems = [
   { name: 'dashboard', href: '/', icon: <MdSpaceDashboard size={21}/>  },
   { name: 'repair', href: '/repair', icon: <HiMiniWrenchScrewdriver size={21}/> },
   { name: 'search', href: '/repair/search', icon: <FaSearch size={21}/> },
   { name: 'profit', href: '/repair/profit', icon: <MdAttachMoney size={21}/> },
-  { name: 'Charts', href: '/charts', icon: <IoStatsChartSharp size={21}/>  },
-  { name: 'About us', href: '/aboutus', icon: <BsFillInfoCircleFill size={21} /> },
+  { name: 'transactions', href: '/transactions', icon: <TbTransactionDollar size={21}/> },
+  { name: 'wallet', href: '/wallet', icon: <FaWallet size={21}/> },
 ];
 
 
@@ -40,7 +42,7 @@ const Navbar = () => {
 <div className="text-center my-5">
   <span className="">
 
-    <p className="text-2xl font-semibold mb-1 text-white capitalize">welcome</p>
+    <p className="text-2xl font-semibold mb-1 text-white capitalize font-serif">welcome</p>
     <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
   </span>
     <p className="text-white">{userData? userData?.userDetails?.enterprise || userData?.userinfo?.enterprise : "Owner name"}</p>

@@ -35,7 +35,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 
 
-export function   DataTable({ columns, data, isLoading }) {
+export function DataTable({ columns, data, isLoading }) {
 
      
   const router = useRouter()
@@ -74,7 +74,7 @@ export function   DataTable({ columns, data, isLoading }) {
 
 
   return (
-    <div className="w-full mx-auto h-full overflow-y-scroll">
+    <div className="w-full mx-auto h-[320px]">
       
       <div className=" bg-white text-black-500 flex items-center justify-between py-4">
         
