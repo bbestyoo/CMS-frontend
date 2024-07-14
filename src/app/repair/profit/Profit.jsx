@@ -40,9 +40,7 @@ function Profit() {
   const userData = useAppSelector((state) => state.user.value)
   console.log("userData i profit", userData)
   const [Pdata, setPData] = useState([])
-  const [data, setData] = useState([])
-  const [role, setRole] = useState("")
-  const [id, setId] = useState("")
+  const [searched, setSearched] = useState(false)
   // useEffect(() => {
   //     if (userData !== null) {
   //         setRole(userData?.userinfo?.role);
@@ -103,8 +101,9 @@ function Profit() {
         setPData(result);
         setChosenData(result.data);
         setFilteredData([]);
+        setSearched(true)
       }
-       else if (searchParams.has('q')) {
+      else if (searchParams.has('q')) {
         query = `q=${searchParams.get('q')}`;
         console.log("hereeeeeeeeeeeeeeee", query)
         const token = getCookie('accesstoken')
@@ -121,6 +120,7 @@ function Profit() {
         setPData(result);
         setChosenData(result.data);
         setFilteredData([]);
+        setSearched(true)
       }
       else {
         const monthlyData = await productsProfitApi();
@@ -142,7 +142,7 @@ function Profit() {
         const result = await res.json()
         console.log("afterapifetchsadsadadsa", result)
         setFilteredData(result);
-        console.log("natie khate bullllllllllllllllllllllllllllllllllllllllllllllllll",filteredData)
+        console.log("natie khate bullllllllllllllllllllllllllllllllllllllllllllllllll", filteredData)
         const admindata = result.data.filter((data) => data.admin_only_profit !== null)
         console.log("askjdnksa dksa dsk sakds ak j", admindata)
         setAdminOnlyData(admindata);
@@ -162,6 +162,7 @@ function Profit() {
   console.log("asdja jsdksafjdgjdsg jdagdjk dsa", chosenData)
   useEffect(() => {
     someProfitFunction()
+    setSearched(false);
   }, [userData, searchParams])
 
 
@@ -196,7 +197,7 @@ function Profit() {
         <div className='flex gap-4 w-fit '>
 
           <div className='bg-white drop-shadow-xl px-5 py-3 rounded-xl ml-5 my-5 w-fit ' onClick={() => setChosenData(Pdata.data)}>
-            {filteredData?.data?.length >0?<h1 className='text-left  text-2xl font-bold text-center text-gray-500'>This Month&apos;s Summary</h1>:<h1 className='text-left  text-2xl font-bold text-center text-gray-500'>Chosen date Summary</h1>}
+            {searched === false ? <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>This Month&apos;s Summary</h1> : <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>Chosen date Summary</h1>}
 
             <div className='grid grid-flow-col auto-cols-auto gap-6'>
               <div className='my-5'>
@@ -227,50 +228,55 @@ function Profit() {
 
               </div>
 
-              <div className='my-5'>
-                <h3 className='text-sm font-bold'>Admin Only <br /> Profit</h3>
-                {/* <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`RS.${Pdata?.admin_only_profit}`}
+              {
+                userData?.userinfo?.role === 'Admin' &&
+                <div className='my-5'>
+                  <h3 className='text-sm font-bold'>Admin Only <br /> Profit</h3>
+                  {/* <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`RS.${Pdata?.admin_only_profit}`}
             </p> */}
-                <p className='font-bold'>{`RS.${Pdata?.admin_only_profit}`}
-                </p>
-              </div>
+                  <p className='font-bold'>{`RS.${Pdata?.admin_only_profit}`}
+                  </p>
+                </div>
+              }
             </div>
           </div>
 
-          {(filteredData?.data?.length > 0)?<div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit' onClick={() => setChosenData(filteredData.data)}>
+          {searched === false ? <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit' onClick={() => setChosenData(filteredData.data)}>
 
-<p className='text-left  text-2xl font-bold text-center text-gray-500'>
-  Todays Profit
-</p>
-<div className='flex gap-6'>
+            <p className='text-left  text-2xl font-bold text-center text-gray-500'>
+              Todays Profit
+            </p>
+            <div className='flex gap-6'>
 
-  <div className='my-5'>
-    <h3 className='text-sm font-bold'>Total<br />No.</h3>
-    <p className='font-bold'>
-      {`${(filteredData?.data?.length) - (adminOnlyData?.length)}`}
+              <div className='my-5'>
+                <h3 className='text-sm font-bold'>Total<br />No.</h3>
+                <p className='font-bold'>
+                  {`${(filteredData?.data?.length) - (adminOnlyData?.length)}`}
 
-    </p>
+                </p>
 
-  </div>
+              </div>
+              {
+                userData?.userinfo?.role === 'Admin' &&
+              <div className='my-5'>
 
-  <div className='my-5'>
-    
-    <h3 className='text-sm font-bold'>My<br />Profit</h3>
-    <p className='font-bold'>
-      {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.my_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+                <h3 className='text-sm font-bold'>My<br />Profit</h3>
+                <p className='font-bold'>
+                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.my_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
-  </div>
-  <div className='my-5'>
-    <h3 className='text-sm font-bold'>Tech&apos;s<br />Profit</h3>
-    <p className='font-bold'>
-      {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+              </div>
+}
+              <div className='my-5'>
+                <h3 className='text-sm font-bold'>Tech&apos;s<br />Profit</h3>
+                <p className='font-bold'>
+                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
-  </div>
-</div>
-</div>:<div></div>}
-          
+              </div>
+            </div>
+          </div> : <div></div>}
+
           {
-            userData?.userinfo?.role === 'Admin' && filteredData?.data?.length >0 &&
+            userData?.userinfo?.role === 'Admin' && searched === false &&
 
             <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit'>
 
@@ -347,7 +353,7 @@ function Profit() {
                 <TableHead className="w-1/5">Total Profit</TableHead>
                 {userData?.userinfo?.role === 'Admin' && <TableHead className="w-1/5">My Profit</TableHead>}
                 <TableHead className="w-1/5">Tech&apos;s Profit</TableHead>
-                <TableHead className="w-1/5">Admin Only Profit</TableHead>
+                {userData?.userinfo?.role === 'Admin' && <TableHead className="w-1/5">Admin Only Profit</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>

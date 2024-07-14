@@ -5,23 +5,21 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 
+function Orders() {
 
-  function Orders() {
+  const userData = useAppSelector((state)=> state.user.value)
 
-    const userData = useAppSelector((state)=> state.user.value)
-    console.log(userData)
+  const router = useRouter()
+  const {
+    register,
+    watch, 
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
-    const router = useRouter()
-    const {
-      register,
-      watch, 
-      setValue,
-      handleSubmit,
-      formState: { errors },
-    } = useForm()
-
-    const totalAmount = watch('total_amount');
-    const advancePaid = watch('advance_paid');
+  const totalAmount = watch('total_amount');
+  const advancePaid = watch('advance_paid');
 
   const [receivedDate, setReceivedDate] = useState(() => {
     const today = new Date();
@@ -33,49 +31,33 @@ import { useForm } from "react-hook-form"
   });
 
   const [receivedBy, setReceivedBy] = useState(userData?.userinfo?.name)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-      // Calculate the due amount
-      const dueAmount = (parseFloat(totalAmount) || 0) - (parseFloat(advancePaid) || 0);
-      // Set the due value in the form
-      setValue('due', dueAmount);
-    }, [totalAmount, advancePaid, setValue]);
-  
+  useEffect(() => {
+    // Calculate the due amount
+    const dueAmount = (parseFloat(totalAmount) || 0) - (parseFloat(advancePaid) || 0);
+    // Set the due value in the form
+    setValue('due', dueAmount);
+  }, [totalAmount, advancePaid, setValue]);
 
- 
-   function onSubmit(data){
-    console.log("hereeeeeeeeee")
-
-    console.log("data",data)
-    
-     
-     async function products(){
-       
-       try{
-         
-         const res = await postProductsApi(data)
-          console.log("reached here")
-          router.push(`/search/${res.repair_id}`)
-         
-      }
-      catch(err){
-        console.log("error",err)
-      }
-    }
-
-    products()
-
-
+  async function onSubmit(data){
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const res = await postProductsApi(data)
+      console.log("reached here")
+      router.push(`/search/${res.repair_id}`)
+    } catch(err) {
+      console.log("error", err)
+    } 
   }
-
-  
 
   return (
     <>
-    <div className="w-1/2 h-4/5 overflow-y-scroll bg-white text-black mx-auto mt-5 p-7 px-10 rounded-xl drop-shadow-xl mb-40 bg-footer">
+      <div className="w-1/2 h-4/5 overflow-y-scroll bg-white text-black mx-auto mt-5 p-7 px-10 rounded-xl drop-shadow-xl mb-40 bg-footer">
         <h2 className="text-black text-xl text-center font-semibold mb-5">Post A Repair</h2>
         <form 
-        onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mb-4">
             <label htmlFor="customer_name" className="block text-sm font-medium text-black">
@@ -288,7 +270,6 @@ import { useForm } from "react-hook-form"
               onChange={(e) => setReceivedDate(e.target.value)}
 
               className="mt-1 p-2 w-full border rounded-md "
-              required
             />
           </div>
           <div className="mb-4">
@@ -303,12 +284,9 @@ import { useForm } from "react-hook-form"
               defaultValue={deliveryDate}
               onChange={(e) => setDeliveryDate(e.target.value)}
 
-
               className="mt-1 p-2 w-full border rounded-md "
-              required
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="received_by" className="block text-sm font-medium text-black">
               received by
@@ -319,19 +297,15 @@ import { useForm } from "react-hook-form"
               name="received_by"
               {...register('received_by',  { required: true })}
               defaultValue={receivedBy}
-              onChange={(e) => setReceivedBy(e.target.value)}
-
               className="mt-1 p-2 w-full border rounded-md "
-              required
             />
           </div>
-  
-
           <button
             type="submit"
-            className="bg-blue-500 text-black py-2 px-4 rounded-md  hover:bg-blue-600"
+            className="w-full bg-black text-white font-semibold p-3 mt-4 rounded-md disabled:bg-gray-400"
+            disabled={isSubmitting}
           >
-            Post
+            Submit
           </button>
         </form>
       </div>
