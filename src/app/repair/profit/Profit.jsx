@@ -103,7 +103,8 @@ function Profit() {
         setPData(result);
         setChosenData(result.data);
         setFilteredData([]);
-      } else if (searchParams.has('q')) {
+      }
+       else if (searchParams.has('q')) {
         query = `q=${searchParams.get('q')}`;
         console.log("hereeeeeeeeeeeeeeee", query)
         const token = getCookie('accesstoken')
@@ -139,8 +140,9 @@ function Profit() {
           }
         )
         const result = await res.json()
-        console.log("afterapifetch******8", result)
-        setFilteredData(result)
+        console.log("afterapifetchsadsadadsa", result)
+        setFilteredData(result);
+        console.log("natie khate bullllllllllllllllllllllllllllllllllllllllllllllllll",filteredData)
         const admindata = result.data.filter((data) => data.admin_only_profit !== null)
         console.log("askjdnksa dksa dsk sakds ak j", admindata)
         setAdminOnlyData(admindata);

@@ -81,7 +81,7 @@ export default  function DemoPage() {
 
     const products = await productsApi();
     console.log(products)
-    const filteredData = products.filter((el)=> el.repair_status === "Completed" )
+    const filteredData = products.filter((el)=> el.repair_status === "Completed" || el.repair_status === "Returned" )
     setData(filteredData)
   }
   catch(error) {

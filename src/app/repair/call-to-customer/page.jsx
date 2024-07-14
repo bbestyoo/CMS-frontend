@@ -153,7 +153,7 @@ userData?.userinfo?.role === 'Admin' &&
 
 const handleCompleted = async (repairId,amountPaid, e) => {
   e.stopPropagation()
-  console.log("here")
+  console.log("clicked the button");
   try {
     console.log("here again")
     // Perform your PATCH request here
@@ -204,7 +204,8 @@ const handleDelete = async (repair_id) => {
  
 useEffect(() => { 
 someFunction();
-
+setIsCompleted(false);
+setIsDelete(false);
 }, [isCompleted, isDelete]); 
 
   return (

@@ -412,7 +412,6 @@ const handleDelete = async (repair_id) => {
     const result = await response
     console.log("deleted", result)   
     setIsDelete(true)     
-
   } 
   catch (error) {
     console.error('Error updating data:', error);
@@ -432,7 +431,6 @@ const handleUnrepairable = async (repairId) => {
       catch (error) {
         console.error('Error updating data:', error);
       }
-      
 }
 
   const someFunction = async () => {
@@ -444,11 +442,15 @@ const handleUnrepairable = async (repairId) => {
         const filteredProducts = products.filter((product) => product.repair_status === "Not repaired");
         setData(filteredProducts);
         setIsLoading(false)
+        setIsRepaired(false)
+        setIsDelete(false)
+        setIsUnrepairable(false)
     } catch (error) {
         // Handle errors if any
         console.error('Error fetching products:', error);
     }
 };
+
 
 useEffect(() => { 
   console.log("useeffect called")

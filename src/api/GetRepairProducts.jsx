@@ -165,6 +165,30 @@ const result = await res.json()
 return result
    
 }
+
+async function patchProductsApiReturned (repair_id){
+    console.log("asdid",repair_id)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}repair/`,
+        {
+            method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({repair_id, "repair_status": "Returned"}),
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    
+)
+const result = await res.json()
+return result
+   
+}
+
+
 async function getSearchProductsApi(searchQuery){   
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -307,7 +331,8 @@ export  {
     patchProductsApiOutRepair,
     transactionsApi,
     postTransactionsApi,
-    getSearchTransactionsApi
+    getSearchTransactionsApi,
+    patchProductsApiReturned
 
 }
 
