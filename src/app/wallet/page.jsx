@@ -81,7 +81,7 @@ function WalletPage() {
     return (
         <>
         <div className='flex flex-wrap justify-center mx-36'>
-            {tdata.filter(tech => tech.role === "Technician").map((tech) => (
+            {tdata?.filter(tech => tech.role === "Technician").map((tech) => (
                  <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl mx-12 my-5 w-fit' key={tech.user_id} onClick={() => handleClick(tech.user_id)}>
    
                      <h3 className='capitalize text-xl text-center font-bold mt-3'>{tech.name}</h3>

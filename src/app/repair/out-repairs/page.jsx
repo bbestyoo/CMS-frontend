@@ -307,7 +307,7 @@ export default function RecentOrders() {
   
   return (
       <>
-       <div className=" h-[460px] container drop-shadow-xl mx-auto py-10 bg-white text-black rounded-xl">
+       <div className=" h-[460px] container drop-shadow-xl mx-auto py-10 bg-white text-black h-[480px] rounded-xl">
         <DataTable isLoading={isLoading} columns={columns} data={data} />
       </div>
   
