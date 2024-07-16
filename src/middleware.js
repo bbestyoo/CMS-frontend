@@ -3,8 +3,6 @@ import { getCookie } from 'cookies-next';
 
 export function middleware(req) {
   const token = getCookie('accesstoken', { req });
-  console.log("token",token)
-  console.log("tasdasdhiiiiiiiii")
   const { pathname } = req.nextUrl
 
   const protectedRoutes = ['/', '/repair', '/search']

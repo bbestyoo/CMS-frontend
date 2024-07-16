@@ -42,7 +42,7 @@ function Dashboard() {
     <>
     <div className='mt-0'>
         <div className='container col-span-3'>
-      <h2 className='text-2xl font-bold my-5'>My Records</h2>
+      <h2 className='text-2xl text-center font-bold my-5'>My Records</h2>
 
     <div className='flex justify-between mb-5'>
        

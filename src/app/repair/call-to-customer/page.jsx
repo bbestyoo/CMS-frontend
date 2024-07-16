@@ -209,7 +209,7 @@ setIsDelete(false);
 }, [isCompleted, isDelete]); 
 
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[480px] w-11/12 py-10">
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[480px] w-11/12">
       <DataTable columns={columns} data={data} />
     </div>
   );

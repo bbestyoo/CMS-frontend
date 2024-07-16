@@ -89,7 +89,7 @@ function Search({ className }) {
   };
 
   return (
-    <div className="w-full my-5 mx-5 container">
+    <div className="w-full container">
       <div className='flex w-full mx-auto justify-between px-3'>
         {/* <form className='w-fit' onSubmit={onSearch}>
           <input

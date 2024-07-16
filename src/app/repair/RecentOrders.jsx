@@ -466,7 +466,7 @@ someFunction();
 
 return (
     <>
-     <div className=" h-[500px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
+     <div className=" h-[480px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
       <DataTable isLoading={isLoading} columns={columns} data={data} />
     </div>
 
