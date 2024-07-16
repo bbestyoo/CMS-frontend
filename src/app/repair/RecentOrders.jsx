@@ -39,10 +39,11 @@ import {
 import { useRouter } from 'next/navigation';
 import { FaTrash } from "react-icons/fa";
 import { useAppSelector } from '@/lib/hooks';
+import { CloudCog } from 'lucide-react';
 
 
 
- const RepairForm  = ({row, handlePatchFn, handleUnrepairable, handleDelete}) => {
+ const RepairForm  = ({row, roles, handlePatchFn, handleUnrepairable, handleDelete}) => {
 
   const userData = useAppSelector((state)=> state.user.value)
 
@@ -55,15 +56,6 @@ import { useAppSelector } from '@/lib/hooks';
   const [show, setShow] = useState(false)
   const { repair_id } = row.original;
 
-
-  const getTechInfo =  async () => {
-    const response = await userInfo()
-    setRoles(response)
-  }
-
-  useEffect(()=>{
-    getTechInfo()
-  },[])
 
   const handlePopup = (e) => {
     e.stopPropagation()
@@ -78,14 +70,13 @@ import { useAppSelector } from '@/lib/hooks';
   } = useForm()
   const { register: register1, handleSubmit: handleSubmit1 } = useForm();
 
-  const [roles, setRoles] = useState([])
 
   const onSubmit = async (data) => {
     const formData = {
       ...data,
       repair_status: data.repair_status || 'Repaired' // No change here
     };
-    console.log("forum",formData)
+    // console.log("forum",formData)
   
     if (formData.repair_cost_price !== "" && formData.repaired_by !== "" && formData.repair_status === "Repaired") { // Changed from != to !==
       handlePatchFn(formData, repair_id); 
@@ -309,7 +300,7 @@ import { useAppSelector } from '@/lib/hooks';
 
 export default function RecentOrders() {
 
-  console.log("logged")
+  // console.log("logged")
 
 
   const router = useRouter()
@@ -328,6 +319,18 @@ export default function RecentOrders() {
   const [isRepaired, setIsRepaired] = useState(false)
   const [isUnrepairable, setIsUnrepairable] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
+  const [roles, setRoles] = useState([])
+
+  
+const getTechInfo =  async () => {
+  const response = await userInfo()
+  setRoles(response)
+}
+
+useEffect(()=>{
+  getTechInfo()
+  console.log("Tech is about to hit");
+},[])
 
   const columns = [
     {
@@ -373,6 +376,7 @@ export default function RecentOrders() {
 
       
       <RepairForm row={row} 
+      roles = {roles}
       handlePatchFn={handlePatchFn}
           handleUnrepairable={handleUnrepairable}
           handleDelete= {handleDelete}
@@ -394,7 +398,7 @@ const handlePatchFn = async (formData, repair_id) => {
         // Perform your PATCH request here
         const response = await patchProductsApiRepaired(formData, repair_id)
         const result = await response
-        console.log("patched", result)   
+        // console.log("patched", result)   
         setIsRepaired(true)     
 
       } 
@@ -410,7 +414,7 @@ const handleDelete = async (repair_id) => {
     // Perform your PATCH request here
     const response = await deleteProductsApi(repair_id)
     const result = await response
-    console.log("deleted", result)   
+    // console.log("deleted", result)   
     setIsDelete(true)     
   } 
   catch (error) {
@@ -424,7 +428,7 @@ const handleUnrepairable = async (repairId) => {
         // Perform your PATCH request here
         const response = await patchProductsApiUnrepairable(repairId)
         const result = await response
-        console.log("patched", result)   
+        // console.log("patched", result)   
         setIsUnrepairable(true)     
 
       } 
@@ -450,6 +454,7 @@ const handleUnrepairable = async (repairId) => {
         console.error('Error fetching products:', error);
     }
 };
+
 
 
 useEffect(() => { 

@@ -42,7 +42,7 @@ function Orders() {
 
   async function onSubmit(data){
     if (isSubmitting) return;
-    setIsSubmitting(true);
+    setIsSubmitting(true);  
     try {
       const res = await postProductsApi(data)
       console.log("reached here")
