@@ -46,7 +46,7 @@ function  TablePage() {
 
   return (
     <>
-    <div className='h-[358px] overflow-y-scroll  drop-shadow-2xl bg-white text-black rounded-xl'>
+    <div className='h-screen overflow-y-scroll  drop-shadow-2xl bg-white text-black rounded-xl'>
         <h3 className='text-center text-lg my-5'>Recent Orders</h3>
 
     <Table>
