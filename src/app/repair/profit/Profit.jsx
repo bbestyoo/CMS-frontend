@@ -269,7 +269,7 @@ function Profit() {
               <div className='my-5'>
                 <h3 className='text-sm font-bold'>Tech&apos;s<br />Profit</h3>
                 <p className='font-bold'>
-                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData.technician_profit : 'Role not recognized'}`}</p>
 
               </div>
             </div>
@@ -354,7 +354,9 @@ function Profit() {
                 {userData?.userinfo?.role === 'Admin' && <TableHead className="w-1/5">My Profit</TableHead>}
                 <TableHead className="w-1/5">Tech&apos;s Profit</TableHead>
                 {userData?.userinfo?.role === 'Admin' && <TableHead className="w-1/5">Admin Only Profit</TableHead>}
+                <TableHead className="w-1/5">Technician</TableHead>
               </TableRow>
+
             </TableHeader>
             <TableBody>
               {chosenData && chosenData.length > 0 ? (
@@ -365,6 +367,7 @@ function Profit() {
                     {userData?.userinfo?.role === 'Admin' && <TableCell>{data.my_profit ? data.my_profit : 0}</TableCell>}
                     <TableCell className="">{data.technician_profit}</TableCell>
                     {userData?.userinfo?.role === 'Admin' && <TableCell>{data.admin_only_profit}</TableCell>}
+                    <TableCell className="">{data.repaired_by_name}</TableCell>
                   </TableRow>
                 ))
               ) : (

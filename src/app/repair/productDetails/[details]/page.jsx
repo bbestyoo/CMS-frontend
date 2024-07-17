@@ -89,8 +89,10 @@ function ProductDetails() {
           {key.replace(/_/g, ' ')}
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-          {obj[key] !== undefined && obj[key] !== null ? obj[key].toString() : 'N/A'}
-        </td>
+        {key === 'repaired_by' 
+          ? (obj['repaired_by_name'] || 'N/A') 
+          : (obj[key] !== undefined && obj[key] !== null ? obj[key].toString() : 'N/A')}
+      </td>
       </tr>
     ))
   );
