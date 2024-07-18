@@ -9,7 +9,15 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { productsProfitApi } from '@/api/GetRepairProducts';
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+  
+import { productsProfitApi, userInfo } from '@/api/GetRepairProducts';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
 import { getCookie } from 'cookies-next';
@@ -29,13 +37,31 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 function Profit() {
 
+  const [roles, setRoles] = useState([])
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  const handleChange = (value) => {
+    setSelectedRole(value);
+    console.log('Selected role ID:', value); // Log or use the selected value as needed
+  };
+  
+  const getTechInfo =  async () => {
+    const response = await userInfo()
+    setRoles(response)
+  }
+
+  useEffect(()=>{
+    getTechInfo()
+  },[])
+
+
     const currentDate = new Date();
     const startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const startOfNextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
 
     const [date, setDate] = React.useState({
-        from: startOfCurrentMonth,
-        to: startOfNextMonth,
+        from: null,
+        to: null,
       });
     const userData = useAppSelector((state)=>state.user.value)
     console.log("userData i profit",userData)
@@ -43,12 +69,7 @@ function Profit() {
     const [data, setData ] = useState([])
     const [role, setRole ] = useState("")
     const [id, setId ] = useState("")
-    // useEffect(() => {
-    //     if (userData !== null) {
-    //         setRole(userData?.userinfo?.role);
-    //         setId(userData?.userinfo?.id);
-    //     }
-    // }, [userData]); 
+   
     const [filteredData, setFilteredData ] = useState([])
     const [adminOnlyData, setAdminOnlyData ] = useState([])
     const [chosenData, setChosenData] = useState([])
@@ -58,22 +79,6 @@ function Profit() {
 
 
     const router = useRouter()
-
-    // const someFunction = async () => {
-    //     try {
-    //         // Call the productsApi function to fetch data
-    //         const products = await productsProfitApi();
-    //         console.log("((((first))))",products)
-            
-    //         // Do something with the fetched products data
-    //         // setPData(products);
-    //         // setData(products.data)
-    //         // setChosenData(products)
-    //     } catch (error) {
-    //         // Handle errors if any
-    //         console.error('Error fetching products:', error);
-    //     }
-    // };
 
     const someProfitFunction = async () => {
         try {
@@ -93,8 +98,13 @@ else {
     console.log("query")
     if (searchParams.has('start_date')) {
         query = `start_date=${searchParams.get('start_date')}&end_date=${searchParams.get('end_date')}`;
-      } else {
-        query = `q=${searchParams.get('q')}`;
+      } 
+    else if (searchParams.has('tech')) {
+        query = `tech=${searchParams.get('tech')}`;
+      } 
+      
+      else if (searchParams.has('start_date') && searchParams.has('tech')) {
+        query = `start_date=${searchParams.get('start_date')}&end_date=${searchParams.get('end_date')}&tech=${searchParams.get('tech')}`;
       }
 }
 console.log("hereeeeeeeeeeeeeeee",query)
@@ -125,9 +135,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
         }
     };
     
-    // useEffect(() => { 
-    // someFunction();
-    // }, [userData])
+  
 
     useEffect(() => { 
     someProfitFunction()
@@ -153,10 +161,24 @@ console.log("hereeeeeeeeeeeeeeee",query)
     return `${year}-${month}-${day}`;
   }
 
-  function onDateSearch(e){
+  function  onDateSearch(e){
     e.preventDefault();
     const combinedDateQuery = `start_date=${formattedDate.from}&end_date=${formattedDate.to}`;
-    router.push(`/repair/profit?${combinedDateQuery}`);
+    if(!selectedRole && formattedDate.from){
+
+      router.push(`/repair/profit?${combinedDateQuery}`); 
+    }
+    else if (!formattedDate.from && selectedRole){
+      router.push(`/repair/profit?tech=${selectedRole}`); 
+
+
+    }
+    else if(formattedDate.from && selectedRole){
+      router.push(`/repair/profit?${combinedDateQuery}&tech=${selectedRole}`); 
+
+      
+    }
+    else {}
   }
 
   return (
@@ -272,6 +294,20 @@ console.log("hereeeeeeeeeeeeeeee",query)
         <div className='flex justify-between items-center '>
 
         <h3 className='text-center my-5 font-bold ml-7'>My transactions Profits</h3>
+        <div className='flex gap-3'>
+        <div>
+        <Select onValueChange={handleChange}>
+  <SelectTrigger className="w-[180px] rounded-3xl focus:border-none">
+    <SelectValue placeholder="Technicians" />
+  </SelectTrigger>
+  <SelectContent>
+  {roles.map((role, i) => (
+                <SelectItem key={i} value={`${role.user_id}`}> {role.name}</SelectItem>
+            ))}
+  </SelectContent>
+</Select>
+
+        </div>
         <div>
 
         <Popover>
@@ -279,7 +315,7 @@ console.log("hereeeeeeeeeeeeeeee",query)
                 <Button
                   id="date"
                   variant={"outline"}
-                  className={cn("w-[300px] justify-start text-left font-normal bg-black-300", !date && "text-muted-foreground")}
+                  className={cn("w-[300px] justify-start text-left rounded-3xl font-normal ", !date && "text-muted-foreground")}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
@@ -310,6 +346,8 @@ console.log("hereeeeeeeeeeeeeeee",query)
 
             </div>
         </div>
+        </div>
+
 <div className="overflow-y-scroll max-h-[50vh]">
 
     <Table className="container bg-white mx-auto rounded-2xl drop-shadow-xl w-11/12 py-10 ">
