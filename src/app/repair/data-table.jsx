@@ -120,7 +120,7 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
           </section>
         </div>
       </div>
-      <div className="rounded-md bg-blue-300 border h-[55vh] overflow-y-scroll">
+      <div className="rounded-md border h-[55vh] overflow-y-scroll">
         {loading ? (
           <Skeleton className="w-[100px] h-[20px] rounded-full" />
         ) : (
