@@ -17,6 +17,7 @@ export default  function DemoPage() {
 }
   const [data, setData] = useState([])  
   const [isCompleted, setIsCompleted] = useState(false)
+  const [metadata, setMetadata] = useState({})
 
   
 
@@ -79,10 +80,17 @@ export default  function DemoPage() {
 
   try{
 
-    const products = await productsApi();
+    const products = await productsApi("Completed");
     console.log(products)
-    const filteredData = products.filter((el)=> el.repair_status === "Completed" || el.repair_status === "Returned" )
-    setData(filteredData)
+    const filteredProducts = products.results;
+        setMetadata({
+
+          "next" : products.next,
+          "previous" : products.previous,
+          "count" : products.count
+        })
+    setData(filteredProducts)
+    console.log(metadata)
   }
   catch(error) {
     console.error("error",error)
@@ -96,7 +104,7 @@ useEffect(() => {
 
   return (
     <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 h-[480px] ">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );
 }

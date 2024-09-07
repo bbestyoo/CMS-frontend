@@ -25,7 +25,8 @@ function  TablePage() {
             const products = await productsApi();
             
             // Do something with the fetched products data
-            setData(products);
+            setData(products.results);
+            console.log(data)
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);

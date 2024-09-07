@@ -10,7 +10,7 @@ import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogContent,
+  AlertDialogContent, 
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -31,6 +31,7 @@ export default  function DemoPage() {
     const repairId = rowData.original.repair_id
     router.push(`/repair/productDetails/${repairId}`)
 }
+  const [metadata,setMetadata] = useState({})
 
   const [data, setData] = useState([])  
   const [isCompleted, setIsCompleted] = useState(false)
@@ -192,10 +193,19 @@ const handleDelete = async (repair_id) => {
 
   try{
 
-    const products = await productsApi();
+    const products = await productsApi("Repaired");
+    
     console.log(products)
-    const filteredData = products.filter((el)=> el.repair_status === "Repaired" )
-    setData(filteredData)
+    // const filteredData = products.filter((el)=> el.repair_status === "Repaired" )
+    const filteredProducts = products.results;
+        setMetadata({
+
+          "next" : products.next,
+          "previous" : products.previous,
+          "count" : products.count
+        })
+    setData(filteredProducts)
+    console.log(metadata)
   }
   catch(error) {
     console.error("error",error)
@@ -210,7 +220,7 @@ setIsDelete(false);
 
   return (
     <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[480px] w-11/12">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} initialData={data} initialMetadata={metadata}  />
     </div>
   );
 }

@@ -191,6 +191,7 @@ export default function RecentOrders() {
     console.log("here")
     
     const [data, setData] = useState([])
+    const [metadata, setMetadata] = useState({})
    
   
     const columns = [
@@ -285,13 +286,17 @@ export default function RecentOrders() {
       try {
           // Call the productsApi function to fetch data
           console.log("asdasd")
-          const products = await productsApi();
+          const products = await productsApi("Outrepaired");
           
-          // Do something with the fetched products data
-          console.log("here", products);
-          const filteredProducts = products.filter((product) => product.repair_status === "Outrepaired");
-          console.log("filtered", filteredProducts);
-          setData(filteredProducts);
+          const filteredProducts = products.results;
+        setMetadata({
+
+          "next" : products.next,
+          "previous" : products.previous,
+          "count" : products.count
+        })
+    setData(filteredProducts)
+    
           console.log("datatoshov",filteredProducts)
           setIsLoading(false)
       } catch (error) {
@@ -308,7 +313,7 @@ export default function RecentOrders() {
   return (
       <>
        <div className=" container drop-shadow-xl mx-auto bg-white text-black h-[480px] rounded-xl">
-        <DataTable isLoading={isLoading} columns={columns} data={data} />
+        <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
       </div>
   
       </>

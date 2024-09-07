@@ -2,10 +2,63 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { getCookie } from 'cookies-next'
 
 
-async function productsApi(){
+async function productsApi(status){
+    const token = getCookie('accesstoken')
+    if (status === undefined){
+
+            
+            const res = await fetch (
+                `${baseURL}repair/`,
+                {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+                },
+                credentials: 'include' // Use 'include' to send cookies with the request
+        
+            }
+            )
+            const result = await res.json()
+            return result
+        }
+        else{
+                const res = await fetch (
+                    `${baseURL}repair/?status=${status}`,
+                    {
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+                    },
+                    credentials: 'include' // Use 'include' to send cookies with the request
+            
+                }
+                )
+                const result = await res.json()
+                return result
+        }
+
+
+
+}
+
+async function getStats(){
     const token = getCookie('accesstoken')
     const res = await fetch (
-        `${baseURL}repair/`,
+        `${baseURL}repair/stats/`,
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+        },
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    const result = await res.json()
+    return result 
+}
+
+async function nextPageApi(url){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${url}`,
         {
         headers: {
             'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
@@ -187,8 +240,6 @@ const result = await res.json()
 return result
    
 }
-
-
 async function getSearchProductsApi(searchQuery){   
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -259,8 +310,6 @@ const result = await res.json()
 return result
 
 }
-
-
 async function transactionsApi(){
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -315,8 +364,6 @@ async function getSearchTransactionsApi(searchQuery){
 
 }
 
-
-
 export  {
     productsApi,
     postProductsApi,
@@ -332,7 +379,9 @@ export  {
     transactionsApi,
     postTransactionsApi,
     getSearchTransactionsApi,
-    patchProductsApiReturned
+    patchProductsApiReturned,
+    nextPageApi,
+    getStats
 
 }
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { MdShopTwo } from "react-icons/md";
 import { FcLineChart } from "react-icons/fc";
 import { FaMoneyCheckAlt } from "react-icons/fa";
-import { productsApi } from '@/api/GetRepairProducts';
+import { getStats, productsApi } from '@/api/GetRepairProducts';
 import { useRouter } from 'next/navigation';
   
 function Dashboard() {
@@ -22,17 +22,10 @@ function Dashboard() {
   }, [])
 
   const getRepair = async ()=> {
-    const response = await productsApi()
-    // console.log("here is se4arched product",response)
-    const pendingData = response.filter((item)=> item.repair_status === 'Not repaired')
-    setPending(pendingData)
-    const unrepairableData = response.filter((item)=> item.repair_status === 'Unrepairable')
-    setUnrepairable(unrepairableData)
-    const outrepairedData = response.filter((item)=> item.repair_status === 'Outrepaired')
-    setOutrepaired(outrepairedData)
-    // const outsideData = response.filter((item)=> item.repair_status === 'Out repaired')
-    // console.log('pendingData',outsideData)
-    // setPending(outsideData)
+    const response = await getStats()
+    setPending(response.pending);
+    setUnrepairable(response.unrepairable);
+    setOutrepaired(response.outside);
   }
 
   
@@ -55,7 +48,7 @@ function Dashboard() {
         <p>Pending Repairs</p>
       </div>
       <div>
-        <p className='text-left text-xl font-bold'>{`${pending.length}`}</p>
+        <p className='text-left text-xl font-bold'>{`${pending}`}</p>
       </div>
     </div>
          <div className='group-hover:scale-110'>
@@ -72,7 +65,7 @@ function Dashboard() {
         <p>Unrepairable Repairs</p>
       </div>
       <div>
-        <p className='text-left text-xl font-bold'>{`${unrepairable.length}`
+        <p className='text-left text-xl font-bold'>{`${unrepairable}`
 }</p>
       </div>
     </div>
@@ -90,7 +83,7 @@ function Dashboard() {
         <p>Outside Repairs</p>
       </div>
       <div>
-        <p className='text-left text-xl font-medium'>{`${outRepaired.length}`}</p>
+        <p className='text-left text-xl font-medium'>{`${outRepaired}`}</p>
       </div>
     </div>
          <div>

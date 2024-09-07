@@ -316,6 +316,7 @@ export default function RecentOrders() {
   // localStorage.clear();
   
   const [data, setData] = useState([])
+  const [metadata,setMetadata] = useState({})
   const [isRepaired, setIsRepaired] = useState(false)
   const [isUnrepairable, setIsUnrepairable] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
@@ -440,10 +441,17 @@ const handleUnrepairable = async (repairId) => {
   const someFunction = async () => {
     try {
         // Call the productsApi function to fetch data
-        const products = await productsApi();
+        const products = await productsApi("Not repaired");
         
         // Do something with the fetched products data
-        const filteredProducts = products.filter((product) => product.repair_status === "Not repaired");
+        const filteredProducts = products.results;
+        setMetadata({
+
+          "next" : products.next,
+          "previous" : products.previous,
+          "count" : products.count
+        })
+
         setData(filteredProducts);
         setIsLoading(false)
         setIsRepaired(false)
@@ -467,7 +475,7 @@ someFunction();
 return (
     <>
      <div className=" h-[480px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
-      <DataTable isLoading={isLoading} columns={columns} data={data} />
+      <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
 
     </>

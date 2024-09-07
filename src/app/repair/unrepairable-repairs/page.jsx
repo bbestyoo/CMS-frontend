@@ -17,6 +17,7 @@ export default function DemoPage() {
 
   const [data, setData] = useState([])
   const [isReturned, setIsReturned] = useState(false)
+  const [metadata,setMetadata] = useState({})
 
   const columns = [
     {
@@ -81,10 +82,17 @@ export default function DemoPage() {
 
   const someFunction = async () => {
     try {
-      const products = await productsApi();
+      const products = await productsApi("Unrepairable");
       console.log(products)
-      const filteredData = products.filter((el) => el.repair_status === "Unrepairable")
-      setData(filteredData)
+      const filteredData = products
+      const filteredProducts = products.results;
+        setMetadata({
+
+          "next" : products.next,
+          "previous" : products.previous,
+          "count" : products.count
+        })
+    setData(filteredProducts)
     } catch (error) {
       console.error("error", error)
     }
@@ -97,7 +105,7 @@ export default function DemoPage() {
 
   return (
     <div className="container bg-white mx-auto rounded-2xl drop-shadow-xl h-[480px] w-11/12">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );
 }
