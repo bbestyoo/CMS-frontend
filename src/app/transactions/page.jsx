@@ -141,7 +141,7 @@ function TransactionPage() {
                 </div>
             </div>
 
-            <div className='flex h-[390px] '>
+            <div className='flex h-[390px] overflow-y-scroll'>
 
                 {data && data.length > 0 ? (
                     <Table className='w-full text-left'>
