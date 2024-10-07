@@ -19,6 +19,8 @@ const navItems = [
   { name: 'profit', href: '/repair/profit', icon: <MdAttachMoney size={21}/> },
   { name: 'transactions', href: '/transactions', icon: <TbTransactionDollar size={21}/> },
   { name: 'wallet', href: '/wallet', icon: <FaWallet size={21}/> },
+  { name: 'credits', href: '/repair/credits', icon: <FaWallet size={21}/> },
+
 ];
 
 

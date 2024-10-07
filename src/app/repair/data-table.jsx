@@ -27,8 +27,11 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { nextPageApi } from "@/api/GetRepairProducts"
 
+
+
 export function DataTable({ columns, initialData, initialMetadata, isLoading }) {
   const router = useRouter();
+  console.log("intiial data",initialData)
 
 
   // State to manage data and metadata for pagination
