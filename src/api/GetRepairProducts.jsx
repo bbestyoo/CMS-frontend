@@ -1,7 +1,6 @@
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { getCookie } from 'cookies-next'
 
-
 async function productsApi(status){
     const token = getCookie('accesstoken')
     if (status === undefined){
@@ -346,7 +345,6 @@ async function postTransactionsApi(data){
     return res
 
 }
-
 async function getSearchTransactionsApi(searchQuery){   
     const token = getCookie('accesstoken')
     const res = await fetch (
@@ -362,6 +360,75 @@ async function getSearchTransactionsApi(searchQuery){
     const result = await res.json()
     return result
 
+}
+async function getCreditsCustomerApi(){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/credit/`,
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+        },
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    const result = await res.json()
+    return result
+}
+async function getSingleCreditsCustomerApi(id){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/credit/${id}`,
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+        },
+        credentials: 'include' // Use 'include' to send cookies with the request
+
+    }
+    )
+    if(res != 'NONE'){
+        const result = await res.json()
+        return result
+    }
+    else {
+        return ("NO data found")
+    }
+}
+async function patchCreditsCustomerApi(data){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}repair/`,
+        {
+            method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+    }
+    )
+    const result = await res.json()
+    return result
+}
+async function postCreditsCustomerApi(data){
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}transactions/credit/`,
+        {
+            method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+    }
+    )
+    const result = await res.json()
+    return result
 }
 
 export  {
@@ -381,7 +448,10 @@ export  {
     getSearchTransactionsApi,
     patchProductsApiReturned,
     nextPageApi,
-    getStats
-
+    getStats,
+    getCreditsCustomerApi,
+    patchCreditsCustomerApi,
+    getSingleCreditsCustomerApi,
+    postCreditsCustomerApi,
 }
 

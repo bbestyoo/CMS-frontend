@@ -47,6 +47,12 @@ function RepairNav() {
             </button>
                 </li>
             </Link>
+            <Link href="/repair/credited-repairs">
+            <li><button className={`${pathname === "/repair/credited-repairs" ? "bg-indigo-700 " : " bg-press" } px-3 py-2 hover:bg-indigo-700 text-white bg-indigo-500 rounded-3xl`}>
+                Credited
+            </button>
+                </li>
+            </Link>
         </ul>
 
     </div>
