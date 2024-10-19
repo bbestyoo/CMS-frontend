@@ -141,10 +141,12 @@ const result = await res.json()
 return result
 
 }
-async function patchProductsApiRepaired (formData, repair_id){
+async function patchProductsApiRepaired (formData, repair_id, newArray, totalCost){
     console.log(formData)
-    const {repair_status, repair_cost_price, repaired_by, cost_price_description, returned_by} = formData
+    const {repair_status, repaired_by, returned_by} = formData
+    const repair_cost_price = totalCost
     const currentDate = new Date();
+    const repair_items = newArray
 
     // Format the current date to YYYY-MM-DD
     const formattedDate = currentDate.toISOString().split('T')[0];
@@ -159,7 +161,7 @@ async function patchProductsApiRepaired (formData, repair_id){
             'Authorization': `Bearer ${token}`, 
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({repair_id, repair_status, repair_cost_price, repaired_by, cost_price_description, outside_returned_date:formattedDate, returned_by}),
+        body: JSON.stringify({repair_id, repair_status, repair_cost_price, repaired_by, outside_returned_date:formattedDate,repair_items, returned_by, }),
         credentials: 'include' // Use 'include' to send cookies with the request
 
     }
@@ -430,7 +432,119 @@ async function postCreditsCustomerApi(data){
     const result = await res.json()
     return result
 }
+async function getBrands(){
+    const token = getCookie('accesstoken')
+    const res = await fetch(
+        `${baseURL}inventory/brand/`,
+            {
+            headers: {
+                'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            },
+            credentials: 'include' // Use 'include' to send cookies with the request
+        }
+        )
+        const result = await res.json()
+        return result
+}
+async function postBrands(data){
+    console.log("***********",data)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}inventory/brand/`,
+        {
+            method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+    }
+    )
+    const result = await res.json()
+    console.log("result",result)
+    return result
 
+}
+async function postCategory(data){
+    console.log("***********",data)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}inventory/category/`,
+        {
+            method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+    }
+    )
+    const result = await res.json()
+    console.log("result",result)
+    return result
+
+}
+async function postPurchase(data){
+    console.log("***********",data)
+    const token = getCookie('accesstoken')
+    const res = await fetch (
+        `${baseURL}inventory/purchase/`,
+        {
+            method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'include' // Use 'include' to send cookies with the request
+    }
+    )
+    const result = await res.json()
+    console.log("result",result)
+    return result
+
+}
+async function deleteBrands(id){
+    try {
+        console.log("***********", id);
+        const token = getCookie('accesstoken');
+        const response = await fetch(`${baseURL}inventory/brand/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'id': id }),
+            credentials: 'include' // Use 'include' to send cookies with the request
+        });
+
+        if (response.status === 204) {
+            // No content, successful delete
+            console.log("Delete successful with no content.");
+            return { success: true };
+        }
+    } catch (error) {
+        // Handle errors that occur during fetch or in response processing
+        console.error("Error deleting products:", error);
+        throw error; // Rethrow the error after logging it
+    }
+}
+async function getItems(){
+    const token = getCookie('accesstoken')
+    const res = await fetch(
+        `${baseURL}inventory/item/`,
+            {
+            headers: {
+                'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
+            },
+            credentials: 'include' // Use 'include' to send cookies with the request
+        }
+        )
+        const result = await res.json()
+        return result
+}
 export  {
     productsApi,
     postProductsApi,
@@ -453,5 +567,11 @@ export  {
     patchCreditsCustomerApi,
     getSingleCreditsCustomerApi,
     postCreditsCustomerApi,
+    postPurchase,
+    postCategory,
+    postBrands,
+    getBrands,
+    deleteBrands,
+    getItems,
 }
 

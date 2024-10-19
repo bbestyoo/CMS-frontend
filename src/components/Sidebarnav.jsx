@@ -20,6 +20,7 @@ const navItems = [
   { name: 'transactions', href: '/transactions', icon: <TbTransactionDollar size={21}/> },
   { name: 'wallet', href: '/wallet', icon: <FaWallet size={21}/> },
   { name: 'credits', href: '/repair/credits', icon: <FaWallet size={21}/> },
+  { name: 'inventory', href: '/repair/inventory/view', icon: <MdSpaceDashboard size={21}/> },
 
 ];
 
@@ -33,15 +34,19 @@ const Navbar = () => {
   // console.log("pathname",pathname)
   return (
     <nav
-    className="w-full h-full z-20  text-white bg-sky-600 group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+    className="w-full h-full z-20  text-white bg-sky-600 group flex flex-col gap-4 data-[collapsed=true]:py-2"
      > 
      <div>
 
-<div className="mt-1 ml-2 text-center text-white font-bold">
-  LOGO --  EziLogs
-
+<div className="w-full flex items-center gap-5 justify-center bg-black  text-center text-white py-3 font-bold">
+ <span>
+  EziLogs Inc
+  </span> 
+<span>
+  &copy;
+</span>
 </div>
-<div className="text-center my-5">
+<div className="text-center my-3">
   <span className="">
 
     <p className="text-2xl font-semibold mb-1 text-white capitalize font-serif">welcome</p>

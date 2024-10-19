@@ -10,7 +10,7 @@ function RepairNav() {
     
 
   return (
-<div className={`bg-black-400 ${(pathname === "/repair/order" || pathname.includes("/repair/productDetails/") || pathname === "/repair/search" || pathname === "/repair/profit") ? "hidden" : ""}`}>        
+<div className={`bg-black-400 ${(pathname === "/repair/order" || pathname.includes("/repair/productDetails/") || pathname === "/repair/search" || pathname === "/repair/profit" || pathname.includes("/repair/inventory")) ? "hidden" : ""}`}>        
 <ul className='flex gap-5 drop-shadow-2xl text-sm rounded-2xl my-3 mx-auto w-fit px-3'>
             <Link href="/repair">
             <li><button className={`${pathname === "/repair" ? "bg-indigo-700 " : " bg-indigo-500" } px-3 py-2 hover:bg-indigo-700 text-white  rounded-3xl`}>

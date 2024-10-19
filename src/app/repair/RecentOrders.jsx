@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import { deleteProductsApi, patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
+import React, { useEffect, useState, useRef } from 'react';
+import { deleteProductsApi, getItems, patchProductsApiCompleted, patchProductsApiOutRepair, patchProductsApiRepaired, patchProductsApiUnrepairable, productsApi, userInfo } from "@/api/GetRepairProducts"
 import { DataTable } from './data-table';
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -26,7 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useForm } from "react-hook-form"
+import { useForm, Controller  } from "react-hook-form"
 import { IoIosLogOut } from "react-icons/io";
 import {
   Dialog,
@@ -40,6 +40,7 @@ import { useRouter } from 'next/navigation';
 import { FaTrash } from "react-icons/fa";
 import { useAppSelector } from '@/lib/hooks';
 import { CloudCog } from 'lucide-react';
+import { Listbox } from '@headlessui/react'
 
 
 
@@ -66,6 +67,7 @@ import { CloudCog } from 'lucide-react';
   const {
     register:register0,
     handleSubmit:handleSubmit0,
+    setValue: setValue0,
     formState: { errors },
   } = useForm()
   const { register: register1, handleSubmit: handleSubmit1 } = useForm();
@@ -76,10 +78,10 @@ import { CloudCog } from 'lucide-react';
       ...data,
       repair_status: data.repair_status || 'Repaired' // No change here
     };
-    // console.log("forum",formData)
+    console.log("forum",formData)
   
     if (formData.repair_cost_price !== "" && formData.repaired_by !== "" && formData.repair_status === "Repaired") { // Changed from != to !==
-      handlePatchFn(formData, repair_id); 
+      handlePatchFn(formData, repair_id, selectedItems, totalCost); 
     } else if(formData.repair_cost_price === "" && formData.repair_status === "Unrepairable") {
       handleUnrepairable(repair_id);
     }
@@ -91,7 +93,7 @@ import { CloudCog } from 'lucide-react';
      async function products(){
        
        try{
-         
+        console.log("formdata",formdata)
          const res = await patchProductsApiOutRepair(formdata, repair_id)
           router.push("/repair/out-repairs")
       }
@@ -104,13 +106,81 @@ import { CloudCog } from 'lucide-react';
 
 
   }
+  const [items, setItems] = useState([])
+  const [selectedItems, setSelectedItems] = useState([]);
+  const dropdownRef = useRef(null);
+
+  // Update editableTotalCost when selectedItems change
+  
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+  const [totalCost, setTotalCost] = useState(0)
+
+  const { control, watch } = useForm()
+
+
+  const watchSelectedItem = watch('selectedItem')
+
+  useEffect(() => {
+    if (watchSelectedItem && !selectedItems.some(item => item.id === watchSelectedItem.id)) {
+      setSelectedItems([...selectedItems, { ...watchSelectedItem, quantity: 1 }])
+    }
+  }, [watchSelectedItem])
+
+  useEffect(() => {
+    const newTotalCost = selectedItems.reduce((sum, item) => {
+      const itemPrice = items.find(i => i.id === item.id)?.cost || 0
+      return sum + itemPrice * item.quantity
+    }, 0)
+    setTotalCost(newTotalCost)
+  }, [selectedItems, items])
+
+  const handleQuantityChange = (id, change) => {
+    setSelectedItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(0, item.quantity + change) }
+          : item
+      ).filter(item => item.quantity > 0)
+    )
+  }
+ 
 
   
-  
+
+  useEffect(()=>{
+
+    async function fetchInitialData (){
+      const response = await getItems()
+      console.log("asdasd",response)
+      setItems(response)
+    }
+
+    fetchInitialData()
+
+
+  },[])
+
+
+
+ 
   return ( 
-    <>
-
-    <div className="flex gap-2  items-center ">
+  <>
+        
+        <div className="flex gap-2  items-center ">
       <form
         className="flex ml-4 gap-4 items-center w-full max-w-xl"
         onSubmit={handleSubmit0(onSubmit)}
@@ -127,38 +197,90 @@ import { CloudCog } from 'lucide-react';
             />
           </div>
         </div>
-        <div className="flex flex-col w-2/5">
-          <label
-            htmlFor="repair_cost_price"
-            className="block text-sm font-medium text-black capitalize"
-          >
-           Description
-          </label>
-          <input
-            type="text"
-            id="repair_cost_price"
-            name="repair_cost_price"
-            {...register0('cost_price_description')}
-            onClick={(e) => e.stopPropagation()}
-            className="mt-1 text-black-600 p-1 w-full border rounded-md"
-          />
+      
+        <div className="flex items-end space-x-3 px-2 py-4">
+      <div className="w-[150px] self-end">
+        <Controller
+          name="selectedItem"
+          control={control}
+          render={({ field }) => (
+            <Listbox value={field.value} onChange={field.onChange}>
+              <div className="relative mt-1">
+                <Listbox.Button className="relative  w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                  <span className="block truncate">{field.value ? field.value.name : 'Select an item'}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    ▼
+                  </span>
+                </Listbox.Button>
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {items.map((item) => (
+                    <Listbox.Option
+                      key={item.id}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                        }`
+                      }
+                      value={item}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                            {item.name}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              ✓
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
+          )}
+        />
+        <div className="mt-4">
+          {selectedItems.map((item) => (
+            <div key={item.id} className="flex items-center justify-between mt-2">
+              <span>{item.name}</span>
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleQuantityChange(item.id, -1)}
+                  className="px-2 py-1 bg-red-500 text-white rounded-l"
+                >
+                  -
+                </button>
+                <span className="px-2 py-1 bg-gray-200">{item.quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(item.id, 1)}
+                  className="px-2 py-1 bg-green-500 text-white rounded-r"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col w-2/5">
-          <label
-            htmlFor="repair_cost_price"
-            className="block text-sm font-medium text-black capitalize"
-          >
-            Cost
-          </label>
-          <input
-            type="text"
-            id="repair_cost_price"
-            name="repair_cost_price"
-            {...register0('repair_cost_price')}
-            onClick={(e) => e.stopPropagation()}
-            className="mt-1 text-black-600 p-1 w-full border rounded-md"
-          />
-        </div>
+      </div>
+      <div className="flex flex-col self-center">
+        <label htmlFor="totalCost" className=" text-sm font-medium text-gray-700">
+          Total Cost
+        </label>
+        <input
+          type="number"
+          id="totalCost"
+          value={totalCost}
+          onChange={(e) => setTotalCost(Number(e.target.value))}
+          className="px-3 w-[90px] py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        />
+      </div>
+    </div>
+             
+
+
         <div className="flex flex-col">
           <label htmlFor="repaired_by" className="block text-sm font-medium text-black">
             Select Technician
@@ -291,6 +413,7 @@ import { CloudCog } from 'lucide-react';
 }
       
     </div>
+
       </>                                                                                                     
 
   );
@@ -392,12 +515,19 @@ useEffect(()=>{
 ]
 
 
-const handlePatchFn = async (formData, repair_id) => {
+const handlePatchFn = async (formData, repair_id, selectedItem,totalCost) => {
 
 
       try {
         // Perform your PATCH request here
-        const response = await patchProductsApiRepaired(formData, repair_id)
+        console.log("asd",formData)
+        // console.log("itemscost",selectedItem)
+        const newArray = selectedItem.map((item) => ({
+          item: item.id,
+          quantity: item.quantity,
+        }));
+        console.log("data",newArray)
+        const response = await patchProductsApiRepaired(formData, repair_id, newArray, totalCost)
         const result = await response
         // console.log("patched", result)   
         setIsRepaired(true)     
@@ -474,8 +604,8 @@ someFunction();
 
 return (
     <>
-     <div className=" h-[480px] container drop-shadow-xl mx-auto bg-white text-black rounded-xl">
-      <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
+     <div className=" h-[480px] container overflow-visible drop-shadow-xl mx-auto bg-white text-black rounded-xl">
+        <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
 
     </>
