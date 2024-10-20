@@ -145,7 +145,7 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
               ))}
             </TableHeader>
             <TableBody className="overflow-visible z-10">
-              {table.getRowModel().rows?.length ? (
+              {table?.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                   className="overflow-visible z-10"

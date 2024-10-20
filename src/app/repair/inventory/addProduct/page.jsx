@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils"
 import { useAppSelector } from '@/lib/hooks'
 import { useRouter } from 'next/navigation'
 
-const baseURL = 'http://localhost:8000/'
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 async function fetchApi(endpoint) {
   const token = getCookie('accesstoken')
