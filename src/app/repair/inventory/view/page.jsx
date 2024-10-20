@@ -134,7 +134,7 @@ export default function InventoryPageComponent() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredBrands.map((data) => (
+            {filteredBrands?.map((data) => (
               <BrandCard
                 key={data.id}
                 brand={data}
