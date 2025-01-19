@@ -277,11 +277,19 @@ import { IoAddCircleSharp } from "react-icons/io5";
           Total Cost
         </label>
         <input
-          type="number"
+        name="totalCost"
           id="totalCost"
           value={totalCost}
-          onChange={(e) => setTotalCost(Number(e.target.value))}
-          className="px-3 w-[90px] py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          onChange={(e) => {
+            const value = e.target.value;
+          
+            // Check if the value is a valid number
+            if (!isNaN(value) && value.trim() !== '') {
+              setTotalCost(Number(value)); // Convert to number only if valid
+            } else if (value === '') {
+              setTotalCost(''); // Allow clearing the input
+            }
+          }}          className="px-3 w-[90px] py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
       </div>
     </div>
