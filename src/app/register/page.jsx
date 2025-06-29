@@ -103,8 +103,14 @@ const UserRegister = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <h2 className="mb-8 text-2xl font-bold text-gray-700">User Registration</h2>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+            <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-lg animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/10 rounded-full blur-lg animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-blue-400/10 rounded-full blur-lg animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-indigo-500/10 rounded-full blur-lg animate-pulse delay-700"></div>
+      </div>
+            <h2 className="mb-8 text-2xl font-bold text-white">User Registration</h2>
             <form onSubmit={handleSubmit} className="p-6 bg-white rounded shadow-md">
 
 

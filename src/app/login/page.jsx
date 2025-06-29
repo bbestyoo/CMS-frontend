@@ -4,7 +4,7 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/lib/hooks';
 import { setUserInfo } from '@/lib/user/userSlice';
-import { deleteCookie, setCookie } from 'cookies-next';
+import {  deleteCookie, setCookie } from 'cookies-next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -32,7 +32,7 @@ const Login = () => {
         const refreshToken = data.token.refresh;
         setCookie('accesstoken', accessToken, {
           sameSite: 'Lax',
-        });
+        }); 
         setCookie('refreshtoken', refreshToken, {
           sameSite: 'Lax',
         });
@@ -49,13 +49,21 @@ const Login = () => {
     }
   };
 
+
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('https://ideas.ted.com/wp-content/uploads/sites/3/2021/08/FINAL_Climate-Repair_credit_Stocksy.jpg')" }}>
-      <div className="absolute inset-0 bg-black opacity-30"></div>
-     <div className='text-white absolute top-0 left-0 p-3 text-3xl font-bold'> Ezilogs</div>
-      <div className="relative z-10 max-w-md w- space-y-8 backdrop-blur-sm bg-black border-white border text-white rounded-lg p-10 shadow-lg">
+    <div className="relative min-h-screen  bg-gray-900 p-5 ">
+      <button onClick={()=>router.push("/home")} className='text-md text-white cursor-pointer'>Ezilogs</button >
+    <div className='flex items-center justify-center'>
+      {/* for the visuals */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-lg animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/10 rounded-full blur-lg animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-blue-400/10 rounded-full blur-lg animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-indigo-500/10 rounded-full blur-lg animate-pulse delay-700"></div>
+      </div>
+      <div className="relative z-10 max-w-md  space-y-8 bg-transparent  text-white rounded-lg p-10 shadow-xl">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-bold">
+          <h2 className="mt-6 text-center text-md sm:text-xl md:text-3xl font-bold">
             Log in to your account
           </h2>
         </div>
@@ -64,7 +72,7 @@ const Login = () => {
           <div className="rounded-md shadow-sm -space-y-px">
           </div>
           <div>
-            <label htmlFor="email" className="block mb-2 text-lg font-medium text-white dark:text-white">Your email</label>
+            <label htmlFor="email" className="block mb-2 text-md sm:text-lg font-medium text-white dark:text-white">Your email</label>
             <input id="email"
               name="email"
               type="email"
@@ -75,7 +83,7 @@ const Login = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
           </div>
           <div>
-            <label htmlFor="password" className="block mb-2 text-lg font-medium  dark:text-white">Password</label>
+            <label htmlFor="password" className="block mb-2 text-md sm:text-lg font-medium  dark:text-white">Password</label>
             <input id="password"
               name="password"
               type="password"
@@ -111,6 +119,7 @@ const Login = () => {
           <p className='text-center font-bold text-md'>Don&apos;t have an Account? Click here to <Link className='text-center text-xl font-bold italic underline hover:text-blue-600' href={'/signup'}>Sign up</Link></p>
         </div>
       </div>
+    </div>
     </div>
   );
 };

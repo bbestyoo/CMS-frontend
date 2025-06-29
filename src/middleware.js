@@ -7,12 +7,17 @@ export function middleware(req) {
 
   const protectedRoutes = ['/', '/repair', '/search']
   const VprotectedRoutes = ['/repair', '/search']
+  const loginRoute = ['/login','/home', '/signup', '/register']
 
   // Check if the route is protected and user is not authenticated
   if ((protectedRoutes.includes(pathname) || VprotectedRoutes.some(route => pathname.startsWith(route))) && !token) {
 
-    return NextResponse.redirect(new URL('/login', req.url))
-  } else {
+    return NextResponse.redirect(new URL('/home', req.url))
+  }
+  else if ((loginRoute.includes(pathname) && token)){
+    return NextResponse.redirect(new URL('/', req.url))
+  }
+   else {
     // Handle the case when the route is not protected or the user is authenticated
     return NextResponse.next()
   }
