@@ -32,6 +32,20 @@ function Orders() {
 
   const [receivedBy, setReceivedBy] = useState(userData?.userinfo?.name)
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  function formatErrors(errorObj) {
+  return Object.entries(errorObj)
+    .map(([key, messages]) => `${formatField(key)}: ${messages.join(", ")}`)
+    .join(". ");
+}
+
+function formatField(field) {
+  // Make it pretty
+  return field
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+}
 
   useEffect(() => {
     // Calculate the due amount
@@ -45,21 +59,33 @@ function Orders() {
     setIsSubmitting(true);  
     try {
       const res = await postProductsApi(data)
-      console.log("reached here")
-      router.push(`/search/${res.repair_id}`)
+      console.log("reached here",res)
+      if(!res.ok){
+        const errData = await res.json();
+         const message = formatErrors(errData);
+      setError(message);
+      setIsSubmitting(false)
+        return;
+      }
+      const pathres = await res.json()
+      console.log("pathres",pathres)
+      setError("");
+      router.push(`/search/${pathres.repair_id}`)
     } catch(err) {
       console.log("error", err)
+      setIsSubmitting(false)
     } 
   }
 
   return (
     <>
-      <div className="w-1/2 h-4/5 overflow-y-scroll bg-white text-black mx-auto mt-5 p-7 px-10 rounded-xl drop-shadow-xl mb-40 bg-footer">
-        <h2 className="text-black text-xl text-center font-semibold mb-5">Post A Repair</h2>
-        <form 
+      <div className="w-[92%] h-[85vh] overflow-y-scroll bg-white text-black mx-auto mt-5 p-7 px-10 rounded-xl drop-shadow-xl mb-0 capitalize0 bg-footer">
+        <h2 className="text-black text-xl text-center font-semibold mb-5">Enter a Record</h2>
+        <form  
+        className='flex flex-wrap justify-around gap-2'
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="mb-4">
+          <div className="mb-0 capitalize w-[45%]">
             <label htmlFor="customer_name" className="block text-sm font-medium text-black">
               Customer Name
             </label>
@@ -70,8 +96,9 @@ function Orders() {
               {...register('customer_name',  { required: true })}
               className="mt-1 p-2 w-full border rounded-md "
             />
+
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize w-[45%]">
             <label htmlFor="customer_phone_number" className="block text-sm font-medium text-black">
               Customer Phone Number
             </label>
@@ -84,7 +111,7 @@ function Orders() {
               className="mt-1 p-2 w-full border rounded-md "
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="phone_model" className="block text-sm font-medium text-black">
               Phone Model
             </label>
@@ -98,7 +125,7 @@ function Orders() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="repair_problem" className="block text-sm font-medium text-black">
               Repair Problem
             </label>
@@ -110,9 +137,8 @@ function Orders() {
               className="mt-1 p-2 w-full border rounded-md "
               required
             />
-          </div>
-                  
-          <div className="mb-4">
+          </div>  
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="repair_description" className="block text-sm font-medium text-black capitalize">
               repair description
             </label>
@@ -125,7 +151,7 @@ function Orders() {
               rows="2"
             ></textarea>
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="imei_number" className="block text-sm font-medium text-black">
               Imei number
             </label>
@@ -139,7 +165,7 @@ function Orders() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="sim" className="block text-sm font-medium text-black">
             </label>
             Sim 
@@ -158,7 +184,7 @@ function Orders() {
               <option value="Present">Present</option>
             </select>
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="sim_tray" className="block text-sm font-medium text-black">
             </label>
             Sim tray
@@ -177,7 +203,7 @@ function Orders() {
               <option value="Absent">Absent</option> 
             </select>
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="SD_card" className="block text-sm font-medium text-black">
             </label>
             SD card
@@ -196,7 +222,7 @@ function Orders() {
               <option value="Present">Present</option>
             </select>
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="phone_cover" className="block text-sm font-medium text-black">
             </label>
             phone cover
@@ -215,7 +241,7 @@ function Orders() {
               <option value="Present">Present</option>
             </select>
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="total_amount" className="block text-sm font-medium text-black">
               Total Amount
             </label>
@@ -229,7 +255,7 @@ function Orders() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="advance_paid" className="block text-sm font-medium text-black">
               Advance paid
             </label>
@@ -243,7 +269,7 @@ function Orders() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="due" className="block text-sm font-medium text-black">
               Due
             </label>
@@ -257,7 +283,7 @@ function Orders() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize   w-[45%]">
             <label htmlFor="received_date" className="block text-sm font-medium text-black">
               received date
             </label>
@@ -272,7 +298,7 @@ function Orders() {
               className="mt-1 p-2 w-full border rounded-md "
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize   w-[45%]">
             <label htmlFor="delivery_date" className="block text-sm font-medium text-black">
               delivery date
             </label>
@@ -287,7 +313,7 @@ function Orders() {
               className="mt-1 p-2 w-full border rounded-md "
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-0 capitalize   w-[45%]">
             <label htmlFor="received_by" className="block text-sm font-medium text-black">
               received by
             </label>
@@ -302,11 +328,12 @@ function Orders() {
           </div>
           <button
             type="submit"
-            className="w-full bg-black text-white font-semibold p-3 mt-4 rounded-md disabled:bg-gray-400"
+            className="w-full bg-sky-600 hover:bg-sky-800 text-white font-semibold p-3 mt-4 rounded-md disabled:bg-gray-400"
             disabled={isSubmitting}
           >
             Submit
           </button>
+          {error && <p className='text-red-400 text-sm'>{error}</p>}
         </form>
       </div>
     </>

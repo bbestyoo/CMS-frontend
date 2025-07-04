@@ -190,7 +190,7 @@ function BrandCard({ brand, onClick }) {
         <div className="absolute inset-0 bg-slate-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
         <div className="absolute inset-0 bg-purple-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-          <CardTitle className="text-lg sm:text-xl font-medium text-slate-300 group-hover:text-black transition-colors duration-300">
+          <CardTitle className="text-lg sm:text-xl font-medium text-slate-300  transition-colors duration-300">
             {brand.name}
           </CardTitle>
           <Smartphone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />

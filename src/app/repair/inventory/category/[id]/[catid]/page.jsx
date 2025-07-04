@@ -112,13 +112,13 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
   };
 
   return (
-    <div className="w-full  mx-auto h-[57vh] ">
-      <div className=" text-black-500 flex items-center justify-between py-4">
+    <div className="w-full  mx-auto  ">
+      <div className=" text-black-500  flex items-center justify-between py-4">
         <div className="justify-start ">
         <Button
                 onClick={() => router.push('/repair/inventory/view')}
                 variant="outline"
-                className="w-full sm:w-auto text-black bg-indigo-500  border-white hover:bg-indigo-700 hover:text-white"
+                className="w-full sm:w-auto text-black bg-sky-300   hover:bg-sky-400 "
               >
                 <ArrowLeft className="mr-2 h-4 w-3" />
                 Back to Brands
@@ -138,7 +138,7 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
         </div>
            
               </div>
-      <div className="rounded-md border h-[55vh] overflow-y-scroll">
+      <div className="rounded-md border  h-[55vh] overflow-y-scroll">
         {loading ? (
           <Skeleton className="w-[100px] h-[20px] rounded-full" />
         ) : (
@@ -316,7 +316,7 @@ useEffect(() => {
   console.log("data",data)
 
   return (
-    <div className="container bg-white  mx-auto mt-3 rounded-2xl drop-shadow-xl w-11/12 h-[480px] ">
+    <div className="container bg-white  mx-auto mt-3 rounded-2xl drop-shadow-xl w-11/12 h-[85vh] ">
       <DataDisplay columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );

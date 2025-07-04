@@ -42,20 +42,21 @@ function Header() {
 
   return (
     <>
-      <div className='flex drop-shadow-xl w-full p-3 bg-[#f6f6f6] text-black justify-between h-[50px] items-center'>
-        <div>
-          <p className='font-sans italic font-bold text-xl'>EziLogs</p>
+      <div className='flex  w-full px-8 bg-gradient-to-r from-sky-500  to-slate-600 via-sky-600 text-black justify-between h-[50px] items-center'>
+        <div className='flex items-center '>
+          <p className='font-sans   text-md'>Welcome,&nbsp;</p>
+           <p className='capitalize font-semibold text-xl '>{userData ? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
         </div>
         
         <form 
-          className={`flex bg-main rounded-3xl px-3 py-1 items-center border ${isFocused ? 'border-2 border-black' : 'border border-gray-400'}`} // Adjusted classes for border
+          className={`flex bg-main rounded-3xl bg-gray-100 px-3 py-1 items-center border ${isFocused ? 'border-2 border-black' : 'border border-gray-400'}`} // Adjusted classes for border
           onSubmit={handleSearchSubmit}
         >
           <input 
             onFocus={handleSearchFocus} 
             onBlur={handleSearchBlur} 
             name="search" 
-            className='h-[30px] w-[300px] bg-inherit border-none text-black outline-none' 
+            className='h-[30px] w-[50vw] bg-inherit border-none text-black outline-none' 
             type="search" 
             placeholder='Search your repairs here' 
           />
@@ -64,23 +65,25 @@ function Header() {
           </button>
         </form>
 
-        <div className='flex gap-3'>
+        <div className='flex '>
           <span className='flex items-center'>
-            <p className='mr-2'><IoIosNotifications size={23} /></p>
-            <p className='capitalize'>Hi,</p>
-            <p className='capitalize font-semibold text-lg text-blue-900'>{userData ? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
+            <p className='mr-2 cursor-pointer'><IoIosNotifications className='text-white' size={23} /></p>
+           
           </span>
           <DropdownMenu>
             <DropdownMenuTrigger className=''>
-              <div className='border-2 border-indigo-500 rounded-full p-1'>
-                <FaUser size={20} />
+              <div className='border-2 border-white rounded-full p-1'>
+                <FaUser className='text-white' size={20} />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <div onClick={handleLogout}>
+              <div  onClick={handleLogout}>
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </div>
-              <div>
+              <div  onClick={handleLogout}>
+                <DropdownMenuItem>Change Password</DropdownMenuItem>
+              </div>
+              <div >
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
               </div>
             </DropdownMenuContent>

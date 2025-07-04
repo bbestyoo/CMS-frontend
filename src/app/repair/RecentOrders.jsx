@@ -182,13 +182,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
  
   return ( 
   <>
-        
-        <div className="flex gap-2  items-center ">
-      <form
-        className="flex  gap-4 items-center w-full max-w-xl"
-        onSubmit={handleSubmit0(onSubmit)}
-      >
-        <div className='w-fit '>
+        <div className="flex flex-col gap-2  w-fit mx-auto items-start ">
+          <div className='w-fit '>
           <div className="flex gap-1 justify-start w-full ">
             <p>Unrepairable</p>
             <input
@@ -200,9 +195,15 @@ import { IoAddCircleSharp } from "react-icons/io5";
             />
           </div>
         </div>
-      
-        <div className="flex items-end space-x-3 px-2 py-4">
-      <div className="w-[150px] self-end">
+      <form
+        className="flex flex-col  gap-1 items-start justify-center  w-full max-w-xl "
+        onSubmit={handleSubmit0(onSubmit)}
+      >
+        
+        <div className='flex items-start'>
+        <div className="flex  space-x-3  ">
+      <div className="w-[150px]  ">
+        <p>Select Equipment</p>
         <Controller
           name="selectedItem"
           control={control}
@@ -249,21 +250,21 @@ import { IoAddCircleSharp } from "react-icons/io5";
             </Listbox>
           )}
         />
-        <div className="mt-4">
+        <div className="mt-4 bg-red-300 w-full">
           {selectedItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between mt-2">
               <span>{item.name}</span>
               <div className="flex items-center">
                 <button
                   onClick={() => handleQuantityChange(item.id, -1)}
-                  className="px-2 py-1 bg-red-500 text-white rounded-l"
+                  className="px-2 py-1 bg-red-300 text-white rounded-l"
                 >
                   -
                 </button>
                 <span className="px-2 py-1 bg-gray-200">{item.quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(item.id, 1)}
-                  className="px-2 py-1 bg-green-500 text-white rounded-r"
+                  className="px-2 py-1 bg-green-300 text-white rounded-r"
                 >
                   +
                 </button>
@@ -272,7 +273,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
           ))}
         </div>
       </div>
-      <div className="flex flex-col self-center">
+      <div className="flex flex-col ">
         <label htmlFor="totalCost" className=" text-sm font-medium text-gray-700">
           Total Cost
         </label>
@@ -293,10 +294,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
         />
       </div>
     </div>
-             
 
-
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-start w-fit">
           <label htmlFor="repaired_by" className="block text-sm font-medium text-black">
             Select Technician
           </label>
@@ -305,7 +304,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
             name="repaired_by"
             {...register0('repaired_by')}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1 p-1 w-fit border rounded-md bg-gray-50 "
+            className="mt-1 p-2 w-fit border rounded-md bg-gray-50 "
             defaultValue=""
           >
             <option  className='' value="" disabled>
@@ -319,6 +318,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
             ))}
           </select>
         </div>
+        </div>
+        <div className='flex gap-5'>
         <button
           
           className="bg-indigo-500 hover:bg-indigo-700 text-white text-[10px] rounded-full font-bold py-1 px-[0.35rem]"
@@ -326,7 +327,6 @@ import { IoAddCircleSharp } from "react-icons/io5";
         >
           OK
         </button>
-      </form>
       <div >
       <Dialog >
   <DialogTrigger >
@@ -405,7 +405,6 @@ import { IoAddCircleSharp } from "react-icons/io5";
 </Dialog>
 </div>
 {
-
   userData?.userinfo?.role === 'Admin' &&
 <AlertDialog>
   <AlertDialogTrigger><FaTrash className='' size={18}/>
@@ -424,11 +423,12 @@ import { IoAddCircleSharp } from "react-icons/io5";
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
-
 }
-      
-    </div>
+        </div>
 
+      </form>
+
+    </div>
       </>                                                                                                     
 
   );
@@ -463,6 +463,7 @@ export default function RecentOrders() {
   
 const getTechInfo =  async () => {
   const response = await userInfo()
+  console.log("Response from user",response)
   setRoles(response)
 }
 
@@ -587,11 +588,10 @@ const handleUnrepairable = async (repairId) => {
     try {
         // Call the productsApi function to fetch data
         const products = await productsApi("Not repaired");
-        
+        console.log("products",products)
         // Do something with the fetched products data
         const filteredProducts = products.results;
         setMetadata({
-
           "next" : products.next,
           "previous" : products.previous,
           "count" : products.count
@@ -619,7 +619,7 @@ someFunction();
 
 return (
     <>
-     <div className=" h-[480px] container overflow-visible drop-shadow-xl mx-auto bg-white text-black rounded-xl">
+     <div className=" h-[80vh] container  drop-shadow-md mx-auto bg-white text-black rounded-xl">
         <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
 

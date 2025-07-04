@@ -23,10 +23,9 @@ function  TablePage() {
             // Call the productsApi function to fetch data
             console.log("asdasd")
             const products = await productsApi();
-            
             // Do something with the fetched products data
             setData(products.results);
-            console.log(data)
+            console.log("data",data)
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);
@@ -35,7 +34,6 @@ function  TablePage() {
     
     useEffect(() => { 
     someFunction();
-    
     }, [])
 
     function handleClick(repair_id){
@@ -47,7 +45,7 @@ function  TablePage() {
 
   return (
     <>
-    <div className='h-screen overflow-y-scroll  drop-shadow-2xl bg-white text-black rounded-xl'>
+    <div className='h-[62vh] overflow-y-scroll   drop-shadow-2xl bg-white text-black rounded-xl'>
         <h3 className='text-center text-lg my-5'>Recent Orders</h3>
 
     <Table>

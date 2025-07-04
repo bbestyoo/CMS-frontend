@@ -6,8 +6,8 @@ import UserProvider from "./userProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Ezilogs Inc.",
-  description: "Created by Sir.Bibesh Basnet",
+  title: "Ezilogs",
+  description: "Ezilogs, the record of all your digital transactions",
 };
 
 export default function RootLayout({ children }) {

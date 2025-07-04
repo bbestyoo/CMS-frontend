@@ -4,6 +4,7 @@ import { HiMenu, HiX } from 'react-icons/hi';
 import { BsChatDots } from 'react-icons/bs';
 import { Router } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function TextsLandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,7 +52,7 @@ export default function TextsLandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <main className="px-6 py-20">
+      <main className="px-6 py-20 h-[80vh]">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             Every&nbsp;
@@ -76,6 +77,18 @@ export default function TextsLandingPage() {
           </div>
         </div>
       </main>
+
+<div className='flex items-center mx-auto justify-center w-[80vw]'>
+    <Image
+    className='rounded-lg'
+        src="/home.png"
+        alt="Hero image"
+        width={1000}
+        height={800}
+        priority // Use for above-the-fold images
+      />
+
+</div>
 
       {/* Floating Elements for Visual Appeal */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">

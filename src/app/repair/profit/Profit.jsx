@@ -196,8 +196,8 @@ function Profit() {
       <div className=' bg-main rounded-xl mx-1'>
         <div className='flex gap-4 w-fit '>
 
-          <div className='bg-white drop-shadow-xl px-5 py-3 rounded-xl ml-5 my-5 w-fit ' onClick={() => setChosenData(Pdata.data)}>
-            {searched === false ? <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>This Month&apos;s Summary</h1> : <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>Chosen date Summary</h1>}
+          <div className=' bg-gradient-to-br from-sky-200 to-slate-200  px-5 py-3 rounded-xl ml-5 my-5 w-[400px] ' onClick={() => setChosenData(Pdata.data)}>
+            {searched === false ? <h1 className='  text-2xl font-bold text-center text-gray-500'>This Month&apos;s Summary</h1> : <h1 className='text-left  text-2xl font-bold text-gray-500'>Chosen date Summary</h1>}
 
             <div className='grid grid-flow-col auto-cols-auto gap-6'>
               <div className='my-5'>
@@ -241,15 +241,15 @@ function Profit() {
             </div>
           </div>
 
-          {searched === false ? <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit' onClick={() => setChosenData(filteredData.data)}>
+          {searched === false ? <div className=' bg-gradient-to-br from-sky-200 to-slate-200  drop-shadow-xl px-6 py-3 rounded-xl my-5 w-[350px]' onClick={() => setChosenData(filteredData.data)}>
 
-            <p className='text-left  text-2xl font-bold text-center text-gray-500'>
+            <p className='text-center  text-2xl font-bold text-gray-500'>
               Todays Profit
             </p>
-            <div className='flex gap-6'>
+            <div className='flex justify-between gap-6'>
 
               <div className='my-5'>
-                <h3 className='text-sm font-bold'>Total<br />No.</h3>
+                <h3 className='text-sm font-bold'>Total<br />Number</h3>
                 <p className='font-bold'>
                   {`${(filteredData?.data?.length) - (adminOnlyData?.length)}`}
 
@@ -267,7 +267,7 @@ function Profit() {
               </div>
 }
               <div className='my-5'>
-                <h3 className='text-sm font-bold'>Tech&apos;s<br />Profit</h3>
+                <h3 className='text-sm font-bold'>Technician&apos;s<br />Profit</h3>
                 <p className='font-bold'>
                   {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData.technician_profit : 'Role not recognized'}`}</p>
 
@@ -278,15 +278,15 @@ function Profit() {
           {
             userData?.userinfo?.role === 'Admin' && searched === false &&
 
-            <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit'>
+            <div className=' bg-gradient-to-br from-sky-200 to-slate-200   drop-shadow-xl px-6 py-3 rounded-xl my-5 w-[340px]'>
 
-              <p className='text-left  text-2xl font-bold text-center text-gray-500'>
+              <p className='text-center  text-2xl font-bold text-gray-500'>
                 Personal Profit
               </p>
               <div className='flex gap-6 justify-between'>
 
                 <div className='my-5'>
-                  <h3 className='text-sm font-bold'>Total<br />No.</h3>
+                  <h3 className='text-sm font-bold'>Total<br />Number</h3>
                   <p className='font-bold'>
                     {`${adminOnlyData?.length}`}
                   </p>
@@ -305,7 +305,7 @@ function Profit() {
         <div className='flex justify-between items-center '>
 
           <h3 className='text-center my-5 font-bold ml-7'>My transactions Profits</h3>
-          <div>
+          <div className='flex gap-3'>
 
             <Popover>
               <PopoverTrigger asChild>
@@ -339,13 +339,13 @@ function Profit() {
                 />
               </PopoverContent>
             </Popover>
-            <button onClick={onDateSearch} className='bg-gray-300 px-3 py-1 rounded-2xl hover:bg-gray-500'>Filter</button>
+            <button onClick={onDateSearch} className='bg-sky-400 px-5 py-1 rounded-lg hover:bg-sky-500'>Filter</button>
 
           </div>
         </div>
-        <div className="overflow-y-scroll max-h-[50vh]">
+        <div className="overflow-y-scroll h-[50vh]">
 
-          <Table className="container bg-white mx-auto rounded-2xl drop-shadow-xl w-11/12 py-10 ">
+          <Table className="container bg-white min-h-[20vh] mx-auto rounded-2xl drop-shadow-xl w-11/12 py-10 ">
             <TableCaption className="text-gray-500 text-sm mt-2">A list of your recent transactions</TableCaption>
             <TableHeader>
               <TableRow>

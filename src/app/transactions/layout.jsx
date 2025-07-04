@@ -1,5 +1,5 @@
+import Header from '@/components/Header';
 import Sidebarnav from '@/components/Sidebarnav';
-import THeader from './header';
 
 
 export default function RepairLayout({ children }) {
@@ -15,7 +15,7 @@ export default function RepairLayout({ children }) {
 <Sidebarnav/>
 <div className="w-full h-screen bg-back">
 
-<THeader/>
+<Header/>
 {children}
 </div>
 </div>

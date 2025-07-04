@@ -137,11 +137,11 @@ function TransactionPage() {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <button onClick={onDateSearch} className='bg-gray-300 px-3 py-1 rounded-2xl hover:bg-gray-500'>Filter</button>
+                    <button onClick={onDateSearch} className='bg-sky-400 text-white px-5 py-2 rounded-lg hover:bg-sky-800'>Filter</button>
                 </div>
             </div>
 
-            <div className='flex overflow-y-scroll'>
+            <div className='flex overflow-y-scroll min-h-[60vh]'>
 
                 {data && data.length > 0 ? (
                     <Table className='w-full text-left'>

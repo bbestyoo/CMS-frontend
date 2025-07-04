@@ -31,14 +31,11 @@ import { nextPageApi } from "@/api/GetRepairProducts"
 
 export function DataTable({ columns, initialData, initialMetadata, isLoading }) {
   const router = useRouter();
-  console.log("intiial data",initialData)
-
 
   // State to manage data and metadata for pagination
   const [data, setData] = useState([]); // Initialize with empty array
   const [metadata, setMetadata] = useState({}); // Initialize with empty object
   const [loading, setLoading] = useState();
-  
   
   // States for table configurations
   const [sorting, setSorting] = useState([]);
@@ -108,7 +105,7 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
   };
 
   return (
-    <div className="w-full  mx-auto h-[57vh] ">
+    <div className="w-full mx-auto h-[80vh] overflow-y-scroll">
       <div className=" text-black-500 flex items-center justify-between py-4">
         <div className="w-full flex justify-end">
           <section
@@ -123,10 +120,8 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
           </section>
         </div>
       </div>
-      <div className="rounded-md border h-[55vh] overflow-y-scroll ">
-        {loading ? (
-          <Skeleton className="w-[100px] h-[20px] rounded-full" />
-        ) : (
+      <div className="rounded-md border   ">
+        
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -144,16 +139,17 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
                 </TableRow>
               ))}
             </TableHeader>
-            <TableBody className="overflow-visible z-10">
+           
+            <TableBody className=" z-10">
               {table?.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                  className="overflow-visible z-10"
+                  className=" z-10"
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell className="text-black-500  z-10" key={cell.id}>
+                      <TableCell className="text-black-500   z-10" key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -173,13 +169,12 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
                 </TableRow>
               )}
             </TableBody>
-          </Table>
-        )}
+
+        </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 my-5 py-4">
+      <div className="flex items-center justify-end space-x-2 my-5">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel()?.rows?.length || 0} of{" "}
-          {table.getFilteredRowModel()?.rows?.length || 0} row(s) selected.
+          {table.getFilteredRowModel()?.rows?.length || 0} records .
         </div>
         <div className="space-x-2">
           <Button

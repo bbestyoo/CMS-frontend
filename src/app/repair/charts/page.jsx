@@ -35,7 +35,8 @@ export const LineDiagram = () => {
   
   const productsfunction  = async ()=> {
     const data = await productsApi()
-    const filteredData = data.map((el) => ({
+    console.log("data",data)
+    const filteredData = data?.results?.map((el) => ({
       customer_name: el.customer_name,
       phone_model: el.phone_model,
       total_amount: el.total_amount,
@@ -189,7 +190,7 @@ export const PieDiagarm = () => {
       console.log("res",res) // Assuming productsApi is an async function returning an array of data objects
       const status = ["Completed", "outside_repair", "Unrepairable", "Not repaired"];
       const newData = status.map((s) => {
-        const filteredData = res.filter((el) => el.repair_status === s);
+        const filteredData = res.results.filter((el) => el.repair_status === s);
         const sum = filteredData.reduce((total, current) => total + current.total_amount, 0);
         const length = filteredData.length;
         return { name: s, total_amount: sum, length: length };
@@ -337,7 +338,6 @@ export default function App(){
     <LineDiagram/>
     </div>
     <div className='col-span-1'>
-
     <PieDiagarm/>
     </div>
     </div>
