@@ -37,6 +37,7 @@ export default function InventoryPageComponent() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isRefetch, setIsRefetch] = useState(false)
   const [newBrandName, setNewBrandName] = useState('')
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function InventoryPageComponent() {
         setBrands(response)
         setFilteredBrands(response)
         setLoading(false)
+        setIsRefetch(true)
       } catch (err) {
         console.error('Error fetching brands:', err)
         setError('Failed to load brands')
@@ -54,7 +56,7 @@ export default function InventoryPageComponent() {
       }
     }
     fetchBrands()
-  }, [])
+  }, [isRefetch])
 
   useEffect(() => {
     const results = brands.filter(brand =>
@@ -105,8 +107,9 @@ export default function InventoryPageComponent() {
   }
 
   return (
-      <div className="p-3 px-8 bg-inherit text-black h-[90%]">
+      <div className="p-3 px-8 bg-inherit text-black    h-[90%]">
         <div className="max-w-6xl  mx-auto">
+          
           <div
             className="flex flex-col space-y-4 mb-8"
           >
@@ -135,7 +138,7 @@ export default function InventoryPageComponent() {
             </div>
           </div>
 
-          <div className="flex gap-6 justify-center flex-wrap">
+          <div className="flex gap-6 justify-center py-5 px-2 bg-white rounded-xl flex-wrap mt-10">
             {filteredBrands?.map((data) => (
               <BrandCard
                 key={data.id}
@@ -214,12 +217,13 @@ function BrandCard({ brand, onClick }) {
       onClick={onClick}
       className="cursor-pointer w-fit"
     >
-      <div className="bg-gradient-to-br from-slate-200 to-sky-200 border-none shadow-lg hover:shadow-xl  duration-300 group relative overflow-hidden h-32 w-56 rounded-lg">
-  <div className="flex  items-center justify-center h-full p-4 relative z-10">
+      <div className="bg-gradient-to-b from-slate-700 to-slate-900 border-none shadow-lg hover:shadow-xl  duration-300 group relative overflow-hidden h-24 w-fit rounded-lg">
+  <div className="flex  items-center justify-center h-full p-4 px-7 relative z-10">
     <div className="flex  gap-2 items-center justify-center text-center">
       <div className="flex justify-between items-center">
-        <div className="text-lg sm:text-xl font-medium text-black  transition-colors duration-300 capitalize">
+        <div className="text-lg sm:text-xl font-medium text-white  transition-colors duration-300 capitalize">
           {brand.name}
+         
         </div>
         {/* <Smartphone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" /> */}
       </div>
@@ -232,7 +236,7 @@ function BrandCard({ brand, onClick }) {
     <button 
       className="p-1 rounded"
     >
-      <MdDelete className="h-5 w-5 sm:h-6 sm:w-6 text-black hover:scale-125" />
+      <MdDelete className="h-5 w-5 sm:h-6 sm:w-6 text-sky-600 hover:scale-125" />
     </button>
   </AlertDialogTrigger>
         <AlertDialogContent>

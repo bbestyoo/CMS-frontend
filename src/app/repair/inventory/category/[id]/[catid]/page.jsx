@@ -30,6 +30,7 @@ import {
 import { IoAddCircleSharp } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { nextPageApi } from "@/api/GetRepairProducts"
+import { FiEdit2 } from "react-icons/fi";
 
 
 
@@ -245,7 +246,15 @@ export default  function DemoPage() {
         header: "Products",
         cell: ({ row }) => {
 
-          return <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("name")}  </div>
+          return <>
+          <div className="flex gap-3">
+
+           <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("name")}  </div>
+            <p className='border rounded-full p-1'>
+            <FiEdit2 />
+          </p>
+          </div>
+          </>
         },
        
       },

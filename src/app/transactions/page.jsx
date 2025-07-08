@@ -137,7 +137,7 @@ function TransactionPage() {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <button onClick={onDateSearch} className='bg-sky-400 text-white px-5 py-2 rounded-lg hover:bg-sky-800'>Filter</button>
+                    <button onClick={onDateSearch} className=' text-white px-5 py-2 rounded-lg hover:bg-sky-800'>Filter</button>
                 </div>
             </div>
 

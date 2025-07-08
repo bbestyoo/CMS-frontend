@@ -507,7 +507,7 @@ async function deleteBrands(id){
     try {
         console.log("***********", id);
         const token = getCookie('accesstoken');
-        const response = await fetch(`${baseURL}inventory/brand/${id}`, {
+        const response = await fetch(`${baseURL}inventory/brand/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`, // Assuming it's a bearer token

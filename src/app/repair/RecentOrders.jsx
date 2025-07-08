@@ -183,24 +183,13 @@ import { IoAddCircleSharp } from "react-icons/io5";
   return ( 
   <>
         <div className="flex flex-col gap-2  w-fit mx-auto items-start ">
-          <div className='w-fit '>
-          <div className="flex gap-1 justify-start w-full ">
-            <p>Unrepairable</p>
-            <input
-              onClick={(e) => e.stopPropagation()}
-              type="checkbox"
-              name="repair_status" // Changed from name="Repaired" to name="repair_status"
-              value="Unrepairable"
-              {...register0('repair_status')}
-            />
-          </div>
-        </div>
+         
       <form
         className="flex flex-col  gap-1 items-start justify-center  w-full max-w-xl "
         onSubmit={handleSubmit0(onSubmit)}
       >
         
-        <div className='flex items-start'>
+        <div className='flex items-start '>
         <div className="flex  space-x-3  ">
       <div className="w-[150px]  ">
         <p>Select Equipment</p>
@@ -319,7 +308,21 @@ import { IoAddCircleSharp } from "react-icons/io5";
           </select>
         </div>
         </div>
-        <div className='flex gap-5'>
+        <div className='flex gap-3 items-center'>
+
+         <div className='w-fit '>
+          <div className="flex gap-1 justify-start w-full ">
+            <p>Unrepairable</p>
+            <input
+              onClick={(e) => e.stopPropagation()}
+              type="checkbox"
+              name="repair_status" // Changed from name="Repaired" to name="repair_status"
+              value="Unrepairable"
+              {...register0('repair_status')}
+            />
+          </div>
+        </div>
+        <div className='flex gap-5 '>
         <button
           
           className="bg-indigo-500 hover:bg-indigo-700 text-white text-[10px] rounded-full font-bold py-1 px-[0.35rem]"
@@ -424,6 +427,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
   </AlertDialogContent>
 </AlertDialog>
 }
+        </div>
         </div>
 
       </form>

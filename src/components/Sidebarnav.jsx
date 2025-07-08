@@ -11,6 +11,7 @@ import { TbTransactionDollar } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { FaWallet } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
 
 const navItems = [
   { name: 'dashboard', href: '/', icon: <MdSpaceDashboard size={21}/>  },
@@ -38,8 +39,8 @@ const Navbar = () => {
      > 
      <div>
 
-<div className="w-full flex items-center gap-5 justify-center bg-sky-500  text-center  py-[11px] font-bold">
- <span className="text-xl font-sans text-black">
+<div className="w-full flex items-center gap-5 justify-center bg-sky-300  text-center  py-[11px] font-bold">
+ <span className="text-3xl font-extralight  text-white  px-7 py-1">
   EziLogs 
   </span> 
 {/* <span>
@@ -56,7 +57,7 @@ const Navbar = () => {
 </div> */}
 
 </div>
-      <ul className="flex flex-col items-start pl-4 space-y-2 bg-gradient-to-b from-sky-500 to-slate-800  h-full py-16 ">
+      <ul className="flex flex-col items-start pl-4 space-y-2 bg-gradient-to-b from-sky-300 to-slate-800  h-full py-16 ">
         {navItems.map((item, index) => (
           <li key={index} className="w-full">
             <Link className={`${item.href === pathname ? 'bg-[#f6f6f6] text-black linkStyleUp linkStyleDown relative' : 'hover:text-black'} flex gap-3 px-3 rounded-l-2xl  items-center  `} href={item.href}>

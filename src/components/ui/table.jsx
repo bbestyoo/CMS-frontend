@@ -20,7 +20,7 @@ TableHeader.displayName = "TableHeader"
 const TableBody = React.forwardRef(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
+    className={cn("[&_tr:last-child]:border-0 ", className)}
     {...props} />
 ))
 TableBody.displayName = "TableBody"
@@ -44,21 +44,30 @@ const TableRow = React.forwardRef(({ className, ...props }, ref) => (
 ))
 TableRow.displayName = "TableRow"
 
-const TableHead = React.forwardRef(({ className, ...props }, ref) => (
-  <th
-    ref={ref}
-    className={cn(
-      "h-1 py-3 px-3 text-center  align-middle font-large text-muted-foreground [&:has([role=checkbox])]:pr-0",
-      className
-    )}
-    {...props} />
-))
+const TableHead = React.forwardRef(({ className, children, ...props }, ref) => {
+  const isRepaired = children === "Repaired?";
+
+  return (
+    <th
+      ref={ref}
+      className={cn(
+        "h-1 py-3 px-3 font-large text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        isRepaired ? "text-center" : "text-left",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </th>
+  );
+});
+
 TableHead.displayName = "TableHead"
 
 const TableCell = React.forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-2 px-3 overflow-visible z-10 text-left align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn("p-2 px-3  overflow-visible  z-10 text-left align-middle [&:has([role=checkbox])]:pr-0", className)}
     {...props} />
 ))
 TableCell.displayName = "TableCell"

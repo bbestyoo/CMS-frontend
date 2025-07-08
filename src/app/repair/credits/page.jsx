@@ -1,9 +1,20 @@
 "use client"
-import { getAllCredits, getCreditsCustomerApi, patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts";
+import { getAllCredits, getCreditsCustomerApi, patchProductsApiCompleted, postCreditsCustomerApi, productsApi } from "@/api/GetRepairProducts";
 import { DataTable } from "../data-table";
 import { useEffect, useState  } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { IoAddCircleSharp } from "react-icons/io5";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -67,9 +78,9 @@ import {
   }
 
   return (
-    <div className="w-full mx-auto h-[320px]">
+    <div className="w-full mx-auto  h-[50vh]">
       
-      <div className=" bg-white text-black-500 flex items-center justify-between py-4">
+      <div className=" bg-white overflow-y-scroll h-[] text-black-500 flex items-center justify-between py-4">
         
 
        
@@ -162,6 +173,8 @@ import {
 
 export default  function DemoPage() {
 
+  const [isCreditorsTrue, setisCreditorsTrue] = useState(false)
+const [open, setOpen] = useState(false);
 
   const router = useRouter()
 
@@ -230,13 +243,71 @@ export default  function DemoPage() {
 useEffect(() => { 
   someFunction();
   
-  }, []); 
+  }, [isCreditorsTrue]); 
+
+   const [customerName, setCustomerName] = useState('');
+  const [due, setDue] = useState('');
+
+  const handleSubmit0 = async (e) => {
+    e.preventDefault();
+    const data = {'name': customerName, 'due': due};
+    const response = await postCreditsCustomerApi(data);
+    console.log("data", response);
+    setOpen(false);  
+    setisCreditorsTrue(true)
+
+  };
 
 
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 h-[480px] ">
-        <div>
-            Credit Details
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 h-[80vh] py-5 ">
+        <div className="w-full flex justify-between">
+          <p className="text-lg font-semibold">Creditors Details</p>
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger>
+     <section
+            className="w-fit text-md flex items-center gap-1"
+          >
+            <p>Add Creditors</p>
+            <IoAddCircleSharp
+              className="text-indigo-500 hover:text-indigo-700"
+              size={30}
+            />
+          </section>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogDescription>
+         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h1 className="text-lg font-semibold text-center mb-6">Create Creditor</h1>
+          <form onSubmit={handleSubmit0} className="space-y-4">
+            <input
+              type="text"
+              value={customerName} // Add value here
+              onChange={(e) => setCustomerName(e.target.value)}
+              placeholder="Customer Name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <input
+              type="text"
+              value={due} // Add value here
+              onChange={(e) => setDue(e.target.value)}
+              placeholder="Due"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+             
         </div>
       <CreditorsTable columns={columns} data={data} />
     </div>

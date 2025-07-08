@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useEffect, useState } from "react";
 import {
@@ -23,14 +24,16 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { IoAddCircleSharp } from "react-icons/io5";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { nextPageApi } from "@/api/GetRepairProducts"
 
 
 
-export function DataTable({ columns, initialData, initialMetadata, isLoading }) {
+export function  DataTable({ columns, initialData, initialMetadata, isLoading }) {
   const router = useRouter();
+  const pathname = usePathname()
+  console.log("pathname",pathname)
 
   // State to manage data and metadata for pagination
   const [data, setData] = useState([]); // Initialize with empty array
@@ -107,7 +110,9 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
   return (
     <div className="w-full mx-auto h-[80vh] overflow-y-scroll">
       <div className=" text-black-500 flex items-center justify-between py-4">
-        <div className="w-full flex justify-end">
+        { 
+        !pathname.includes('/repair/credited-repairs') && (
+          <div className="w-full flex justify-end">
           <section
             className="w-fit text-md flex items-center gap-1"
             onClick={handleClickRoute}
@@ -118,7 +123,8 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
               size={30}
             />
           </section>
-        </div>
+        </div> )
+}
       </div>
       <div className="rounded-md border   ">
         
@@ -144,12 +150,12 @@ export function DataTable({ columns, initialData, initialMetadata, isLoading }) 
               {table?.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                  className=" z-10"
+                  className="  z-10"
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell className="text-black-500   z-10" key={cell.id}>
+                      <TableCell className="text-black-500  z-10" key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

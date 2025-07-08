@@ -42,9 +42,9 @@ function Header() {
 
   return (
     <>
-      <div className='flex  w-full px-8 bg-gradient-to-r from-sky-500  to-slate-600 via-sky-600 text-black justify-between h-[50px] items-center'>
+      <div className='flex  w-full px-8 bg-gradient-to-r from-sky-300  to-slate-600 via-sky-600 text-black justify-between h-[50px] items-center'>
         <div className='flex items-center '>
-          <p className='font-sans   text-md'>Welcome,&nbsp;</p>
+          <p className='font-sans text-sky-900   text-md'>Welcome,&nbsp;</p>
            <p className='capitalize font-semibold text-xl '>{userData ? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
         </div>
         
