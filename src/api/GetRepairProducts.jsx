@@ -4,8 +4,6 @@ import { getCookie } from 'cookies-next'
 async function productsApi(status){
     const token = getCookie('accesstoken')
     if (status === undefined){
-
-            
             const res = await fetch (
                 `${baseURL}repair/`,
                 {
@@ -17,6 +15,7 @@ async function productsApi(status){
             }
             )
             const result = await res.json()
+            console.log("result",result)
             return result
         }
         else{
@@ -86,9 +85,7 @@ async function postProductsApi(data){
 
     }
     )
-    const result = await res.json()
-    console.log("result",result)
-    return result
+    return res
 
 }
 async function deleteProductsApi(data){
@@ -510,7 +507,7 @@ async function deleteBrands(id){
     try {
         console.log("***********", id);
         const token = getCookie('accesstoken');
-        const response = await fetch(`${baseURL}inventory/brand/${id}`, {
+        const response = await fetch(`${baseURL}inventory/brand/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`, // Assuming it's a bearer token
@@ -520,7 +517,7 @@ async function deleteBrands(id){
             credentials: 'include' // Use 'include' to send cookies with the request
         });
 
-        if (response.status === 204) {
+        if (response.ok) {
             // No content, successful delete
             console.log("Delete successful with no content.");
             return { success: true };

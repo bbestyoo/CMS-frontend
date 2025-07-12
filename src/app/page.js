@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Sidebarnav from "@/components/Sidebarnav";
 // import Todo from "@/components/Todo";
 import TablePage from "@/components/Table";
+import App from "./repair/charts/page";
 
 export default function Home() {
 
@@ -18,6 +19,7 @@ export default function Home() {
     <div className="bg-inherit text-black ">
 
     <Dashboard/>
+    {/* <App /> */}
     <div className="grid grid-cols-3 gap-3 container mt-3">
       <div className=" col-span-3">
       

@@ -38,7 +38,6 @@ function Profit() {
     to: startOfNextMonth,
   });
   const userData = useAppSelector((state) => state.user.value)
-  console.log("userData i profit", userData)
   const [Pdata, setPData] = useState([])
   const [searched, setSearched] = useState(false)
   // useEffect(() => {
@@ -51,27 +50,11 @@ function Profit() {
   const [adminOnlyData, setAdminOnlyData] = useState([])
   const [chosenData, setChosenData] = useState([])
   const searchParams = useSearchParams();
-  console.log("params", searchParams)
 
 
 
   const router = useRouter()
 
-  // const someFunction = async () => {
-  //     try {
-  //         // Call the productsApi function to fetch data
-  //         const products = await productsProfitApi();
-  //         console.log("((((first))))",products)
-
-  //         // Do something with the fetched products data
-  //         // setPData(products);
-  //         // setData(products.data)
-  //         // setChosenData(products)
-  //     } catch (error) {
-  //         // Handle errors if any
-  //         console.error('Error fetching products:', error);
-  //     }
-  // };
 
   const someProfitFunction = async () => {
     try {
@@ -86,7 +69,6 @@ function Profit() {
 
       if (searchParams.has('start_date') && searchParams.has('end_date')) {
         query = `start_date=${searchParams.get('start_date')}&end_date=${searchParams.get('end_date')}`;
-        console.log("hereeeeeeeeeeeeeeee", query)
         const token = getCookie('accesstoken')
         const res = await fetch(
           `${baseURL}enterprise/profit?${query}`,
@@ -105,7 +87,6 @@ function Profit() {
       }
       else if (searchParams.has('q')) {
         query = `q=${searchParams.get('q')}`;
-        console.log("hereeeeeeeeeeeeeeee", query)
         const token = getCookie('accesstoken')
         const res = await fetch(
           `${baseURL}enterprise/profit?${query}`,
@@ -126,9 +107,7 @@ function Profit() {
         const monthlyData = await productsProfitApi();
         setPData(monthlyData);
         setChosenData(monthlyData.data);
-        console.log("Herer ams nds adjsa j")
         let query = `start_date=${formatDate}&end_date=${formatDate}`;
-        console.log("hereeeeeeeeeeeeeeee", query)
         const token = getCookie('accesstoken')
         const res = await fetch(
           `${baseURL}enterprise/profit?${query}`,
@@ -140,14 +119,9 @@ function Profit() {
           }
         )
         const result = await res.json()
-        console.log("afterapifetchsadsadadsa", result)
         setFilteredData(result);
-        console.log("natie khate bullllllllllllllllllllllllllllllllllllllllllllllllll", filteredData)
         const admindata = result.data.filter((data) => data.admin_only_profit !== null)
-        console.log("askjdnksa dksa dsk sakds ak j", admindata)
         setAdminOnlyData(admindata);
-        console.log('moewwwwww', Pdata)
-
       }
     }
     catch (error) {
@@ -159,7 +133,6 @@ function Profit() {
   // useEffect(() => { 
   // someFunction();
   // }, [userData])
-  console.log("asdja jsdksafjdgjdsg jdagdjk dsa", chosenData)
   useEffect(() => {
     someProfitFunction()
     setSearched(false);
@@ -193,64 +166,64 @@ function Profit() {
 
   return (
     <>
-      <div className=' bg-main rounded-xl mx-1'>
-        <div className='flex gap-4 w-fit '>
+      <div className='  h-[92vh] bg-main overflow-y-scroll rounded-xl mx-1'>
+        <div className=' w-1/2 '>
 
-          <div className='bg-white drop-shadow-xl px-5 py-3 rounded-xl ml-5 my-5 w-fit ' onClick={() => setChosenData(Pdata.data)}>
-            {searched === false ? <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>This Month&apos;s Summary</h1> : <h1 className='text-left  text-2xl font-bold text-center text-gray-500'>Chosen date Summary</h1>}
+          <div className=' bg-gradient-to-br from-sky-200 to-slate-200 drop-shadow-xl  px-5 py-3 rounded-xl ml-5 my-2 w-[450px] ' onClick={() => setChosenData(Pdata.data)}>
+            {searched === false ? <h1 className='mb-2   text-xl font-semibold text-center text-sky-600'>This Month&apos;s Summary</h1> : <h1 className='mb-2 text-left  text-xl font-semibold text-sky-600'>Chosen date Summary</h1>}
 
-            <div className='grid grid-flow-col auto-cols-auto gap-6'>
-              <div className='my-5'>
-                <h3 className='text-sm font-bold'>Total <br /> No.</h3>
-                <p className='font-bold'>{`${Pdata?.data?.length}`}</p>
+            <div className='grid grid-cols-2'>
+              <div className='mb-1 flex items-center gap-2'>
+                <h3 className='text-sm font-bold text-slate-600'>Total Number:</h3>
+                <p className='font-semibold'>{`${Pdata?.data?.length}`}</p>
 
               </div>
               {
                 userData?.userinfo?.role === 'Admin' &&
-                <div className='my-5'>
-                  <h3 className='text-sm font-bold'>Total <br /> Profit</h3>
-                  <p className='font-bold'>{`RS.${Pdata?.total_profit}`}</p>
+                <div className='mb-1 flex items-center gap-2 justify-self-end'>
+                  <h3 className='text-sm font-bold text-slate-600'>Total  Profit:</h3>
+                  <p className='font-semibold'>{`Rs.${Pdata?.total_profit}`}</p>
 
                 </div>
               }
               {
                 userData?.userinfo?.role === 'Admin' &&
-                <div className='my-5'>
-                  <h3 className='text-sm font-bold'>My <br /> Profit</h3>
-                  <p className='font-bold'>{`RS.${Pdata?.my_profit}`}</p>
+                <div className='mb-1 flex items-center gap-2'>
+                  <h3 className='text-sm font-bold text-slate-600'>My Profit:</h3>
+                  <p className='font-semibold'>{`Rs.${Pdata?.my_profit}`}</p>
 
                 </div>
               }
 
-              <div className='my-5'>
-                <h3 className='text-sm font-bold'>Tech&apos;s <br /> Profit</h3>
-                <p className='font-bold'>{`RS.${Pdata?.technician_profit}`}</p>
+              <div className='mb-1 flex items-center gap-2 justify-self-end'>
+                <h3 className='text-sm font-bold text-slate-600'>Tech&apos;s  Profit:</h3>
+                <p className='font-semibold'>{`Rs.${Pdata?.technician_profit}`}</p>
 
               </div>
 
               {
                 userData?.userinfo?.role === 'Admin' &&
-                <div className='my-5'>
-                  <h3 className='text-sm font-bold'>Admin Only <br /> Profit</h3>
-                  {/* <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`RS.${Pdata?.admin_only_profit}`}
+                <div className='mb-1 flex items-center gap-2'>
+                  <h3 className='text-sm font-bold text-slate-600'>Admin Only  Profit:</h3>
+                  {/* <p className='font-semibold 2xl:font-bold text-lg 2xl:text-2xl'>{`Rs.${Pdata?.admin_only_profit}`}
             </p> */}
-                  <p className='font-bold'>{`RS.${Pdata?.admin_only_profit}`}
+                  <p className='font-semibold'>{`Rs.${Pdata?.admin_only_profit}`}
                   </p>
                 </div>
               }
             </div>
           </div>
 
-          {searched === false ? <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit' onClick={() => setChosenData(filteredData.data)}>
+          {searched === false ? <div className=' bg-gradient-to-br from-sky-200 to-slate-200  drop-shadow-xl px-6 ml-5 py-3 rounded-xl my-2 w-[450px]' onClick={() => setChosenData(filteredData.data)}>
 
-            <p className='text-left  text-2xl font-bold text-center text-gray-500'>
+            <p className='text-center  text-xl font-semibold text-sky-600'>
               Todays Profit
             </p>
-            <div className='flex gap-6'>
+            <div className='grid grid-cols-2 '>
 
-              <div className='my-5'>
-                <h3 className='text-sm font-bold'>Total<br />No.</h3>
-                <p className='font-bold'>
+              <div className='my-1 flex items-center gap-2'>
+                <h3 className='text-sm font-bold text-slate-600'>Total Number:</h3>
+                <p className='font-semibold'>
                   {`${(filteredData?.data?.length) - (adminOnlyData?.length)}`}
 
                 </p>
@@ -258,18 +231,18 @@ function Profit() {
               </div>
               {
                 userData?.userinfo?.role === 'Admin' &&
-              <div className='my-5'>
+              <div className='my-1 flex items-center gap-2 justify-self-end'>
 
-                <h3 className='text-sm font-bold'>My<br />Profit</h3>
-                <p className='font-bold'>
-                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.my_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
+                <h3 className='text-sm font-bold text-slate-600'>My Profit:</h3>
+                <p className='font-semibold'>
+                  {`Rs.${userData?.userinfo?.role === 'Admin' ? filteredData.my_profit : userData?.userinfo?.role === 'Technician' ? filteredData?.technician_profit : 'Role not recognized'}`}</p>
 
               </div>
 }
-              <div className='my-5'>
-                <h3 className='text-sm font-bold'>Tech&apos;s<br />Profit</h3>
-                <p className='font-bold'>
-                  {`RS.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData.technician_profit : 'Role not recognized'}`}</p>
+              <div className='my-1 flex items-center gap-2'>
+                <h3 className='text-sm font-bold text-slate-600'>Technician&apos;s Profit:</h3>
+                <p className='font-semibold'>
+                  {`Rs.${userData?.userinfo?.role === 'Admin' ? filteredData.technician_profit : userData?.userinfo?.role === 'Technician' ? filteredData.technician_profit : 'Role not recognized'}`}</p>
 
               </div>
             </div>
@@ -278,22 +251,22 @@ function Profit() {
           {
             userData?.userinfo?.role === 'Admin' && searched === false &&
 
-            <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl my-5 w-fit'>
+            <div className=' bg-gradient-to-br from-sky-200 to-slate-200   drop-shadow-xl px-6 py-3 rounded-xl my-2 ml-5 w-[450px]'>
 
-              <p className='text-left  text-2xl font-bold text-center text-gray-500'>
+              <p className='text-center  text-xl font-semibold text-sky-600'>
                 Personal Profit
               </p>
-              <div className='flex gap-6 justify-between'>
+              <div className='grid grid-cols-2'>
 
-                <div className='my-5'>
-                  <h3 className='text-sm font-bold'>Total<br />No.</h3>
-                  <p className='font-bold'>
+                <div className='my-1 flex items-center gap-2'>
+                  <h3 className='text-sm font-bold text-slate-600'>Total Number:</h3>
+                  <p className='font-semibold'>
                     {`${adminOnlyData?.length}`}
                   </p>
                 </div>
-                <div className='my-5'>
-                  <h3 className='text-sm font-bold'>Personal <br /> Profit</h3>
-                  <p className='font-bold'>{`RS.${filteredData.admin_only_profit}`}
+                <div className='my-1 flex items-center justify-self-end gap-2'>
+                  <h3 className='text-sm font-bold text-slate-600'>Personal  Profit:</h3>
+                  <p className='font-semibold'>{`Rs.${filteredData.admin_only_profit}`}
                   </p>
 
                 </div>
@@ -302,10 +275,10 @@ function Profit() {
             </div>
           }
         </div>
-        <div className='flex justify-between items-center '>
+        <div className='flex justify-between items-center  px-7'>
 
-          <h3 className='text-center my-5 font-bold ml-7'>My transactions Profits</h3>
-          <div>
+          <h3 className='text-center my-5 font-bold'>My Profit Transactions</h3>
+          <div className='flex gap-2'>
 
             <Popover>
               <PopoverTrigger asChild>
@@ -339,14 +312,14 @@ function Profit() {
                 />
               </PopoverContent>
             </Popover>
-            <button onClick={onDateSearch} className='bg-gray-300 px-3 py-1 rounded-2xl hover:bg-gray-500'>Filter</button>
+            <button onClick={onDateSearch} className='bg-sky-400 px-5 py-1 rounded-lg hover:bg-sky-500'>Filter</button>
 
           </div>
         </div>
-        <div className="overflow-y-scroll max-h-[50vh]">
+        <div className="overflow-y-scroll h-[70vh]  ">
 
-          <Table className="container bg-white mx-auto rounded-2xl drop-shadow-xl w-11/12 py-10 ">
-            <TableCaption className="text-gray-500 text-sm mt-2">A list of your recent transactions</TableCaption>
+          <Table className="container bg-white min-h-[20vh] overflow-y-scroll h-[61vh] mx-auto rounded-2xl w-11/12 py-10 ">
+            
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/5">Repair Info</TableHead>
@@ -358,7 +331,7 @@ function Profit() {
               </TableRow>
 
             </TableHeader>
-            <TableBody>
+            <TableBody className="">
               {chosenData && chosenData.length > 0 ? (
                 chosenData.map((data, i) => (
                   <TableRow key={i} onClick={() => handleClick(data.repair_id)} className="hover:bg-gray-100">

@@ -98,24 +98,24 @@ function ProductDetails() {
   );
 
   return (
-    <div className="container h-[545px] p-4 overflow-y-scroll mx-auto bg-gray-100 rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-center mb-6">Repair Details</h1>
+    <div className="container h-[92vh]  p-4 overflow-y-scroll mx-auto bg-gray-100 rounded-lg shadow-lg">
+      <h1 className="text-xl text-sky-700 font-semibold text-center mb-6">Repair Details</h1>
       <div className="justify-end flex gap-4">
         <div onClick={() => router.push(`/repair/productDetails/${params}/edit`)}>
-        <span className='bg-white drop-shadow-xl flex gap-3 w-fit px-3 py-1 mb-3 rounded-xl hover:bg-gray-100'>
+        <span className='bg-sky-600 text-white hover:bg-sky-800 items-center cursor-pointer flex gap-3 w-fit px-3 py-1 mb-3 rounded-xl '>
             <p className=''>Edit</p>
             <button className='rounded-md'><FaEdit size={30} /></button>
           </span>
   
         </div>
         <div onClick={() => router.push(`/search/${params}`)}>
-          <span className='bg-white drop-shadow-xl flex gap-3 w-fit px-3 py-1 mb-3 rounded-xl hover:bg-gray-100'>
+          <span className='bg-sky-600 text-white hover:bg-sky-800 items-center  cursor-pointer flex gap-3 w-fit px-3 py-1 mb-3 rounded-xl '>
             <p className=''>Print in PDF</p>
             <button className='rounded-md'><FaPrint size={30} /></button>
           </span>
         </div>
       </div>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full bg-white rounded-xl">
         <tbody>
           {renderDetails(primaryDetails)}
           {showMore && renderDetails(allDetailsOrder.filter(key => !primaryDetails.includes(key)))}

@@ -28,6 +28,8 @@ import {
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { deleteBrands, getBrands, postBrands } from '@/api/GetRepairProducts';
+import { IoAddCircleSharp } from 'react-icons/io5';
+import PurchaseTransactionForm from '../addProduct/page';
 
 export default function InventoryPageComponent() {
     const router = useRouter()
@@ -37,6 +39,7 @@ export default function InventoryPageComponent() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isRefetch, setIsRefetch] = useState(false)
   const [newBrandName, setNewBrandName] = useState('')
 
   useEffect(() => {
@@ -47,6 +50,7 @@ export default function InventoryPageComponent() {
         setBrands(response)
         setFilteredBrands(response)
         setLoading(false)
+        setIsRefetch(true)
       } catch (err) {
         console.error('Error fetching brands:', err)
         setError('Failed to load brands')
@@ -54,7 +58,7 @@ export default function InventoryPageComponent() {
       }
     }
     fetchBrands()
-  }, [])
+  }, [isRefetch])
 
   useEffect(() => {
     const results = brands.filter(brand =>
@@ -97,49 +101,68 @@ export default function InventoryPageComponent() {
     </div>
   )
 
-  function handleRouting(id){
-    console.log("clicked")
+  function handleRouting(e, id){
+    if (e.target.closest('button')) {
+      return; // Don't navigate
+    }
     router.push(`/repair/inventory/category/${id}`)
   }
 
   return (
-      <div className="p-3 bg-inherit text-black h-[90%]">
+      <div className="p-3 px-8 bg-inherit text-black    h-[90%]">
         <div className="max-w-6xl  mx-auto">
+          
           <div
-            className="flex flex-col space-y-4 mb-8"
+            className="flex flex-col space-y-4 mb-5"
           >
-            <h1 className="text-3xl lg:text-4xl font-bold text-center pb-4 text-black">Inventory Brands</h1>
+            <h1 className="text-3xl lg:text-2xl  text-center pb-4 text-sky-600 text-semibold">Inventory Brands</h1>
 
-            <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
+            <div className="flex flex-col bg-white rounded-xl px-1 py-2 sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
               <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black" />
                 <Input
                   type="text"
                   placeholder="Search brands..."
                   value={searchTerm}
                   onChange={handleSearch}
-                  className="pl-10 w-full bg-indigo-400 placeholder:text-gray-200 text-white border-indigo-500 focus:border-purple-500 focus:ring-purple-500"
+                  className="pl-10 w-full bg-sky-200 rounded-lg placeholder:text-black text-black "
                 />
               </div>
 
-              <Button
-                onClick={() => router.push('/')}
-                variant="outline"
-                className="w-full sm:w-auto text-black  border-white hover:bg-indigo-700 hover:text-white"
-              >
-                <ArrowLeft className="mr-2 h-4 w-3" />
-                Back to Dashboard
-              </Button>
+              <div className="w-full flex justify-end">
+                       <Dialog>
+               <DialogTrigger>
+                 <section
+                         className="w-fit text-md flex items-center bg-sky-200 hover:bg-sky-400 px-3 p-1 rounded-xl gap-1"
+                       >
+                         <p className='text-sm'>add new purchase</p>
+                         <IoAddCircleSharp
+                           className="text-indigo-500 hover:text-indigo-700"
+                           size={30}
+                         />
+                       </section>
+               </DialogTrigger>
+               <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
+                 <DialogHeader>
+                   <DialogDescription >
+                    <PurchaseTransactionForm/>
+                   </DialogDescription>
+                 </DialogHeader>
+               </DialogContent>
+             </Dialog>
+                       
+                     </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredBrands?.map((data) => (
+          <div className="grid grid-cols-3 gap-3  items-center py-5 px-2 bg-white rounded-xl  mt-1 overflow-y-scroll h-[65vh]">
+            {filteredBrands?.map((data, i) => (
+              <div key={data.id} className={`justify-self-center w-[100%]`}>
               <BrandCard
-                key={data.id}
                 brand={data}
-                onClick={()=>handleRouting(data.id)}
-              />
+                onClick={(e)=>handleRouting(e, data.id)}
+                />
+                </div>
             ))}
           </div>
 
@@ -154,14 +177,14 @@ export default function InventoryPageComponent() {
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button
-              className="fixed bottom-8 right-8 rounded-full w-14 h-14 lg:w-16 lg:h-16 shadow-lg bg-purple-600 hover:bg-purple-700 text-black"
+            <button
+              className="fixed bottom-8 right-8 rounded-full w-14 h-14 lg:w-16 lg:h-16 shadow-lg bg-sky-200 text-gray-600 flex justify-center items-center"
               onClick={() => setIsDialogOpen(true)}
             >
               <Plus className="w-6 h-6 lg:w-8 lg:h-8" />
-            </Button>
+            </button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-slate-800 text-white">
+          <DialogContent className="sm:max-w-[35vw] bg-sky-800 text-white">
             <DialogHeader>
               <DialogTitle>Add New Brand</DialogTitle>
               <DialogDescription className="text-slate-400">
@@ -177,13 +200,13 @@ export default function InventoryPageComponent() {
                   id="newBrandName"
                   value={newBrandName}
                   onChange={(e) => setNewBrandName(e.target.value)}
-                  className="col-span-3 bg-slate-700 text-white border-gray-600 focus:border-purple-500 focus:ring-purple-500"
+                  className="col-span-3 bg-gray-300 text-black"
                   placeholder="Enter brand name"
                 />
               </div>
             </div>
-            <DialogFooter>
-              <Button type="button" onClick={handleAddBrand} className="bg-purple-600 hover:bg-purple-700 text-black">
+            <DialogFooter>  
+              <Button type="button" onClick={handleAddBrand} className="bg-white hover:bg-gray-400 text-black">
                 Add Brand
               </Button>
             </DialogFooter>
@@ -196,14 +219,12 @@ export default function InventoryPageComponent() {
 function BrandCard({ brand, onClick }) {
 
   const handleDelete = async (id) => {
-
+    console.log("id",id)
     try {
       // Perform your PATCH request here
       const response = await deleteBrands(id)
       const result =  response
       console.log("deleted", result)   
-      setIsDelete(true)     
-  
     } 
     catch (error) {
       console.error('Error updating data:', error);
@@ -212,42 +233,47 @@ function BrandCard({ brand, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer w-[230px]"
+      className="cursor-pointer w-[100%]  "
     >
-      <Card className="bg-gray-200  border-none shadow-lg hover:shadow-xl transition-shadow duration-300 group relative overflow-hidden">
-        <div className="absolute inset-0 bg-slate-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-        <div className="absolute inset-0 bg-purple-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-          <div className="flex gap-1 items-center">
-
-          <CardTitle className="text-lg sm:text-xl font-medium text-black group-hover:text-black transition-colors duration-300">
-            {brand.name}
-          </CardTitle>
-          <Smartphone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-          </div>
-          <AlertDialog>
-<AlertDialogTrigger>          <MdDelete onClick  className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400 hover:scale-125" />
-
-</AlertDialogTrigger>
-<AlertDialogContent>
-  <AlertDialogHeader>
-    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-    <AlertDialogDescription>
-      This action cannot be undone. This will permanently delete this data
-      and remove this data from our servers.
-    </AlertDialogDescription>
-  </AlertDialogHeader>
-  <AlertDialogFooter>
-    <AlertDialogCancel>Cancel</AlertDialogCancel>
-    <AlertDialogAction onClick={()=>handleDelete(brand.id)}>Continue</AlertDialogAction>
-  </AlertDialogFooter>
-</AlertDialogContent>
-</AlertDialog>
-
-        </CardHeader>
-        <CardContent className="relative z-10">
-        </CardContent>
-      </Card>
+      <div className="bg-gradient-to-b from-sky-700 to-slate-800 border-none shadow-lg hover:shadow-xl hover:scale-105  duration-300 group relative overflow-hidden h-fit w-[100%] rounded-lg">
+  <div className="flex  items-center justify-center h-full p-4 px-7 relative z-10">
+    <div className="flex  gap-2 items-center justify-center text-center">
+      <div className="flex justify-between items-center">
+        <div className="text-lg sm:text-xl font-medium text-white  transition-colors duration-300 capitalize">
+          {brand.name}
+         
+        </div>
+        {/* <Smartphone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" /> */}
+      </div>
+      
+      <AlertDialog onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()}
+      }>
+         <AlertDialogTrigger   asChild>
+    <button 
+      className="p-1 rounded"
+    >
+      <MdDelete className="h-5 w-5 sm:h-6 sm:w-6 text-sky-600 hover:scale-125" />
+    </button>
+  </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this data
+              and remove this data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={()=>handleDelete(brand.id)}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  </div>
+</div>
     </div>
   )
 }

@@ -3,58 +3,49 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
+const navLinks = [
+  { href: "/repair", label: "Ongoing Repairs" },
+  { href: "/repair/call-to-customer", label: "Call to Customers" },
+  { href: "/repair/completed-repairs", label: "Completed Repairs" },
+  { href: "/repair/unrepairable-repairs", label: "Unrepairable Repairs" },
+  { href: "/repair/out-repairs", label: "Out Repairs" },
+  { href: "/repair/credited-repairs", label: "Credited" },
+]
+
 function RepairNav() {
+  const pathname = usePathname()
 
-    const pathname = usePathname()
-
-    
+  const shouldHide =
+    pathname === "/repair/order" ||
+    pathname.includes("/repair/productDetails/") ||
+    pathname === "/repair/search" ||
+    pathname === "/repair/profit" ||
+    pathname.includes("/repair/inventory")
 
   return (
-<div className={`bg-black-400 ${(pathname === "/repair/order" || pathname.includes("/repair/productDetails/") || pathname === "/repair/search" || pathname === "/repair/profit" || pathname.includes("/repair/inventory")) ? "hidden" : ""}`}>        
-<ul className='flex gap-5 drop-shadow-2xl text-sm rounded-2xl my-3 mx-auto w-fit px-3'>
-            <Link href="/repair">
-            <li><button className={`${pathname === "/repair" ? "bg-indigo-700 " : " bg-indigo-500" } px-3 py-2 hover:bg-indigo-700 text-white  rounded-3xl`}>
-
-                Ongoing Repairs
-            </button>
-                </li>
-            </Link>
-            <Link href="/repair/call-to-customer">
-            <li><button className={` ${pathname === "/repair/call-to-customer" ? "bg-indigo-700 " : " bg-indigo-500" } px-3 py-2 hover:bg-indigo-700 text-white bg-press rounded-3xl`}>
-
-                Call to Customers
-            </button>
-                </li>
-            </Link>
-            <Link href="/repair/completed-repairs">
-            <li><button className={`${pathname === "/repair/completed-repairs" ? "bg-indigo-700 " : " bg-indigo-500" } px-3 py-2 hover:bg-indigo-700 text-white bg-press rounded-3xl`}>
-
-                Completed Repairs
-            </button>
-                </li>
-            </Link>
-            <Link href="/repair/unrepairable-repairs">
-            <li><button className={`${pathname === "/repair/    unrepairable-repairs" ? "bg-indigo-700 " : " bg-press" } px-3 py-2 hover:bg-indigo-700 text-white bg-indigo-500 rounded-3xl`}>
-
-                Unrepairable Repairs
-            </button>
-                </li>
-            </Link>
-            <Link href="/repair/out-repairs">
-            <li><button className={`${pathname === "/repair/out-repairs" ? "bg-indigo-700 " : " bg-press" } px-3 py-2 hover:bg-indigo-700 text-white bg-indigo-500 rounded-3xl`}>
-
-                Out Repairs
-            </button>
-                </li>
-            </Link>
-            <Link href="/repair/credited-repairs">
-            <li><button className={`${pathname === "/repair/credited-repairs" ? "bg-indigo-700 " : " bg-press" } px-3 py-2 hover:bg-indigo-700 text-white bg-indigo-500 rounded-3xl`}>
-                Credited
-            </button>
-                </li>
-            </Link>
+    <div className={`${shouldHide ? "hidden" : ""} w-full`}>
+      <nav className="w-[92%] max-w-6xl mx-auto my-2 bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-2">
+        <ul className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
+          {navLinks.map(({ href, label }) => {
+            const isActive = pathname === href
+            return (
+              <li key={href}>
+                <Link href={href}>
+                  <button
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                      isActive
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "bg-gray-100 text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
-
+      </nav>
     </div>
   )
 }

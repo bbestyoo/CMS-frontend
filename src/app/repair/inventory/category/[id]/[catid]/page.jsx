@@ -30,7 +30,15 @@ import {
 import { IoAddCircleSharp } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { nextPageApi } from "@/api/GetRepairProducts"
-
+ import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import PurchaseTransactionForm from "../../../addProduct/page";
 
 
 export function DataDisplay({ columns, initialData, initialMetadata, isLoading }) {
@@ -68,7 +76,7 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
       rowSelection,
     },
   });
-
+ 
   useEffect(() => {
     // Simulate loading initial data
     setData(initialData);
@@ -76,9 +84,6 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
     setLoading(isLoading);
   }, [initialMetadata]);
 
-  const handleClickRoute = () => {
-    router.push("/repair/inventory/addProduct/");
-  };
 
   // Function to fetch paginated data from API
   const fetchPaginatedData = async (url) => {
@@ -112,22 +117,23 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
   };
 
   return (
-    <div className="w-full  mx-auto h-[57vh] ">
-      <div className=" text-black-500 flex items-center justify-between py-4">
+    <div className="w-full  mx-auto  ">
+      <div className=" text-black-500  flex items-center justify-between py-4">
         <div className="justify-start ">
         <Button
                 onClick={() => router.push('/repair/inventory/view')}
                 variant="outline"
-                className="w-full sm:w-auto text-black bg-indigo-500  border-white hover:bg-indigo-700 hover:text-white"
+                className="w-full sm:w-auto text-black bg-sky-300   hover:bg-sky-400 "
               >
                 <ArrowLeft className="mr-2 h-4 w-3" />
                 Back to Brands
               </Button>   
         </div>
         <div className="w-full flex justify-end">
-          <section
+          <Dialog>
+  <DialogTrigger>
+    <section
             className="w-fit text-md flex items-center gap-1"
-            onClick={handleClickRoute}
           >
             <p>Add New Products</p>
             <IoAddCircleSharp
@@ -135,10 +141,20 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
               size={30}
             />
           </section>
+  </DialogTrigger>
+  <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
+    <DialogHeader>
+      <DialogDescription >
+       <PurchaseTransactionForm/>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+          
         </div>
            
               </div>
-      <div className="rounded-md border h-[55vh] overflow-y-scroll">
+      <div className="rounded-md border  h-[55vh] overflow-y-scroll">
         {loading ? (
           <Skeleton className="w-[100px] h-[20px] rounded-full" />
         ) : (
@@ -245,7 +261,12 @@ export default  function DemoPage() {
         header: "Products",
         cell: ({ row }) => {
 
-          return <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("name")}  </div>
+          return <>
+          <div className="flex gap-3">
+
+           <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("name")}  </div>
+          </div>
+          </>
         },
        
       },
@@ -316,7 +337,7 @@ useEffect(() => {
   console.log("data",data)
 
   return (
-    <div className="container bg-white  mx-auto mt-3 rounded-2xl drop-shadow-xl w-11/12 h-[480px] ">
+    <div className="container bg-white  mx-auto mt-3 rounded-2xl drop-shadow-xl w-11/12 h-[85vh] ">
       <DataDisplay columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );

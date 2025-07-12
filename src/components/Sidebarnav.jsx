@@ -11,6 +11,7 @@ import { TbTransactionDollar } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { FaWallet } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
 
 const navItems = [
   { name: 'dashboard', href: '/', icon: <MdSpaceDashboard size={21}/>  },
@@ -34,29 +35,29 @@ const Navbar = () => {
   // console.log("pathname",pathname)
   return (
     <nav
-    className="w-full h-full z-20  text-white bg-sky-600 group flex flex-col gap-4 data-[collapsed=true]:py-2"
+    className="w-full h-screen   z-20  text-white  group flex flex-col justify-start data-[collapsed=true]:py-2"
      > 
      <div>
 
-<div className="w-full flex items-center gap-5 justify-center bg-black  text-center text-white py-3 font-bold">
- <span>
-  EziLogs Inc
+<div className="w-full flex items-center gap-5 justify-center bg-sky-300  text-center  py-[11px] font-bold">
+ <span className="text-3xl font-extralight  text-white  px-7 py-1">
+  EziLogs 
   </span> 
-<span>
+{/* <span>
   &copy;
-</span>
+</span> */}
 </div>
-<div className="text-center my-3">
+{/* <div className="text-center my-3">
   <span className="">
 
     <p className="text-2xl font-semibold mb-1 text-white capitalize font-serif">welcome</p>
     <p className="text-black text-2xl capitalize font-semibold mb-1">{userData? userData?.userDetails?.name || userData?.userinfo?.name : "User"}</p>
   </span>
     <p className="text-white">{userData? userData?.userDetails?.enterprise || userData?.userinfo?.enterprise : "Owner name"}</p>
-</div>
+</div> */}
 
 </div>
-      <ul className="flex flex-col items-start pl-4 space-y-2">
+      <ul className="flex flex-col items-start pl-4 space-y-2 bg-gradient-to-b from-sky-300 to-slate-800  h-full py-16 ">
         {navItems.map((item, index) => (
           <li key={index} className="w-full">
             <Link className={`${item.href === pathname ? 'bg-[#f6f6f6] text-black linkStyleUp linkStyleDown relative' : 'hover:text-black'} flex gap-3 px-3 rounded-l-2xl  items-center  `} href={item.href}>

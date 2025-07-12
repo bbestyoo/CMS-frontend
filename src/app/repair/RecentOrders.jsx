@@ -182,35 +182,24 @@ import { IoAddCircleSharp } from "react-icons/io5";
  
   return ( 
   <>
-        
-        <div className="flex gap-2  items-center ">
+        <div className="flex flex-col gap-2  w-fit mx-auto items-end ">
+         
       <form
-        className="flex  gap-4 items-center w-full max-w-xl"
+        className="flex flex-col   gap-1 items-start   w-full max-w-xl "
         onSubmit={handleSubmit0(onSubmit)}
       >
-        <div className='w-fit '>
-          <div className="flex gap-1 justify-start w-full ">
-            <p>Unrepairable</p>
-            <input
-              onClick={(e) => e.stopPropagation()}
-              type="checkbox"
-              name="repair_status" // Changed from name="Repaired" to name="repair_status"
-              value="Unrepairable"
-              {...register0('repair_status')}
-            />
-          </div>
-        </div>
-      
-        <div className="flex items-end space-x-3 px-2 py-4">
-      <div className="w-[150px] self-end">
+        <div className='flex items-start  '>
+        <div className="flex  space-x-3  ">
+      <div className="w-[180px]  ">
+        <p>Select Equipment</p>
         <Controller
           name="selectedItem"
           control={control}
           render={({ field }) => (
             <Listbox value={field.value} onChange={field.onChange}>
-              <div className="relative mt-1">
-                <Listbox.Button className="relative z-10  w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                  <span className="block truncate">{field.value ? field.value.name : 'Select an item'}</span>
+              <div className="relative ">
+                <Listbox.Button className="relative z-10  w-full border  cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                  <span className=" drop-shadow-none shadow-none">{field.value ? field.value.name : 'Select an item'}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     ▼
                   </span>
@@ -224,8 +213,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
                     <Listbox.Option
                       key={item.id}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-3 pr-4 ${
-                          active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                        `relative cursor-pointer select-none py-2 pl-3 pr-4 ${
+                          active ? 'bg-gray-100 ' : 'text-gray-900'
                         }`
                       }
                       value={item}
@@ -249,21 +238,21 @@ import { IoAddCircleSharp } from "react-icons/io5";
             </Listbox>
           )}
         />
-        <div className="mt-4">
+        <div className="mt-2 bg-white pl-2 rounded-lg w-full overflow-x-visible">
           {selectedItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between mt-2">
               <span>{item.name}</span>
               <div className="flex items-center">
                 <button
                   onClick={() => handleQuantityChange(item.id, -1)}
-                  className="px-2 py-1 bg-red-500 text-white rounded-l"
+                  className="px-2 py-1 bg-red-400  text-white rounded-l"
                 >
                   -
                 </button>
                 <span className="px-2 py-1 bg-gray-200">{item.quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(item.id, 1)}
-                  className="px-2 py-1 bg-green-500 text-white rounded-r"
+                  className="px-2 py-1 bg-green-400 text-white rounded-r"
                 >
                   +
                 </button>
@@ -272,7 +261,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
           ))}
         </div>
       </div>
-      <div className="flex flex-col self-center">
+      <div className="flex flex-col ">
         <label htmlFor="totalCost" className=" text-sm font-medium text-gray-700">
           Total Cost
         </label>
@@ -293,11 +282,9 @@ import { IoAddCircleSharp } from "react-icons/io5";
         />
       </div>
     </div>
-             
 
-
-        <div className="flex flex-col">
-          <label htmlFor="repaired_by" className="block text-sm font-medium text-black">
+        <div className="flex ml-2 flex-col justify-start w-fit">
+          <label htmlFor="repaired_by" className="block text-sm  font-medium text-black ">
             Select Technician
           </label>
           <select
@@ -305,11 +292,11 @@ import { IoAddCircleSharp } from "react-icons/io5";
             name="repaired_by"
             {...register0('repaired_by')}
             onClick={(e) => e.stopPropagation()}
-            className="mt-1 p-1 w-fit border rounded-md bg-gray-50 "
+            className="mt-1 p-2 w-fit border rounded-md bg-white cursor-pointer"
             defaultValue=""
           >
             <option  className='' value="" disabled>
-              Select Tech
+              Select Technician
             </option> 
            
             {roles.map((role, i) => (
@@ -319,18 +306,33 @@ import { IoAddCircleSharp } from "react-icons/io5";
             ))}
           </select>
         </div>
+        </div>
+        <div className='flex gap-3 items-center'>
+
+         <div className='w-fit '>
+          <div className="flex gap-1 justify-start w-full ">
+            <p>Unrepairable</p>
+            <input
+              onClick={(e) => e.stopPropagation()}
+              type="checkbox"
+              name="repair_status" // Changed from name="Repaired" to name="repair_status"
+              value="Unrepairable"
+              {...register0('repair_status')}
+            />
+          </div>
+        </div>
+        <div className='flex gap-5 '>
         <button
           
-          className="bg-indigo-500 hover:bg-indigo-700 text-white text-[10px] rounded-full font-bold py-1 px-[0.35rem]"
+          className="bg-indigo-700 hover:bg-indigo-800 text-white text-[10px] rounded-full font-bold py-1 px-[0.4rem]"
           type="submit"
         >
           OK
         </button>
-      </form>
       <div >
       <Dialog >
   <DialogTrigger >
-    <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl '><IoIosLogOut size={18}/></button></DialogTrigger>
+    <button className='flex justify-end items-center p-1 hover:bg-slate-500 bg-slate-300 rounded-xl '><IoIosLogOut className="text-indigo-700" size={18}/></button></DialogTrigger>
   <DialogContent>
     <DialogHeader>
       <DialogTitle>Outside repair form</DialogTitle>
@@ -405,7 +407,6 @@ import { IoAddCircleSharp } from "react-icons/io5";
 </Dialog>
 </div>
 {
-
   userData?.userinfo?.role === 'Admin' &&
 <AlertDialog>
   <AlertDialogTrigger><FaTrash className='' size={18}/>
@@ -424,11 +425,13 @@ import { IoAddCircleSharp } from "react-icons/io5";
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
-
 }
-      
-    </div>
+        </div>
+        </div>
 
+      </form>
+
+    </div>
       </>                                                                                                     
 
   );
@@ -463,6 +466,7 @@ export default function RecentOrders() {
   
 const getTechInfo =  async () => {
   const response = await userInfo()
+  console.log("Response from user",response)
   setRoles(response)
 }
 
@@ -587,11 +591,10 @@ const handleUnrepairable = async (repairId) => {
     try {
         // Call the productsApi function to fetch data
         const products = await productsApi("Not repaired");
-        
+        console.log("products",products)
         // Do something with the fetched products data
         const filteredProducts = products.results;
         setMetadata({
-
           "next" : products.next,
           "previous" : products.previous,
           "count" : products.count
@@ -619,7 +622,7 @@ someFunction();
 
 return (
     <>
-     <div className=" h-[480px] container overflow-visible drop-shadow-xl mx-auto bg-white text-black rounded-xl">
+     <div className=" h-[80vh] container  drop-shadow-md mx-auto bg-white text-black rounded-xl">
         <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
 

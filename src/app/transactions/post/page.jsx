@@ -18,6 +18,7 @@ function PostTransactionPage() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [roles, setRoles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
@@ -35,6 +36,7 @@ function PostTransactionPage() {
     };
 
     const handleSubmit = async (e) => {
+        setIsLoading(true)
         e.preventDefault();
         const data = {
             date,
@@ -58,6 +60,7 @@ function PostTransactionPage() {
                 setTransactionFrom('');
                 setTransactionTo('');
                 setDescription('');
+                setIsLoading(false)
                 // Optionally redirect or perform other actions
                 router.push('/transactions');
             } else {
@@ -75,11 +78,11 @@ function PostTransactionPage() {
     const technicianOptions = roles.filter(role => role.role === 'Technician');
 
     return (
-        <div className='bg-white h-auto w-[600px] flex flex-col items-center mx-auto my-10 p-6 shadow-lg rounded-lg'>
-            <h1 className='text-2xl font-serif mb-6'>Post a New Transaction</h1>
+        <div className='  flex flex-col items-center text-white '>
+            <h1 className='text-xl text-sky-200 mb-6'>Post a New Transaction</h1>
             <form className='w-full max-w-md mb-2' onSubmit={handleSubmit}>
                 <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='date'>
+                    <label className='block text-white text-sm font-bold mb-2' htmlFor='date'>
                         Date
                     </label>
                     <input
@@ -92,7 +95,7 @@ function PostTransactionPage() {
                     />
                 </div>
                 <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='amount'>
+                    <label className='block text-white text-sm font-bold mb-2' htmlFor='amount'>
                         Amount
                     </label>
                     <input
@@ -105,7 +108,7 @@ function PostTransactionPage() {
                     />
                 </div>
                 <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='description'>
+                    <label className='block text-white text-sm font-bold mb-2' htmlFor='description'>
                         Description
                     </label>
                     <input
@@ -119,7 +122,7 @@ function PostTransactionPage() {
                     />
                 </div>
                 <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='transactionFrom'>
+                    <label className='block text-white text-sm font-bold mb-2' htmlFor='transactionFrom'>
                         Transaction From
                     </label>
                     <select
@@ -129,7 +132,7 @@ function PostTransactionPage() {
                         onChange={(e) => setTransactionFrom(e.target.value)}
                         required
                     >
-                        <option value=''>Select Admin</option>
+                        <option  value=''>Select Admin</option>
                         {adminOptions.map((admin) => (
                             <option key={admin.user_id} value={admin.user_id}>
                                 {admin.name}
@@ -138,7 +141,7 @@ function PostTransactionPage() {
                     </select>
                 </div>
                 <div className='mb-4'>
-                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='transactionTo'>
+                    <label className='block text-white text-sm font-bold mb-2' htmlFor='transactionTo'>
                         Transaction To
                     </label>
                     <select
@@ -161,7 +164,8 @@ function PostTransactionPage() {
                 <div className='flex items-center justify-center'>
                     <button
                         type='submit'
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                        disabled={isLoading}
+                        className='bg-sky-900 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:cursor-not-allowed'
                     >
                         Post Transaction
                     </button>

@@ -23,10 +23,9 @@ function  TablePage() {
             // Call the productsApi function to fetch data
             console.log("asdasd")
             const products = await productsApi();
-            
             // Do something with the fetched products data
             setData(products.results);
-            console.log(data)
+            console.log("data",data)
         } catch (error) {
             // Handle errors if any
             console.error('Error fetching products:', error);
@@ -35,7 +34,6 @@ function  TablePage() {
     
     useEffect(() => { 
     someFunction();
-    
     }, [])
 
     function handleClick(repair_id){
@@ -47,7 +45,7 @@ function  TablePage() {
 
   return (
     <>
-    <div className='h-screen overflow-y-scroll  drop-shadow-2xl bg-white text-black rounded-xl'>
+    <div className='h-[62vh] overflow-y-scroll   drop-shadow-2xl bg-white text-black rounded-xl'>
         <h3 className='text-center text-lg my-5'>Recent Orders</h3>
 
     <Table>
@@ -60,12 +58,12 @@ function  TablePage() {
       <TableHead className="text-right font-semibold text-black">Amount</TableHead>
     </TableRow>
   </TableHeader>
-  <TableBody >
+  <TableBody className="bg-sky-100" >
     {
         data && data.length > 0 ? (
         data?.map((data, i)=>(
-            <TableRow  onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
-      <TableCell className="font-medium"><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
+            <TableRow   onClick = {()=>handleClick(data.repair_id)} className="border-b-2 border-white" key={i}>
+      <TableCell className="font-medium "><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
       <TableCell>{data.repair_problem}</TableCell>
       <TableCell >
       <p

@@ -1,5 +1,5 @@
 'use client'
-import { editProductDetails, getSearchProductsApi, postProductsApi } from '@/api/GetRepairProducts'
+import { editProductDetails, getSearchProductsApi } from '@/api/GetRepairProducts'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"

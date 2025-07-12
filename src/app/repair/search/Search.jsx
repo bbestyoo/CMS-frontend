@@ -100,8 +100,8 @@ function Search({ className }) {
             placeholder="search your repairs"
           />
         </form> */}
-        <div className='font-serif text-center mt-2'>You can now search products based on date! Try it now!</div>
-        <div className='flex gap-3 items-center '>
+        <div className=' text-center mt-4'>Search or filter your products!</div>
+        <div className='flex gap-3 mt-4 items-center '>
           <div className={cn("grid gap-2 border border-black rounded-md ", className)}>
             <Popover>
               <PopoverTrigger asChild>
@@ -136,13 +136,13 @@ function Search({ className }) {
               </PopoverContent>
             </Popover>
           </div>
-          <button onClick={onDateSearch} className='bg-gray-300 px-3 py-1 rounded-2xl hover:bg-gray-500'>Filter</button>
+          <button onClick={onDateSearch} className='bg-sky-600 text-white px-4 py-2 rounded-xl hover:bg-sky-500'>Filter</button>
         </div>
       </div>
-      <div className='h-[465px] overflow-y-scroll'>
+      <div className='h-[80vh]  overflow-y-scroll'>
         {
           dataList && dataList.length > 0 && msg === "" ? (
-            <Table className="h-full w-5/6 bg-white drop-shadow-xl mx-auto my-3 rounded-2xl">
+            <Table className="h-full  bg-white drop-shadow-xl mx-auto my-3 rounded-2xl">
               <TableCaption>A list of your recent transactions.</TableCaption>
               <TableHeader>
                 <TableRow>

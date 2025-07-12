@@ -19,12 +19,22 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import PostTransactionPage from './post/page';
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 
 
 async function transactionsApi() {
+    
     const token = getCookie('accesstoken')
     const res = await fetch(`${baseURL}transactions/`, {
         headers: {
@@ -89,19 +99,91 @@ function TransactionPage() {
 
     useEffect(() => {
         fetchTransactions();
-    }, [])  // Empty dependency array to ensure this runs only once on mount
+    }, [])  
+
+
+//     const columns = [
+//   {
+//     accessorKey: "transaction_from_name",
+//     header: "From",
+//     cell: ({ row }) => {
+//       const { transaction_to_name } = row.original;
+      
+//       return (
+//         <div 
+//           onClick={() => handleRowClick(row)} 
+//           className="capitalize cursor-pointer hover:text-blue-600"
+//         >
+//           {row.getValue("transaction_from_name")} → {transaction_to_name}
+//         </div>
+//       );
+//     },
+//   },
+//   {
+//     accessorKey: "transaction_to_name",
+//     header: "To",
+//     cell: ({ row }) => (
+//       <div className="capitalize">{row.getValue("transaction_to_name")}</div>
+//     ),
+//   },
+//   {
+//     accessorKey: "amount",
+//     header: "Amount",
+//     cell: ({ row }) => {
+//       const amount = parseFloat(row.getValue("amount"));
+//       const formatted = new Intl.NumberFormat("en-US", {
+//         style: "currency",
+//         currency: "USD",
+//       }).format(amount);
+      
+//       return <div className="font-medium">{formatted}</div>;
+//     },
+//   },
+//   {
+//     accessorKey: "desc",
+//     header: "Description",
+//     cell: ({ row }) => (
+//       <div className="max-w-[200px] truncate">{row.getValue("desc")}</div>
+//     ),
+//   },
+//   {
+//     accessorKey: "date",
+//     header: "Date",
+//     cell: ({ row }) => {
+//       const date = new Date(row.getValue("date"));
+//       const formatted = date.toLocaleDateString("en-US", {
+//         year: "numeric",
+//         month: "short",
+//         day: "numeric",
+//       });
+      
+//       return <div className="text-center">{formatted}</div>;
+//     },
+//   },
+// ];
     return (
-        <div className='bg-white max-h-[520px] w-[905px] mx-auto my-5 p-4 shadow-lg rounded-lg'>
+        <div className='bg-white overflow-y-scroll h-[86vh]  w-[95%] mx-auto my-5  shadow-lg rounded-lg'>
 
-            <div className=' w-full flex mb-10 justify-between'>
-                <section className='w-fit text-md flex items-center gap-1' onClick={() => router.push('/transactions/post')}>
-
-                    <p className=' '>
+            <div className=' w-full flex mb-10 justify-between  px-4 py-2'>
+                <Dialog>
+  <DialogTrigger>
+<section className='w-fit text-md  flex items-center gap-1' >
+                    <p className=''>
                         Add Transactions
                     </p>
-                    <IoAddCircleSharp className='text-indigo-500 hover:text-indigo-700' size={30} />
+                    <IoAddCircleSharp className='text-sky-800 hover:text-sky-900' size={30} />
 
                 </section>
+  </DialogTrigger>
+  <DialogContent className="bg-sky-700 border-none h-[80vh] overflow-y-scroll hide-scrollbar">
+    <DialogHeader>
+      <DialogDescription>
+        <PostTransactionPage />
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+                
                 <div className='flex gap-3 items-center '>
                     <div className={cn("grid gap-2 border border-black rounded-md ")}>
                         <Popover>
@@ -137,11 +219,11 @@ function TransactionPage() {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <button onClick={onDateSearch} className='bg-gray-300 px-3 py-1 rounded-2xl hover:bg-gray-500'>Filter</button>
+                    <button onClick={onDateSearch} className=' text-white px-5 py-2 rounded-lg bg-sky-600 hover:bg-sky-800'>Filter</button>
                 </div>
             </div>
 
-            <div className='flex overflow-y-scroll'>
+            <div className='flex overflow-y-scroll h-[75vh] px-2'>
 
                 {data && data.length > 0 ? (
                     <Table className='w-full text-left'>
@@ -170,8 +252,9 @@ function TransactionPage() {
                         </TableBody>
                     </Table>
                 ) : (
-                    <p>Loading transactions...</p>
+                    <p className=''>Loading transactions...</p>
                 )}
+                     
             </div>
         </div>
     )

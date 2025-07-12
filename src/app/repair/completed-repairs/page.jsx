@@ -103,7 +103,7 @@ useEffect(() => {
 
 
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 h-[480px] ">
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl w-11/12 h-[80vh] ">
       <DataTable columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );

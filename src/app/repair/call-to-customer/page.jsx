@@ -1,7 +1,7 @@
 "use client"
-import {  deleteProductsApi, getCreditsCustomerApi, patchCreditsCustomerApi, patchProductsApiCompleted, productsApi } from "@/api/GetRepairProducts";
+import {  deleteProductsApi, getCreditsCustomerApi, patchCreditsCustomerApi, patchProductsApiCompleted, postCreditsCustomerApi, productsApi } from "@/api/GetRepairProducts";
 import { DataTable } from "../data-table";
-import { useEffect, useState  } from "react";
+import { useEffect, useRef, useState  } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { FaTrash } from "react-icons/fa";
@@ -34,6 +34,7 @@ export default  function DemoPage() {
   const userData = useAppSelector((state)=> state.user.value)
   const [isDelete, setIsDelete] = useState(false)
   const [isCredited, setIsCredited] = useState(false)
+  const [isloading, setIsLoading] = useState(false)
   const [creditsCustomer, setCreditsCustomer] = useState([])
 
 
@@ -50,8 +51,10 @@ export default  function DemoPage() {
 
   const [data, setData] = useState([])  
   const [isCompleted, setIsCompleted] = useState(false)
+  
 
   const AmountPaidCell = ({ value, row, table }) => {
+          const dueOriginal = parseFloat(row.getValue("due"))
     const [amountPaid, setAmountPaid] = useState(value);
   console.log("Asd",creditsCustomer)
     const handleInputChange = (e) => {
@@ -68,20 +71,57 @@ export default  function DemoPage() {
       return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
     });
 
+
+  const originalDueRef = useRef(0); // to store base due value
+
     const {
       register,
       handleSubmit,
+          watch,
+          setValue,
       formState: { errors },
     } = useForm();
 
+const selectedCustomerId = watch('credit_id');
+const amtpaid = watch('amount_paid');
+
+     useEffect(() => {
+  const selectedCustomer = creditsCustomer.find(
+    (c) => c.id.toString() === selectedCustomerId
+  );
+
+  const due = selectedCustomer?.due || 0;
+  originalDueRef.current = due;
+
+  setValue('credit_due', (due + dueOriginal - parseFloat(amtpaid || '0').toString()));
+  }, [selectedCustomerId, creditsCustomer, setValue, amtpaid]);
+
+
 
    async function onSubmit(data){
+    setIsLoading(true)
       console.log("datacredits",data)
       const credits_data = {...data, repair_id:row.original.repair_id, repair_status:"Credited"}
       const response = await patchCreditsCustomerApi(credits_data)
       console.log(response)
       setIsCredited(true)
     }
+
+
+     const [customerName, setCustomerName] = useState('');
+  const [due, setDue] = useState('');
+  const router = useRouter()
+
+  const handleSubmit0 = async (e) => {
+    e.preventDefault();
+    const data = {'name': customerName, 'due': due};
+    const response = await postCreditsCustomerApi(data);
+    console.log("data", response);
+    if (response != null) {
+      router.push('/repair/call-to-customer');
+    }
+  };
+
     return (
       <>
       
@@ -96,8 +136,8 @@ export default  function DemoPage() {
           className="text-right p-1 border bg-gray-50 placeholder:text-black"
           style={{ width: "100px" }}
         />
-        <Button         
-onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
+        <button className="p-2 text-white bg-sky-600 rounded-full"          
+onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</button >
      {
 
 userData?.userinfo?.role === 'Admin' && (
@@ -124,7 +164,7 @@ userData?.userinfo?.role === 'Admin' && (
 <div>
 <Dialog>
         <DialogTrigger>
-          <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl'>
+          <button className='flex justify-end items-center p-2 bg-slate-300 rounded-full'>
             <FaWallet size={18} />
           </button>
         </DialogTrigger>
@@ -134,7 +174,44 @@ userData?.userinfo?.role === 'Admin' && (
 
             <DialogTitle>Credit details Form</DialogTitle>
             <div>
-              <button onClick={()=>router.push('/repair/add-credits/')} className="px-3 py-1 rounded-2xl bg-black text-white">Add</button>
+              <Dialog>
+  <DialogTrigger>
+     <button className="px-3 py-1 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white">Add</button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Create a creditor</DialogTitle>
+      <DialogDescription>
+         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h1 className="text-2xl font-bold text-center mb-6">Enter Customer Name</h1>
+          <form onSubmit={handleSubmit0} className="space-y-4">
+            <input
+              type="text"
+              value={customerName} // Add value here
+              onChange={(e) => setCustomerName(e.target.value)}
+              placeholder="Customer Name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <input
+              type="text"
+              value={due} // Add value here
+              onChange={(e) => setDue(e.target.value)}
+              placeholder="Due"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+             
               </div>
             </div>
 
@@ -170,6 +247,7 @@ userData?.userinfo?.role === 'Admin' && (
                       id="amount_paid"
                       name="amount_paid"
                       {...register('amount_paid', { required: true })}
+                      defaultValue="0"
                       className="mt-1 p-2 w-full border rounded-md"
                       required
                     />
@@ -183,13 +261,15 @@ userData?.userinfo?.role === 'Admin' && (
                       id="credit_due"
                       name="credit_due"
                       {...register('credit_due', { required: true })}
+                      defaultValue="0"
                       className="mt-1 p-2 w-full border rounded-md"
                       required
                     />
                   </div>
                   <button
+                    disabled={isloading}
                     type="submit"
-                    className="bg-blue-500 text-black py-2 px-4 rounded-md hover:bg-blue-600"
+                    className="bg-blue-500 text-black py-2 px-4 rounded-md hover:bg-blue-600 disabled:cursor-not-allowed"
                   >
                     Post
                   </button>
@@ -241,7 +321,6 @@ userData?.userinfo?.role === 'Admin' && (
     header: () => <div className="text-right">Due Amount</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("due"))
-
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -348,7 +427,7 @@ const handleDelete = async (repair_id) => {
     }, [isCompleted, isDelete, isCredited]); 
 
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[480px] w-11/12">
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[80vh] w-11/12">
       <DataTable columns={columns} initialData={data} initialMetadata={metadata}  />
     </div>
   );
