@@ -73,10 +73,12 @@ const userId = userData?.userinfo?.id
   const [items, setItems] = useState([])
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
-  const [newItemData, setNewItemData] = useState({ name: '', brand: '', category: '', cost: 0 })
+  const [newItemData, setNewItemData] = useState({ name: '', brand: '', category: '', cost: 0})
   const [newBrandName, setNewBrandName] = useState('')
   const [newCategoryName, setNewCategoryName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoading0, setIsLoading0] = useState(false)
+  const [isAlert, setIsAlert] = useState(false)
   const [error, setError] = useState(null)
   const [openItemDialog, setOpenItemDialog] = useState(false)
   const [openBrandDialog, setOpenBrandDialog] = useState(false)
@@ -125,6 +127,8 @@ const userId = userData?.userinfo?.id
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
+        setIsLoading0(true)
+
     try {
       const response = await postApi('inventory/purchase/', formData)
       if (response.ok) {
@@ -134,7 +138,7 @@ const userId = userData?.userinfo?.id
           purchased_by: ''
 
         })
-        alert('Purchase transaction submitted successfully')
+        setIsAlert(true)
         router.push('/repair/inventory/view/')
       } else {
         throw new Error('Failed to submit purchase transaction')
@@ -209,9 +213,9 @@ const userId = userData?.userinfo?.id
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
+    <Card className="w-full mx-auto border-none p-0 m-0">
       <CardHeader>
-        <CardTitle>Purchase Transaction Form</CardTitle>
+        <CardTitle className="text-sky-700">Purchase Transaction Form</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -242,7 +246,7 @@ const userId = userData?.userinfo?.id
           {formData.purchases.map((purchase, index) => (
             <Card key={index} className="mt-4">
               <CardHeader>
-                <CardTitle className="text-lg">Purchase Item {index + 1}</CardTitle>
+                <CardTitle className="text-lg text-sky-700">Purchase Item {index + 1}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
@@ -326,11 +330,12 @@ const userId = userData?.userinfo?.id
             </Card>
           ))}
 
-          <Button type="button" onClick={handleAddPurchase} className="w-full">
+          <button type="button" onClick={handleAddPurchase} className="w-full bg-sky-800 flex justify-center items-center p-2 text-white hover:bg-sky-900 rounded-xl">
             <Plus className="mr-2 h-4 w-4" /> Add Another Purchase Item
-          </Button>
+          </button>
 
-          <Button type="submit" className="w-full">Submit Purchase Transaction</Button>
+          <button type="submit" disabled={isLoading0} className="w-full disabled:cursor-not-allowed bg-sky-800 p-2 text-white hover:bg-sky-900 rounded-xl">Submit Purchase Transaction</button>
+          {isAlert && <p className='text-green-300 text-sm text-center my-2'>Transaction submitted successfully</p>}
         </form>
 
         <Dialog open={openItemDialog} onOpenChange={setOpenItemDialog}>
@@ -341,7 +346,7 @@ const userId = userData?.userinfo?.id
             <div className="space-y-4">
               <Input
                 placeholder="Item Name"
-                value={newItemData.name}
+                value={newItemData.name }
                 onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
               />
               <Popover>
@@ -402,7 +407,7 @@ const userId = userData?.userinfo?.id
                         {categories.map((category) => (
                           <CommandItem
                             key={category.id}
-                            onSelect={() => setNewItemData({ ...newItemData, category: category.id })}
+                            onSelect={() => setNewItemData({ ...newItemData, category: category.id, categName: category.name })}
                           >
                             <Check
                               className={cn(

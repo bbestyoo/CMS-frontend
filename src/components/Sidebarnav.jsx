@@ -35,7 +35,7 @@ const Navbar = () => {
   // console.log("pathname",pathname)
   return (
     <nav
-    className="w-full h-screen z-20  text-white  group flex flex-col justify-start data-[collapsed=true]:py-2"
+    className="w-full h-screen   z-20  text-white  group flex flex-col justify-start data-[collapsed=true]:py-2"
      > 
      <div>
 

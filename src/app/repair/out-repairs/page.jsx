@@ -312,9 +312,9 @@ export default function RecentOrders() {
   
   return (
       <>
-       <div className=" container drop-shadow-xl mx-auto bg-white text-black h-[480px] rounded-xl">
+       <div className=" container drop-shadow-xl mx-auto bg-white text-black h-[80vh] rounded-xl">
         <DataTable isLoading={isLoading} columns={columns} initialData={data} initialMetadata={metadata} />
-      </div>
+      </div> 
   
       </>
     )

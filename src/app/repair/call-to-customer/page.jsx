@@ -136,8 +136,8 @@ const amtpaid = watch('amount_paid');
           className="text-right p-1 border bg-gray-50 placeholder:text-black"
           style={{ width: "100px" }}
         />
-        <Button         
-onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</Button>
+        <button className="p-2 text-white bg-sky-600 rounded-full"          
+onClick={(e)=>handleCompleted(row.original.repair_id, amountPaid, e)}>Ok</button >
      {
 
 userData?.userinfo?.role === 'Admin' && (
@@ -164,7 +164,7 @@ userData?.userinfo?.role === 'Admin' && (
 <div>
 <Dialog>
         <DialogTrigger>
-          <button className='flex justify-end items-center p-1 bg-red-300 rounded-xl'>
+          <button className='flex justify-end items-center p-2 bg-slate-300 rounded-full'>
             <FaWallet size={18} />
           </button>
         </DialogTrigger>
@@ -427,7 +427,7 @@ const handleDelete = async (repair_id) => {
     }, [isCompleted, isDelete, isCredited]); 
 
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[480px] w-11/12">
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[80vh] w-11/12">
       <DataTable columns={columns} initialData={data} initialMetadata={metadata}  />
     </div>
   );

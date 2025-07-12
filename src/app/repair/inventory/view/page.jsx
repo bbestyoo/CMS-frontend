@@ -28,6 +28,8 @@ import {
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { deleteBrands, getBrands, postBrands } from '@/api/GetRepairProducts';
+import { IoAddCircleSharp } from 'react-icons/io5';
+import PurchaseTransactionForm from '../addProduct/page';
 
 export default function InventoryPageComponent() {
     const router = useRouter()
@@ -111,11 +113,11 @@ export default function InventoryPageComponent() {
         <div className="max-w-6xl  mx-auto">
           
           <div
-            className="flex flex-col space-y-4 mb-8"
+            className="flex flex-col space-y-4 mb-5"
           >
-            <h1 className="text-3xl lg:text-2xl  text-center pb-4 text-black">Inventory Brands</h1>
+            <h1 className="text-3xl lg:text-2xl  text-center pb-4 text-sky-600 text-semibold">Inventory Brands</h1>
 
-            <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
+            <div className="flex flex-col bg-white rounded-xl px-1 py-2 sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black" />
                 <Input
@@ -123,28 +125,44 @@ export default function InventoryPageComponent() {
                   placeholder="Search brands..."
                   value={searchTerm}
                   onChange={handleSearch}
-                  className="pl-10 w-full bg-gray-200 rounded-lg placeholder:text-black text-black "
+                  className="pl-10 w-full bg-sky-200 rounded-lg placeholder:text-black text-black "
                 />
               </div>
 
-              <Button
-                onClick={() => router.push('/')}
-                variant="outline"
-                className="w-full sm:w-auto text-black  border-white hover:bg-gray-300 "
-              >
-                <ArrowLeft className="mr-2 h-4 w-3" />
-                Back to Dashboard
-              </Button>
+              <div className="w-full flex justify-end">
+                       <Dialog>
+               <DialogTrigger>
+                 <section
+                         className="w-fit text-md flex items-center bg-sky-200 hover:bg-sky-400 px-3 p-1 rounded-xl gap-1"
+                       >
+                         <p className='text-sm'>add new purchase</p>
+                         <IoAddCircleSharp
+                           className="text-indigo-500 hover:text-indigo-700"
+                           size={30}
+                         />
+                       </section>
+               </DialogTrigger>
+               <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
+                 <DialogHeader>
+                   <DialogDescription >
+                    <PurchaseTransactionForm/>
+                   </DialogDescription>
+                 </DialogHeader>
+               </DialogContent>
+             </Dialog>
+                       
+                     </div>
             </div>
           </div>
 
-          <div className="flex gap-6 justify-center py-5 px-2 bg-white rounded-xl flex-wrap mt-10">
-            {filteredBrands?.map((data) => (
+          <div className="grid grid-cols-3 gap-3  items-center py-5 px-2 bg-white rounded-xl  mt-1 overflow-y-scroll h-[65vh]">
+            {filteredBrands?.map((data, i) => (
+              <div key={data.id} className={`justify-self-center w-[100%]`}>
               <BrandCard
-                key={data.id}
                 brand={data}
                 onClick={(e)=>handleRouting(e, data.id)}
-              />
+                />
+                </div>
             ))}
           </div>
 
@@ -215,9 +233,9 @@ function BrandCard({ brand, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer w-fit"
+      className="cursor-pointer w-[100%]  "
     >
-      <div className="bg-gradient-to-b from-slate-700 to-slate-900 border-none shadow-lg hover:shadow-xl  duration-300 group relative overflow-hidden h-24 w-fit rounded-lg">
+      <div className="bg-gradient-to-b from-sky-700 to-slate-800 border-none shadow-lg hover:shadow-xl hover:scale-105  duration-300 group relative overflow-hidden h-fit w-[100%] rounded-lg">
   <div className="flex  items-center justify-center h-full p-4 px-7 relative z-10">
     <div className="flex  gap-2 items-center justify-center text-center">
       <div className="flex justify-between items-center">

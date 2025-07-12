@@ -41,7 +41,6 @@ function WalletPage() {
             // Call the productsApi function to fetch data
             const techs = await userInfo();
             console.log("((((techs are here))))", techs)
-
             // Do something with the fetched products data
             setTData(techs);
         } catch (error) {
@@ -70,7 +69,6 @@ function WalletPage() {
     }
 
 
-
     useEffect(() => {
         someTechFunction();
         fetchTransactions();
@@ -80,27 +78,44 @@ function WalletPage() {
 
     return (
         <>
-        <div className='flex flex-wrap justify-center mx-36'>
+        <div className='flex flex-col '>
             {tdata?.filter(tech => tech.role === "Technician").map((tech) => (
-                 <div className='bg-white drop-shadow-xl px-6 py-3 rounded-xl mx-12 my-5 w-fit' key={tech.user_id} onClick={() => handleClick(tech.user_id)}>
-   
-                     <h3 className='capitalize text-xl text-center font-bold mt-3'>{tech.name}</h3>
-                     <h3 className='capitalize text-md font-serif italic text-gray-500 text-center font-bold mb-3'>{tech.role}</h3>
-                     <p className='text-center  text-sm font-bold text-center '>
-                    Due Amount:{tech.due}
-                 </p>
-                 {/* <p className='text-center  text-sm font-bold text-center '>
-                    {tech.due}
-                 </p>   */}
-     
-             </div>
-             
-            ))}
-            
-        </div>
+                 <div className='bg-white px-6 py-3 rounded-xl flex justify-between  my-4 w-[95%] mx-auto' key={tech.user_id} onClick={() => handleClick(tech.user_id)}>
+                    <div className='flex items-center gap-10'>
+   <div className=' flex items-center'>
 
-            <div className='bg-white max-h-[520px] w-[905px] mx-auto my-5 p-4 shadow-lg rounded-lg'>
-                <div className='flex h-[330px] '>
+                     <h3 className='capitalize text-md  text-sky-500 text-center  '>{tech.role}:&nbsp;</h3>
+                     <h3 className='capitalize text-lg text-center text-sky-900 font-semibold '>{tech.name}</h3>
+   </div>
+   <div className='flex items-center'>
+
+                     <p className='  text-md text-sky-500 text-center '>
+                    Due Amount:&nbsp;
+                 </p>
+                 <p className='capitalize text-lg text-center font-semibold text-sky-900'>{tech.due}</p>
+   </div>
+   </div>
+   <div>
+     <select
+                        id='transactionFrom'
+                        className='shadow bg-sky-200 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm'
+                        value={""}
+                        onChange={(e) => setTransactionFrom(e.target.value)}
+                        required
+                    >
+                        <option className='text-sm'  value=''>Select Technicians</option>
+                        {/* {adminOptions.map((admin) => (
+                            <option key={admin.user_id} value={admin.user_id}>
+                                {admin.name}
+                            </option>
+                        ))} */}
+                    </select>
+   </div>
+             </div>
+            ))}
+        </div>
+            <div className='bg-white h-[74vh] w-[95%] mx-auto  p-4  rounded-lg overflow-y-scroll'>
+                <div className='flex '>
 
                     {chosenData && chosenData.length > 0 ? (
                         <Table className='w-full text-left'>
@@ -129,7 +144,7 @@ function WalletPage() {
                             </TableBody>
                         </Table>
                     ) : (
-                        <p>No transactions...</p>
+                        <p className='flex justify-center items-center'>Fetching Data. Please Wait...</p>
                     )}
                 </div>
             </div>

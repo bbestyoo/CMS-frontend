@@ -58,12 +58,12 @@ function  TablePage() {
       <TableHead className="text-right font-semibold text-black">Amount</TableHead>
     </TableRow>
   </TableHeader>
-  <TableBody >
+  <TableBody className="bg-sky-100" >
     {
         data && data.length > 0 ? (
         data?.map((data, i)=>(
-            <TableRow  onClick = {()=>handleClick(data.repair_id)} className="" key={i}>
-      <TableCell className="font-medium"><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
+            <TableRow   onClick = {()=>handleClick(data.repair_id)} className="border-b-2 border-white" key={i}>
+      <TableCell className="font-medium "><p className='p-2'>{`${data.phone_model} by ${data.customer_name}`}</p></TableCell>
       <TableCell>{data.repair_problem}</TableCell>
       <TableCell >
       <p

@@ -30,8 +30,15 @@ import {
 import { IoAddCircleSharp } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { nextPageApi } from "@/api/GetRepairProducts"
-import { FiEdit2 } from "react-icons/fi";
-
+ import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import PurchaseTransactionForm from "../../../addProduct/page";
 
 
 export function DataDisplay({ columns, initialData, initialMetadata, isLoading }) {
@@ -69,7 +76,7 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
       rowSelection,
     },
   });
-
+ 
   useEffect(() => {
     // Simulate loading initial data
     setData(initialData);
@@ -77,9 +84,6 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
     setLoading(isLoading);
   }, [initialMetadata]);
 
-  const handleClickRoute = () => {
-    router.push("/repair/inventory/addProduct/");
-  };
 
   // Function to fetch paginated data from API
   const fetchPaginatedData = async (url) => {
@@ -126,9 +130,10 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
               </Button>   
         </div>
         <div className="w-full flex justify-end">
-          <section
+          <Dialog>
+  <DialogTrigger>
+    <section
             className="w-fit text-md flex items-center gap-1"
-            onClick={handleClickRoute}
           >
             <p>Add New Products</p>
             <IoAddCircleSharp
@@ -136,6 +141,16 @@ export function DataDisplay({ columns, initialData, initialMetadata, isLoading }
               size={30}
             />
           </section>
+  </DialogTrigger>
+  <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
+    <DialogHeader>
+      <DialogDescription >
+       <PurchaseTransactionForm/>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+          
         </div>
            
               </div>
@@ -250,9 +265,6 @@ export default  function DemoPage() {
           <div className="flex gap-3">
 
            <div onClick={() => handleRowClick(row)} className="capitalize hover:cursor-pointer"> {row.getValue("name")}  </div>
-            <p className='border rounded-full p-1'>
-            <FiEdit2 />
-          </p>
           </div>
           </>
         },

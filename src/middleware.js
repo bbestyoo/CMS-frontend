@@ -6,7 +6,7 @@ export function middleware(req) {
   const { pathname } = req.nextUrl
 
   const protectedRoutes = ['/', '/repair', '/search']
-  const VprotectedRoutes = ['/repair', '/search']
+  const VprotectedRoutes = ['/repair', '/search', '/transactions', '/wallet']
   const loginRoute = ['/login','/home', '/signup', '/register']
 
   // Check if the route is protected and user is not authenticated

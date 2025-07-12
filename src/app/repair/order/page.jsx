@@ -138,7 +138,7 @@ function formatField(field) {
               required
             />
           </div>  
-          <div className="mb-0 capitalize  w-[45%]">
+          {/* <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="repair_description" className="block text-sm font-medium text-black capitalize">
               repair description
             </label>
@@ -150,7 +150,7 @@ function formatField(field) {
               className="mt-1 p-2 w-full border rounded-md "
               rows="2"
             ></textarea>
-          </div>
+          </div> */}
           <div className="mb-0 capitalize  w-[45%]">
             <label htmlFor="imei_number" className="block text-sm font-medium text-black">
               Imei number

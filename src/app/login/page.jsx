@@ -10,6 +10,7 @@ import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
@@ -27,6 +28,8 @@ const Login = () => {
       });
 
       if (response.ok) {
+        setIsLogin(true)
+        setError("")
         const data = await response.json();
         const accessToken = data.token.access;
         const refreshToken = data.token.refresh;
@@ -104,7 +107,8 @@ const Login = () => {
                           </div>
           </div>
 
-          {error && <p className="text-red-500">{error}</p>}
+          {error && error.length > 0 && <p className="text-red-500">{error}</p>}
+            {isLogin && <p className=' text-sm my-1 text-green-300'>Login Successful, Please Wait</p>}
 
           <div>
             <button

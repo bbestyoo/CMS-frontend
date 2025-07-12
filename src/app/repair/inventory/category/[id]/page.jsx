@@ -46,32 +46,7 @@ export default function InventoryPageComponent() {
     fetchBrands()
   }, [])
 
-  // useEffect(() => {
-  //   const results = brands.filter(brand =>
-  //     brand.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  //   setFilteredBrands(results)
-  // }, [searchTerm, brands])
-
-  // const handleSearch = (event) => {
-  //   setSearchTerm(event.target.value)
-  // }
-
-  // const handleAddCat = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     const response = await postCategory()
-  //     response.map((brand) => (
-  //       brand.id === id &&
-  //       setFilteredBrands(brand)
-  //     ))
-  //     // setFilteredBrands([...filteredBrands, response.data])
-  //     setNewCat('')
-  //     setIsDialogOpen(false)
-  //   } catch (error) {
-  //     console.error('Error adding brand:', error)
-  //   }
-  // }
+ 
 
   console.log("data",filteredBrands)
 
@@ -94,28 +69,19 @@ export default function InventoryPageComponent() {
           <div
             className="flex flex-col space-y-4 mb-8"
           >
-            <h1 className="text-3xl lg:text-4xl font-bold text-center pb-4 text-black">Select Category</h1>
+            <h1 className="text-3xl lg:text-2xl font-semibold text-center pb-4 text-sky-600">Select Category</h1>
 
             <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
-              {/* <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-                <Input
-                  type="text"
-                  placeholder="Search Category..."
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  className="pl-10 w-full bg-indigo-400 placeholder:text-gray-200 text-white border-indigo-500 focus:border-purple-500 focus:ring-purple-500"
-                />
-              </div> */}
+            
 
-              <Button
+              <button
                 onClick={() => router.push('/repair/inventory/view')}
                 variant="outline"
-                className="w-full sm:w-auto text-black  border-white hover:bg-indigo-700 hover:text-white"
+                className="w-full bg-sky-400 rounded-xl flex justify-center items-center px-5 py-2 sm:w-auto text-black  border-white hover:bg-sky-700 hover:text-white"
               >
                 <ArrowLeft className="mr-2 h-4 w-3" />
                 Back to Brands
-              </Button>
+              </button>
             </div>
           </div>
 
@@ -141,7 +107,7 @@ export default function InventoryPageComponent() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
-              className="fixed bottom-8 right-8 rounded-full w-14 h-14 lg:w-16 lg:h-16 shadow-lg bg-purple-600 hover:bg-purple-700 text-black"
+              className="fixed bottom-8 right-8 rounded-full w-14 h-14 lg:w-16 lg:h-16 shadow-lg bg-sky-600 hover:bg-sky-700 text-black"
               onClick={()=>router.push(`/repair/inventory/addProduct/`)}
               // onClick={() => setIsDialogOpen(true)}
             >
@@ -186,7 +152,7 @@ function BrandCard({ brand, onClick }) {
       onClick={onClick}
       className="cursor-pointer"
     >
-      <Card className="bg-gradient-to-b from-slate-800 to-slate-900 border-none shadow-lg hover:shadow-xl transition-shadow duration-300 group relative overflow-hidden">
+      <Card className="bg-gradient-to-r to-sky-700 from-slate-800 border-none shadow-lg hover:shadow-xl transition-shadow duration-300 group relative overflow-hidden">
         <div className="absolute inset-0 bg-slate-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
         <div className="absolute inset-0 bg-sky-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">

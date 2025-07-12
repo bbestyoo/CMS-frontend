@@ -37,11 +37,11 @@ function Dashboard() {
     <>
     <div className='mt-0'>
         <div className='container col-span-3'>
-      <h2 className='text-xl text-center  my-5'>Dashboard</h2>
+      <h2 className='text-xl text-center text-sky-800 my-5'>Dashboard</h2>
 
     <div className='flex justify-between mb-5 '>
        
-        <div  onClick={()=>router.push('/repair/')} className='z-40   group border-l-4 border-l-sky-600  bg-white flex gap-3  px-3 xl:py-5 xl:px-6  pr- items-center shadow-md w-fit text-center  rounded-md bg-gradient-to-br from-slate-100 to-blue-100'>
+        <div  onClick={()=>router.push('/repair/')} className='z-40   group border-l-4 border-l-sky-600  bg-white flex gap-3  px-3 xl:py-5 xl:px-6  pr- items-center shadow-md w-fit text-center  rounded-md bg-gradient-to-br from-gray-100 to-blue-200'>
         <div>
       <div className="flex gap-3 ">
         <span>
@@ -58,7 +58,7 @@ function Dashboard() {
 
          </div>
           </div>
-        <div onClick={()=>router.push('/repair/unrepairable-repairs')} className=' group border-l-4 border-l-sky-600   flex gap-3 px-3 py-1 xl:py-5 xl:px-6 pr- items-center shadow-md w-fit text-center  rounded-md bg-gradient-to-br from-sky-100 to-slate-200 '>
+        <div onClick={()=>router.push('/repair/unrepairable-repairs')} className=' group border-l-4 border-l-sky-600   flex gap-3 px-3 py-1 xl:py-5 xl:px-6 pr- items-center shadow-md w-fit text-center  rounded-md bg-gradient-to-br from-sky-100 to-slate-300 '>
         <div>
       <div className="flex gap-3">
         <span>

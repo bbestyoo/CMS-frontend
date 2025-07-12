@@ -100,7 +100,7 @@ function Search({ className }) {
             placeholder="search your repairs"
           />
         </form> */}
-        <div className='font-serif text-center mt-4'>Search or filter your products!</div>
+        <div className=' text-center mt-4'>Search or filter your products!</div>
         <div className='flex gap-3 mt-4 items-center '>
           <div className={cn("grid gap-2 border border-black rounded-md ", className)}>
             <Popover>

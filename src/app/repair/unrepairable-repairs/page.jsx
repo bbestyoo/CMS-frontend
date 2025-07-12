@@ -65,7 +65,7 @@ export default function DemoPage() {
       accessorKey: "repair",
       header: "Repair",
       cell: ({ row }) => (
-        <Button onClick={() => handleReturn(row)}>Returned</Button>
+        <button className="px-4 py-2 bg-sky-600 rounded-2xl" onClick={() => handleReturn(row)}>Returned</button>
       ),
     },
   ]
@@ -104,7 +104,7 @@ export default function DemoPage() {
   }, [isReturned]);
 
   return (
-    <div className="container bg-white mx-auto rounded-2xl drop-shadow-xl h-[480px] w-11/12">
+    <div className="container bg-white mx-auto rounded-2xl drop-shadow-xl h-[80vh] w-11/12">
       <DataTable columns={columns} initialData={data} initialMetadata={metadata} />
     </div>
   );
