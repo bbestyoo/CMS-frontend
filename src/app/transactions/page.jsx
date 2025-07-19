@@ -28,6 +28,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import PostTransactionPage from './post/page';
+import { userInfo } from '@/api/GetRepairProducts';
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -63,6 +64,10 @@ function TransactionPage() {
     const userData = useAppSelector((state) => state.user.value)
     console.log("userData in profit:", userData)
     const [data, setData] = useState([])
+     const [tdata, setTData] = useState([])
+     const [choosen, setChoosen] = useState("")
+     const [open, setOpen] = useState(false)
+     const [isReload, setIsReload] = useState(false)
 
     const router = useRouter()
 
@@ -80,7 +85,7 @@ function TransactionPage() {
         to: formatDate(date?.to)
     };
 
-    function onDateSearch(e) {
+    function onDateSearch(e) {  
         e.preventDefault();
         const combinedDateQuery = `start_date=${formattedDate.from}&end_date=${formattedDate.to}`;
         router.push(`/transactions/search?${combinedDateQuery}`);
@@ -96,10 +101,25 @@ function TransactionPage() {
         }
     };
 
+     const someTechFunction = async () => {
+        try {
+            // Call the productsApi function to fetch data
+            const data = await userInfo();
+            const techs = data.filter((tech)=> tech.role === 'Technician')
+            setTData(techs);
+        } catch (error) {
+            // Handle errors if any
+            console.error('Error fetching products:', error);
+        }
+    };
 
+    useEffect(()=>{
+        someTechFunction()
+
+    },[])
     useEffect(() => {
         fetchTransactions();
-    }, [])  
+    }, [isReload])  
 
 
 //     const columns = [
@@ -165,8 +185,8 @@ function TransactionPage() {
         <div className='bg-white overflow-y-scroll h-[86vh]  w-[95%] mx-auto my-5  shadow-lg rounded-lg'>
 
             <div className=' w-full flex mb-10 justify-between  px-4 py-2'>
-                <Dialog>
-  <DialogTrigger>
+                <Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger onClick={() => setOpen(true)}>
 <section className='w-fit text-md  flex items-center gap-1' >
                     <p className=''>
                         Add Transactions
@@ -178,12 +198,30 @@ function TransactionPage() {
   <DialogContent className="bg-sky-700 border-none h-[80vh] overflow-y-scroll hide-scrollbar">
     <DialogHeader>
       <DialogDescription>
-        <PostTransactionPage />
+        <PostTransactionPage setIsReload={setIsReload} setOpen={setOpen} />
       </DialogDescription>
     </DialogHeader>
   </DialogContent>
 </Dialog>
-                
+                <div className='flex items-center gap-5'>
+
+ <div>
+     <select
+                        id='transactionFrom'
+                        className='shadow bg-sky-200 cursor-pointer border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline text-sm'
+                        value={""}
+                        defaultValue={tdata[0]?.user_id}
+                        onChange={(e) => setChoosen(e.target.value)}
+                        required
+                    >
+                        <option className='text-sm '  value=''>Select Technicians</option>
+                        {tdata?.map((tech) => (
+                            <option className='cursor-pointer' key={tech.user_id} value={tech.user_id}>
+                                {tech.name}
+                            </option>
+                        ))}
+                    </select>
+   </div>
                 <div className='flex gap-3 items-center '>
                     <div className={cn("grid gap-2 border border-black rounded-md ")}>
                         <Popover>
@@ -191,7 +229,7 @@ function TransactionPage() {
                                 <Button
                                     id="date"
                                     variant={"outline"}
-                                    className={cn("w-[300px] justify-start text-left font-normal bg-black-300", !date && "text-muted-foreground")}
+                                    className={cn("w-fit justify-start text-left font-normal bg-black-300", !date && "text-muted-foreground")}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {date?.from ? (
@@ -221,7 +259,10 @@ function TransactionPage() {
                     </div>
                     <button onClick={onDateSearch} className=' text-white px-5 py-2 rounded-lg bg-sky-600 hover:bg-sky-800'>Filter</button>
                 </div>
+                
             </div>
+                </div>
+
 
             <div className='flex overflow-y-scroll h-[75vh] px-2'>
 
@@ -252,7 +293,7 @@ function TransactionPage() {
                         </TableBody>
                     </Table>
                 ) : (
-                    <p className=''>Loading transactions...</p>
+                    <p className='text-center px-2 text-sky-600'>Loading transactions ...</p>
                 )}
                      
             </div>

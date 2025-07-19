@@ -39,9 +39,8 @@ function WalletPage() {
     const someTechFunction = async () => {
         try {
             // Call the productsApi function to fetch data
-            const techs = await userInfo();
-            console.log("((((techs are here))))", techs)
-            // Do something with the fetched products data
+            const data = await userInfo();
+            const techs = data.filter((tech)=> tech.role === 'Technician')
             setTData(techs);
         } catch (error) {
             // Handle errors if any
@@ -60,14 +59,7 @@ function WalletPage() {
         }
     };
 
-    function handleClick(id) {
-        console.log("first");
-        console.log(id);
-        const filteredData = data.filter(item => item.transaction_to === id);
-        console.log(filteredData);
-        setChosenData(filteredData);  // Using a separate state for the filtered data
-    }
-
+   
 
     useEffect(() => {
         someTechFunction();
@@ -116,7 +108,6 @@ function WalletPage() {
         </div>
             <div className='bg-white h-[74vh] w-[95%] mx-auto  p-4  rounded-lg overflow-y-scroll'>
                 <div className='flex '>
-
                     {chosenData && chosenData.length > 0 ? (
                         <Table className='w-full text-left'>
                             <TableCaption>Transaction Data</TableCaption>
@@ -144,7 +135,7 @@ function WalletPage() {
                             </TableBody>
                         </Table>
                     ) : (
-                        <p className='flex justify-center items-center'>Fetching Data. Please Wait...</p>
+                        <p className='flex justify-center text-sky-600 items-center'>Fetching Data. Please Wait...</p>
                     )}
                 </div>
             </div>

@@ -1,13 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import {  useRouter, useSearchParams } from 'next/navigation';
 import { getSearchProductsApi } from '@/api/GetRepairProducts';
 import {
   Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow
 } from "@/components/ui/table";
-import { addDays, format } from "date-fns";
+import {  format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -24,21 +23,11 @@ function Search({ className }) {
   });
 
   const [msg, setMsg] = useState("");
-  const [input, setInput] = useState("");
   const [dataList, setDataList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  function handleChange(e) {
-    setInput(e.target.value);
-  }
-
-  function onSearch(e) {
-    // e.preventDefault();
-    // if (input) {
-    //   router.push(`/repair/search?q=${input}`);
-    // }
-  }
 
   async function getSearch() {
     let query;
@@ -49,12 +38,15 @@ function Search({ className }) {
     }
 
     try {
+      setIsLoading(true)
       const response = await getSearchProductsApi(query);
       if (response && response.length > 0 && response !== 'NONE') {
         setDataList(response);
         setMsg("");
+        setIsLoading(false)
       } else {
         setMsg("No repairs found");
+        setIsLoading(false)
       }
     } catch (err) {
       console.log("error", err);
@@ -66,7 +58,7 @@ function Search({ className }) {
   }, [searchParams]);
 
   function onDateSearch(e){
-    e.preventDefault();
+    setIsLoading(true)
     const combinedDateQuery = `start_date=${formattedDate.from}&end_date=${formattedDate.to}`;
     router.push(`/repair/search?${combinedDateQuery}`);
   }
@@ -91,16 +83,10 @@ function Search({ className }) {
   return (
     <div className="w-full container">
       <div className='flex w-full mx-auto justify-between px-3'>
-        {/* <form className='w-fit' onSubmit={onSearch}>
-          <input
-            name="search"
-            onChange={handleChange}
-            value={input}
-            className="w-[400px] my-3 text-sm border-2 text-black-500 bg-white rounded-md p-2 outline-none"
-            placeholder="search your repairs"
-          />
-        </form> */}
-        <div className=' text-center mt-4'>Search or filter your products!</div>
+        
+       {
+         isLoading ? <div className=' text-center mt-4 text-sky-600'>Search or filter your products!</div> : <p className='text-center mt-4 text-sky-600'>Here are your Searches</p>
+       } 
         <div className='flex gap-3 mt-4 items-center '>
           <div className={cn("grid gap-2 border border-black rounded-md ", className)}>
             <Popover>

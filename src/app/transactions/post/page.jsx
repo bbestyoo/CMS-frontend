@@ -6,7 +6,7 @@ import { postTransactionsApi, userInfo } from '@/api/GetRepairProducts';
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-function PostTransactionPage() {
+function PostTransactionPage({setOpen, setIsReload}) {
     const [date, setDate] = useState(() => {
         const today = new Date();
         return today.toISOString().split('T')[0]; // Format the date as yyyy-mm-dd
@@ -61,8 +61,9 @@ function PostTransactionPage() {
                 setTransactionTo('');
                 setDescription('');
                 setIsLoading(false)
+                setOpen(false)
+                setIsReload(true)
                 // Optionally redirect or perform other actions
-                router.push('/transactions');
             } else {
                 setError('Failed to post transaction. Please try again.');
                 setSuccess('');

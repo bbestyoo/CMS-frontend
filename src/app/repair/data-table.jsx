@@ -183,7 +183,7 @@ export function  DataTable({ columns, initialData, initialMetadata, isLoading })
       } 
     }
   return (
-    <div className="w-full mx-auto h-[78vh] overflow-y-scroll">
+    <div className={`${pathname == '/repair/credited-repairs' ? "h-[70vh]" : "h-[78vh]" } w-full mx-auto  overflow-y-scroll hide-scrollbar`}>
       <div className=" text-black-500 flex items-center justify-between py-4">
         { 
         !pathname.includes('/repair/credited-repairs') && (

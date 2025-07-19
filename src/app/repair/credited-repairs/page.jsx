@@ -267,9 +267,9 @@ const [selectedOption, setSelectedOption] = useState('');
 
   console.log("data",data)
   return (
-    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[80vh] w-11/12 pt-3">
-        <div className="w-fit ">
-        <label htmlFor="options" className="block text-sm font-medium text-gray-700 mb-1">
+    <div className="container bg-white  mx-auto  rounded-2xl drop-shadow-xl h-[80vh] w-[95%] pt-3">
+        <div className="w-fit -mb-6">
+        <label htmlFor="options" className="block text-sm font-medium text-sky-700 mb-1">
 Select Credited Customers      </label>
       <select
         id="options"
