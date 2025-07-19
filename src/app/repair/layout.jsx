@@ -12,8 +12,9 @@ export default function RepairLayout({ children }) {
 
 <div className="layout bg-back text-black">
 
-
+<div className="flex min-h-screen md:w-[250px] w-0">
 <Sidebarnav/>
+        </div>
 <div className="w-full h-screen bg-back">
 
 <Header/>
