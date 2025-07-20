@@ -55,16 +55,16 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen  bg-gray-900 p-5 ">
-      <button onClick={()=>router.push("/home")} className='text-md text-white cursor-pointer'>Ezilogs</button >
+      <button onClick={()=>router.push("/home")} className='text-md text-white cursor-pointer'>Ezlogs</button >
     <div className='flex items-center justify-center'>
       {/* for the visuals */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/10 rounded-full blur-lg animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/10 rounded-full blur-lg animate-pulse delay-1000"></div>
-        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-blue-400/10 rounded-full blur-lg animate-pulse delay-500"></div>
-        <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-indigo-500/10 rounded-full blur-lg animate-pulse delay-700"></div>
+        <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/25 rounded-full blur-lg animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-purple-500/25 rounded-full blur-lg animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-blue-400/25 rounded-full blur-lg animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-indigo-500/25 rounded-full blur-lg animate-pulse delay-700"></div>
       </div>
-      <div className="relative z-10 max-w-md  space-y-8 bg-transparent  text-white rounded-lg p-10 shadow-xl">
+      <div className="relative z-10 max-w-md  space-y-8 bg-sky-900/20  text-white rounded-lg p-10 shadow-xl">
         <div>
           <h2 className="mt-6 text-center text-md sm:text-xl md:text-3xl font-bold">
             Log in to your account
