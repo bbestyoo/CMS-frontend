@@ -44,8 +44,6 @@ import { Listbox } from '@headlessui/react'
 import { IoAddCircleSharp } from "react-icons/io5";
 
 
-
-
  const RepairForm  = ({row, roles, handlePatchFn, handleUnrepairable, handleDelete}) => {
   const [totalCost, setTotalCost] = useState(0)
 
@@ -113,6 +111,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
   const [items, setItems] = useState([])
   const [selectedItems, setSelectedItems] = useState([]);
   const dropdownRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   // Update editableTotalCost when selectedItems change
   
@@ -193,51 +193,103 @@ import { IoAddCircleSharp } from "react-icons/io5";
       <div className="w-[180px]  ">
         <p>Select Equipment</p>
         <Controller
-          name="selectedItem"
-          control={control}
-          render={({ field }) => (
-            <Listbox value={field.value} onChange={field.onChange}>
-              <div className="relative ">
-                <Listbox.Button className="relative z-10  w-full border  cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                  <span className=" drop-shadow-none shadow-none">{field.value ? field.value.name : 'Select an item'}</span>
-                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    ▼
-                  </span>
-                </Listbox.Button>
-                <Listbox.Options className="absolute mt-1  z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  <div onClick={()=> router.push('/repair/inventory/addProduct')} className="flex items-center justify-start gap-1 p-2 mb-1 bg-indigo-500 text-white hover:bg-indigo-700 hover:cursor-pointer">
-                  < IoAddCircleSharp />
-                    <span className="">Add an inventory</span>
+  name="selectedItem"
+  control={control}
+  render={({ field }) => (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <button className="relative z-10 w-full border cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+          <span className="drop-shadow-none shadow-none">
+            {field.value ? field.value.name : 'Click to Select '}
+          </span>
+         
+        </button>
+      </AlertDialogTrigger>
+      
+      <AlertDialogContent className="max-w-md border-0 shadow-xl">
+  <AlertDialogHeader className="border-b border-sky-100 pb-4">
+    <AlertDialogTitle className="text-xl font-semibold text-sky-900 text-center">
+      Select Inventory Item
+    </AlertDialogTitle>
+  </AlertDialogHeader>
+  
+  <div className="py-4">
+    {/* Add inventory button */}
+    <div 
+      onClick={() => router.push('/repair/inventory/addProduct')} 
+      className="flex items-center gap-3 p-3 mb-4 bg-sky-600 text-white hover:bg-sky-700 transition-colors duration-200 cursor-pointer rounded-lg shadow-sm"
+    >
+      <IoAddCircleSharp className="text-lg" />
+      <span className="font-medium">Add New Inventory</span>
+    </div>
+    
+    {/* Search bar */}
+    <div className="mb-4">
+      <input
+        type="text"
+        placeholder="Search items..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full px-3 py-2 border border-sky-200 rounded-lg text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+      />
+    </div>
+    
+    {/* Items list */}
+    <div className="max-h-48 overflow-y-auto border border-sky-100 rounded-lg">
+      <div className="divide-y divide-sky-50">
+        {items
+          .filter(item => 
+            item.quantity !== 0 && 
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((item) => (
+            <div
+              key={item.id}
+              onClick={() => field.onChange(item)}
+              className={`relative cursor-pointer px-4 py-3 transition-colors duration-150 hover:bg-sky-50 ${
+                field.value?.id === item.id 
+                  ? 'bg-sky-100 border-l-4 border-sky-600' 
+                  : 'hover:border-l-4 hover:border-sky-200'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className={`text-sm truncate pr-8 ${
+                  field.value?.id === item.id ? 'font-semibold text-sky-900' : 'text-gray-700'
+                }`}>
+                  {item.name}
+                </span>
+                {field.value?.id === item.id && (
+                  <div className="flex-shrink-0">
+                    <div className="w-5 h-5 bg-sky-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">✓</span>
                     </div>
-                  {items.map((item) => ( item.quantity !== 0 &&
-                    <Listbox.Option
-                      key={item.id}
-                      className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 pl-3 pr-4 ${
-                          active ? 'bg-gray-100 ' : 'text-gray-900'
-                        }`
-                      }
-                      value={item}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
-                            {item.name}
-                          </span>
-                          {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                              ✓
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
+                  </div>
+                )}
               </div>
-            </Listbox>
-          )}
-        />
+            </div>
+          ))
+        }
+        {items.filter(item => 
+          item.quantity !== 0 && 
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        ).length === 0 && (
+          <div className="px-4 py-8 text-center text-gray-500 text-sm">
+            No items found matching &quot;{searchTerm}&quot;
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+  
+  <div className="border-t border-sky-100 pt-4">
+    <AlertDialogAction className="w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-2.5 rounded-lg transition-colors duration-200">
+      Close
+    </AlertDialogAction>
+  </div>
+</AlertDialogContent>
+    </AlertDialog>
+  )}
+/>
         <div className="mt-2 bg-white pl-2 rounded-lg w-full overflow-x-visible">
           {selectedItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between mt-2">
@@ -282,8 +334,8 @@ import { IoAddCircleSharp } from "react-icons/io5";
         />
       </div>
     </div>
-
-        <div className="flex ml-2 flex-col justify-start w-fit">
+    <div className='flex flex-row gap-3 items-end '>
+      <div className="flex ml-2 flex-col justify-start w-fit">
           <label htmlFor="repaired_by" className="block text-sm  font-medium text-black ">
             Select Technician
           </label>
@@ -305,7 +357,18 @@ import { IoAddCircleSharp } from "react-icons/io5";
               </option> 
             ))}
           </select>
+          
         </div>
+       <button
+          
+          className="bg-indigo-700 hover:bg-indigo-800 text-white text-[10px] rounded-full font-bold py-1 px-[0.4rem]"
+          type="submit"
+        >
+          OK
+        </button>
+    </div>
+
+        
         </div>
         <div className='flex gap-3 items-center'>
 
@@ -322,13 +385,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
           </div>
         </div>
         <div className='flex gap-5 '>
-        <button
-          
-          className="bg-indigo-700 hover:bg-indigo-800 text-white text-[10px] rounded-full font-bold py-1 px-[0.4rem]"
-          type="submit"
-        >
-          OK
-        </button>
+       
       <div >
       <Dialog >
   <DialogTrigger >
