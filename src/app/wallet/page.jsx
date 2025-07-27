@@ -72,7 +72,7 @@ function WalletPage() {
         <>
         <div className='flex flex-col '>
             {tdata?.filter(tech => tech.role === "Technician").map((tech) => (
-                 <div className='bg-white px-6 py-3 rounded-xl flex justify-between  my-4 w-[95%] mx-auto' key={tech.user_id} onClick={() => handleClick(tech.user_id)}>
+                 <div className='bg-white px-6 py-3 rounded-xl flex justify-between  my-4 w-[95%] mx-auto' key={tech.user_id} >
                     <div className='flex items-center gap-10'>
    <div className=' flex items-center'>
 

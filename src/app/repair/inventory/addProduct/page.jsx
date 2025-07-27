@@ -71,6 +71,8 @@ const userId = userData?.userinfo?.id
 
   })
   const [items, setItems] = useState([])
+   const [showBrandDropdown, setShowBrandDropdown] = useState(false)
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
   const [newItemData, setNewItemData] = useState({ name: '', brand: '', category: '', cost: 0})
@@ -204,6 +206,16 @@ const userId = userData?.userinfo?.id
     }
   }
 
+   const handleBrandSelect = (brandId) => {
+    setNewItemData({ ...newItemData, brand: brandId })
+    setShowBrandDropdown(false)
+  }
+
+  const handleCategorySelect = (categoryId) => {
+    setNewItemData({ ...newItemData, category: categoryId })
+    setShowCategoryDropdown(false)
+  }
+
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>
   }
@@ -213,12 +225,12 @@ const userId = userData?.userinfo?.id
   }
 
   return (
-    <Card className="w-full mx-auto border-none p-0 m-0">
+    <Card className="w-[98%] mx-auto border-none p-0 m-3 h-[89vh] bg-white rounded-lg">
       <CardHeader>
         <CardTitle className="text-sky-700">Purchase Transaction Form</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="date">Date</Label>
@@ -242,13 +254,14 @@ const userId = userData?.userinfo?.id
               />
             </div>
           </div>
+          <div className='h-[42vh] overflow-y-scroll'>
 
           {formData.purchases.map((purchase, index) => (
-            <Card key={index} className="mt-4">
+            <Card key={index} className="mt-1">
               <CardHeader>
                 <CardTitle className="text-lg text-sky-700">Purchase Item {index + 1}</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-2">
                 <div>
                   <Label htmlFor={`item-${index}`}>Item</Label>
                   <Popover>
@@ -329,6 +342,8 @@ const userId = userData?.userinfo?.id
               </CardContent>
             </Card>
           ))}
+          </div>
+
 
           <button type="button" onClick={handleAddPurchase} className="w-full bg-sky-800 flex justify-center items-center p-2 text-white hover:bg-sky-900 rounded-xl">
             <Plus className="mr-2 h-4 w-4" /> Add Another Purchase Item
@@ -349,90 +364,107 @@ const userId = userData?.userinfo?.id
                 value={newItemData.name }
                 onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
               />
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between">
-                    {newItemData.brand ? brands.find(b => b.id === newItemData.brand)?.name : "Select brand..."}
+              <div>
+                <Label>Brand</Label>
+                <div className="relative">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-between bg-transparent"
+                    onClick={() => setShowBrandDropdown(!showBrandDropdown)}
+                  >
+                    {newItemData.brand
+                      ? brands.find((b) => b.id === newItemData.brand)?.name || "Select brand..."
+                      : "Select brand..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full p-0">
-                  <Command>
-                    <CommandInput placeholder="Search brand..." />
-                    <CommandList>
-                      <CommandEmpty>No brand found.</CommandEmpty>
-                      <CommandGroup>
-                        {brands.map((brand) => (
-                          <CommandItem
-                            key={brand.id}
-                            onSelect={() => setNewItemData({ ...newItemData, brand: brand.id })}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                newItemData.brand === brand.id ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            {brand.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                      <CommandSeparator />
-                      <CommandGroup>
-                        <CommandItem onSelect={() => {
-                          setOpenBrandDialog(true)
-                          setOpenItemDialog(false)
-                        }}>
+
+                  {showBrandDropdown && (
+                    <div className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                      {brands.map((brand) => (
+                        <button
+                          key={brand.id}
+                          type="button"
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center border-none bg-transparent cursor-pointer"
+                          onClick={() => handleBrandSelect(brand.id)}
+                        >
+                          <Check
+                            className={cn("mr-2 h-4 w-4", newItemData.brand === brand.id ? "opacity-100" : "opacity-0")}
+                          />
+                          {brand.name}
+                        </button>
+                      ))}
+                      <div className="border-t">
+                        <button
+                          type="button"
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center text-blue-600 border-none bg-transparent cursor-pointer"
+                          onClick={() => {
+                            setOpenBrandDialog(true)
+                            setOpenItemDialog(false)
+                            setShowBrandDropdown(false)
+                          }}
+                        >
                           <Plus className="mr-2 h-4 w-4" />
                           Add new brand
-                        </CommandItem>
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between">
-                    {newItemData.category ? categories.find(c => c.id === newItemData.category)?.name : "Select category..."}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Category Selection - Simple Dropdown */}
+              <div>
+                <Label>Category</Label>
+                <div className="relative">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-between bg-transparent"
+                    onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                  >
+                    {newItemData.category
+                      ? categories.find((c) => c.id === newItemData.category)?.name || "Select category..."
+                      : "Select category..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full p-0">
-                  <Command>
-                    <CommandInput placeholder="Search category..." />
-                    <CommandList>
-                      <CommandEmpty>No category found.</CommandEmpty>
-                      <CommandGroup>
-                        {categories.map((category) => (
-                          <CommandItem
-                            key={category.id}
-                            onSelect={() => setNewItemData({ ...newItemData, category: category.id, categName: category.name })}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                newItemData.category ===   category.id ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            {category.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                      <CommandSeparator />
-                      <CommandGroup>
-                        <CommandItem onSelect={() => {
-                          setOpenCategoryDialog(true)
-                          setOpenItemDialog(false)
-                        }}>
+
+                  {showCategoryDropdown && (
+                    <div className="absolute top-full left-0 right-0 z-50 bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-auto">
+                      {categories.map((category) => (
+                        <button
+                          key={category.id}
+                          type="button"
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center border-none bg-transparent cursor-pointer"
+                          onClick={() => handleCategorySelect(category.id)}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              newItemData.category === category.id ? "opacity-100" : "opacity-0",
+                            )}
+                          />
+                          {category.name}
+                        </button>
+                      ))}
+                      <div className="border-t">
+                        <button
+                          type="button"
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center text-blue-600 border-none bg-transparent cursor-pointer"
+                          onClick={() => {
+                            setOpenCategoryDialog(true)
+                            setOpenItemDialog(false)
+                            setShowCategoryDropdown(false)
+                          }}
+                        >
                           <Plus className="mr-2 h-4 w-4" />
                           Add new category
-                        </CommandItem>
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
               <div  className="">
                 <div className="mb-2">
                   Cost :
