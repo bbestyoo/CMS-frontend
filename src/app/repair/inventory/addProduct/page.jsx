@@ -30,7 +30,7 @@ import { ChevronsUpDown, Plus, Trash2, Check } from 'lucide-react'
 import { getCookie } from 'cookies-next'
 import { cn } from "@/lib/utils"
 import { useAppSelector } from '@/lib/hooks'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -62,7 +62,8 @@ async function postApi(endpoint, data) {
 export default function PurchaseTransactionForm() {
 
   const userData = useAppSelector((state)=> state.user.value)
-// console.log("useradata",userData)
+  const pathname = usePathname()
+console.log("pathname",pathname)
 const userId = userData?.userinfo?.id
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
@@ -227,7 +228,9 @@ const userId = userData?.userinfo?.id
   return (
     <Card className="w-[98%] mx-auto border-none p-0 m-3 h-[89vh] bg-white rounded-lg">
       <CardHeader>
-        <CardTitle className="text-sky-700">Purchase Transaction Form</CardTitle>
+        { pathname == '/repair/inventory/addProduct' &&
+          <CardTitle className="text-sky-700">Purchase Transaction Form</CardTitle>
+        }
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
