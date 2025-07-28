@@ -128,7 +128,8 @@ export default function InventoryPageComponent() {
                 </DialogTrigger>
                 <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
                   <DialogHeader>
-                    <DialogDescription>
+<DialogTitle className="text-sky-700 -mb-5">Purchase Form</DialogTitle>
+                    <DialogDescription >
                       <PurchaseTransactionForm />
                     </DialogDescription>
                   </DialogHeader>
