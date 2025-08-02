@@ -37,6 +37,7 @@ export default function InventoryPageComponent() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [isRefetch, setIsRefetch] = useState(false)
   const [newBrandName, setNewBrandName] = useState("")
 
@@ -119,22 +120,20 @@ export default function InventoryPageComponent() {
               />
             </div>
             <div className="w-full flex justify-start mine:justify-end">
-              <Dialog>
-                <DialogTrigger>
-                  <section className="w-fit text-md flex items-center bg-sky-200 hover:bg-sky-400 px-3 p-1 rounded-xl gap-1">
-                    <p className="text-sm">add new purchase</p>
-                    <PlusCircle className="text-indigo-500 hover:text-indigo-700" size={30} />
-                  </section>
-                </DialogTrigger>
-                <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar">
-                  <DialogHeader>
-<DialogTitle className="text-sky-700 -mb-5">Purchase Form</DialogTitle>
-                    <DialogDescription >
-                      <PurchaseTransactionForm />
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+                 <Dialog>
+        <DialogTrigger asChild>
+          <section className="w-fit text-md flex items-center bg-sky-200 hover:bg-sky-400 px-3 p-1 rounded-xl gap-1 cursor-pointer">
+            <p className="text-sm">add new purchase</p>
+            <PlusCircle className="text-indigo-500 hover:text-indigo-700" size={30} />
+          </section>
+        </DialogTrigger>
+        <DialogContent className="border-none h-[90vh] overflow-y-scroll hide-scrollbar max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="text-sky-700 -mb-5">Purchase Form</DialogTitle>
+          </DialogHeader>
+          <PurchaseTransactionForm />
+        </DialogContent>
+      </Dialog>
             </div>
           </div>
         </div>
