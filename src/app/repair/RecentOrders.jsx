@@ -256,7 +256,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
                 <span className={`text-sm truncate pr-8 ${
                   field.value?.id === item.id ? 'font-semibold text-sky-900' : 'text-gray-700'
                 }`}>
-                  {item.name}
+                  {item.brand_name + " " + item.name + " " + item.category_name}
                 </span>
                 {field.value?.id === item.id && (
                   <div className="flex-shrink-0">
