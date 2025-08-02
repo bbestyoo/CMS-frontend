@@ -198,12 +198,12 @@ import { IoAddCircleSharp } from "react-icons/io5";
   render={({ field }) => (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className="relative z-10 w-full border cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-          <span className="drop-shadow-none shadow-none">
-            {field.value ? field.value.name : 'Click to Select '}
-          </span>
-         
-        </button>
+       <button className="relative z-10 w-[180px] border cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+  <span className="block truncate whitespace-nowrap overflow-hidden text-ellipsis">
+    {field.value ? field.value.name : 'Click to Select'}
+  </span>
+</button>
+
       </AlertDialogTrigger>
       
       <AlertDialogContent className="max-w-md border-0 shadow-xl">
@@ -213,7 +213,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
     </AlertDialogTitle>
   </AlertDialogHeader>
   
-  <div className="py-4">
+  <div className="py-4  max-w-md">
     {/* Add inventory button */}
     <div 
       onClick={() => router.push('/repair/inventory/addProduct')} 
@@ -252,9 +252,9 @@ import { IoAddCircleSharp } from "react-icons/io5";
                   : 'hover:border-l-4 hover:border-sky-200'
               }`}
             >
-              <div className="flex items-center justify-between">
-                <span className={`text-sm truncate pr-8 ${
-                  field.value?.id === item.id ? 'font-semibold text-sky-900' : 'text-gray-700'
+              <div className="flex items-center  justify-between">
+                <span className={`text-sm text-wrap truncate pr-8 ${
+                  field.value?.id === item.id ? 'font-semibold text-sky-900' : 'text-gray-700 '
                 }`}>
                   {item.brand_name + " " + item.name + " " + item.category_name}
                 </span>
@@ -293,7 +293,7 @@ import { IoAddCircleSharp } from "react-icons/io5";
         <div className="mt-2 bg-white pl-2 rounded-lg w-full overflow-x-visible">
           {selectedItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between mt-2">
-              <span>{item.name}</span>
+              <span className='w-[180px] truncate overflow-hidden text-ellipsis'>{item.name}</span>
               <div className="flex items-center">
                 <button
                   onClick={() => handleQuantityChange(item.id, -1)}

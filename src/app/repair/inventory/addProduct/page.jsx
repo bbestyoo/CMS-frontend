@@ -301,14 +301,15 @@ export default function PurchaseTransactionForm() {
             </div>
           </div>
 
-          <div className="h-[42vh] overflow-y-scroll">
+          <div className="h-[42vh] overflow-y-scroll ">
             {formData.purchases.map((purchase, index) => (
               <Card key={index} className="mt-1">
                 <CardHeader>
                   <CardTitle className="text-lg text-sky-700">Purchase Item {index + 1}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <div>
+                  <div   data-scroll-locked="0"
+>
                     <Label htmlFor={`item-${index}`}>Item</Label>
                     <Popover open={openPopovers[index]} onOpenChange={() => togglePopover(index)}>
                       <PopoverTrigger asChild>
@@ -328,6 +329,17 @@ export default function PurchaseTransactionForm() {
                           <CommandList>
                             <CommandEmpty>No item found.</CommandEmpty>
                             <CommandGroup>
+                              <CommandItem
+                                onSelect={() => {
+                                  setOpenItemDialog(true)
+                                  togglePopover(index)
+                                }}
+                              >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add new item
+                              </CommandItem>
+                              <div   data-scroll-locked="0"
+>
                               {items.map((item) => (
                                 <CommandItem
                                   key={item.id}
@@ -345,19 +357,10 @@ export default function PurchaseTransactionForm() {
                                   {item.brand_name + " " + item.name + " " + item.category_name}
                                 </CommandItem>
                               ))}
+                              </div>
+
                             </CommandGroup>
                             <CommandSeparator />
-                            <CommandGroup>
-                              <CommandItem
-                                onSelect={() => {
-                                  setOpenItemDialog(true)
-                                  togglePopover(index)
-                                }}
-                              >
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add new item
-                              </CommandItem>
-                            </CommandGroup>
                           </CommandList>
                         </Command>
                       </PopoverContent>
